@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل التطبيقات السورية</title>
+<meta name="description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --night: #1B2A4A;
+    --night-2: #12203a;
+    --turquoise: #2E9C97;
+    --turquoise-soft: #e4f4f3;
+    --jasmine: #FBF9F4;
+    --gold: #C9A24B;
+    --ink: #22262B;
+    --ink-soft: #5b6470;
+    --border: #e7e3d8;
+    --radius: 14px;
+    --shadow: 0 8px 24px rgba(27,42,74,0.08);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Tajawal', sans-serif;
+    background:var(--jasmine);
+    color:var(--ink);
+    line-height:1.6;
+  }
+
+  a{color:inherit;}
+
+  /* -------- نمط النجمة الثمانية (الزخرفة الموقّعة) -------- */
+  .star-pattern{
+    position:absolute;
+    inset:0;
+    opacity:0.10;
+    background-image:
+      linear-gradient(45deg, var(--gold) 25%, transparent 25.5%, transparent 75%, var(--gold) 75.5%),
+      linear-gradient(135deg, var(--gold) 25%, transparent 25.5%, transparent 75%, var(--gold) 75.5%);
+    background-size: 46px 46px;
+    background-position: 0 0, 23px 23px;
+    pointer-events:none;
+  }
+
+  .divider-star{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin: 8px 0 28px;
+    color: var(--gold);
+  }
+  .divider-star::before, .divider-star::after{
+    content:"";
+    height:1px;
+    width:64px;
+    background: linear-gradient(90deg, transparent, var(--border));
+  }
+  .divider-star::after{ background: linear-gradient(90deg, var(--border), transparent); }
+
+  /* -------- الترويسة -------- */
+  header.hero{
+    position:relative;
+    background: radial-gradient(1200px 500px at 20% -10%, var(--night-2), var(--night));
+    color: var(--jasmine);
+    padding: 72px 24px 96px;
+    overflow:hidden;
+    text-align:center;
+  }
+  header.hero h1{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    margin: 0 0 14px;
+    position:relative;
+    z-index:1;
+  }
+  header.hero p.subtitle{
+    position:relative;
+    z-index:1;
+    max-width: 640px;
+    margin: 0 auto;
+    color: #d8ddea;
+    font-size: 1.05rem;
+  }
+  header.hero .badge{
+    position:relative;
+    z-index:1;
+    display:inline-block;
+    margin-top:20px;
+    padding:6px 16px;
+    border:1px solid rgba(201,162,75,0.5);
+    border-radius:999px;
+    font-size:0.85rem;
+    color: var(--gold);
+    letter-spacing:0.3px;
+  }
+
+  /* -------- شريط البحث/الفلترة العائم -------- */
+  .controls-wrap{
+    max-width: 1040px;
+    margin: -46px auto 0;
+    padding: 0 20px;
+    position:relative;
+    z-index:2;
+  }
+  .controls{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px 20px;
+  }
+  .search-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .search-row input{
+    flex:1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-family:'Tajawal', sans-serif;
+    font-size:1rem;
+    background: var(--jasmine);
+  }
+  .search-row input:focus{
+    outline: 2px solid var(--turquoise);
+    outline-offset:1px;
+  }
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    cursor:pointer;
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--ink-soft);
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:0.85rem;
+    font-family:'Tajawal', sans-serif;
+    font-weight:500;
+    transition: all .15s ease;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .chip:hover{ border-color: var(--turquoise); }
+  .chip:focus-visible{ outline:2px solid var(--turquoise); outline-offset:2px; }
+  .chip.active{
+    background: var(--turquoise);
+    border-color: var(--turquoise);
+    color:#fff;
+  }
+
+  /* -------- الشبكة -------- */
+  main{ max-width:1040px; margin: 0 auto; padding: 40px 20px 20px; }
+
+  .result-count{
+    color: var(--ink-soft);
+    font-size:0.9rem;
+    margin-bottom: 16px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 18px;
+  }
+
+  .card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .card-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .card-icon{
+    font-size:1.6rem;
+    background: var(--turquoise-soft);
+    width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px;
+    flex-shrink:0;
+  }
+  .card h3{
+    margin:0;
+    font-size:1.1rem;
+    font-weight:800;
+  }
+  .cat-tag{
+    display:inline-block;
+    font-size:0.75rem;
+    color: var(--turquoise);
+    background: var(--turquoise-soft);
+    padding:3px 10px;
+    border-radius:999px;
+    font-weight:700;
+    width:fit-content;
+  }
+  .card p.desc{
+    margin:0;
+    color: var(--ink-soft);
+    font-size:0.92rem;
+    flex-grow:1;
+  }
+  .platforms{
+    display:flex;
+    gap:6px;
+    font-size:0.78rem;
+    color: var(--ink-soft);
+  }
+  .platforms span{
+    border:1px solid var(--border);
+    padding:2px 8px;
+    border-radius:6px;
+  }
+  .card-actions{
+    display:flex;
+    gap:8px;
+    margin-top:6px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    text-decoration:none;
+    font-family:'Tajawal', sans-serif;
+    font-weight:700;
+    font-size:0.85rem;
+    padding:9px 14px;
+    border-radius:9px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition: opacity .15s ease;
+  }
+  .btn:hover{ opacity:0.85; }
+  .btn-primary{
+    background: var(--night);
+    color:#fff;
+  }
+  .btn-ghost{
+    background: transparent;
+    color: var(--night);
+    border:1px solid var(--border);
+  }
+  .verified-tag{
+    font-size:0.72rem;
+    color: var(--gold);
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+
+  /* -------- التقييم والآراء -------- */
+  .rating-row{
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+  .stars{
+    color: var(--gold);
+    letter-spacing:1px;
+    font-size:0.95rem;
+  }
+  .stars.stars-muted{ color: #cfcabb; }
+  .rating-num{
+    font-weight:800;
+    font-size:0.88rem;
+  }
+  .rating-count{
+    color: var(--ink-soft);
+    font-size:0.78rem;
+  }
+  .toggle-reviews-btn{
+    background:transparent;
+    border:none;
+    color: var(--turquoise);
+    font-family:'Tajawal', sans-serif;
+    font-weight:700;
+    font-size:0.82rem;
+    cursor:pointer;
+    padding:0;
+    text-align:right;
+  }
+  .toggle-reviews-btn:hover{ text-decoration:underline; }
+  .reviews-panel{
+    display:none;
+    margin-top:4px;
+    padding-top:10px;
+    border-top:1px dashed var(--border);
+    display:none;
+    flex-direction:column;
+    gap:8px;
+  }
+  .reviews-panel.open{ display:flex; }
+  .review-item{
+    background: var(--jasmine);
+    border-radius:8px;
+    padding:9px 11px;
+  }
+  .review-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:3px;
+  }
+  .review-head .author{
+    font-weight:700;
+    font-size:0.85rem;
+  }
+  .review-item .stars{ font-size:0.78rem; }
+  .review-comment{
+    margin:0;
+    font-size:0.85rem;
+    color: var(--ink-soft);
+  }
+  .review-date{
+    display:block;
+    margin-top:4px;
+    font-size:0.72rem;
+    color:#9aa2ac;
+  }
+  .no-reviews{
+    color: var(--ink-soft);
+    font-size:0.85rem;
+    font-style:italic;
+    margin:0;
+  }
+
+  .empty-state{
+    text-align:center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+  }
+  .empty-state .glyph{ font-size:2.2rem; margin-bottom:10px; }
+
+  /* -------- قسم العروض والكوبونات -------- */
+  .promos-section{
+    max-width:1040px;
+    margin: 32px auto 0;
+    padding: 0 20px;
+  }
+  .promos-heading{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .promos-heading h2{
+    font-size:1.15rem;
+    margin:0;
+    font-weight:800;
+  }
+  .promos-heading .flame{ font-size:1.2rem; }
+  .promos-scroller{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding-bottom:8px;
+    scroll-snap-type: x proximity;
+  }
+  .promo-card{
+    scroll-snap-align:start;
+    flex: 0 0 300px;
+    background: linear-gradient(160deg, #fff, var(--turquoise-soft));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .promo-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image: radial-gradient(circle, var(--gold) 1px, transparent 1.4px);
+    background-size: 16px 16px;
+    opacity:0.08;
+    pointer-events:none;
+  }
+  .promo-badge{
+    display:inline-block;
+    background: var(--gold);
+    color: var(--night);
+    font-weight:800;
+    font-size:0.78rem;
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:10px;
+    position:relative; z-index:1;
+  }
+  .promo-card h3{
+    margin:0 0 6px;
+    font-size:1.02rem;
+    position:relative; z-index:1;
+  }
+  .promo-card p.promo-desc{
+    margin:0 0 12px;
+    font-size:0.86rem;
+    color: var(--ink-soft);
+    position:relative; z-index:1;
+  }
+  .promo-code-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:12px;
+    position:relative; z-index:1;
+  }
+  .promo-code{
+    flex:1;
+    border: 1.5px dashed var(--gold);
+    background:#fff;
+    border-radius:8px;
+    padding:8px 12px;
+    font-weight:800;
+    letter-spacing:1px;
+    font-size:0.92rem;
+    text-align:center;
+    color: var(--night);
+  }
+  .copy-btn{
+    border:none;
+    background: var(--night);
+    color:#fff;
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:0.8rem;
+    font-family:'Tajawal', sans-serif;
+    font-weight:700;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .copy-btn:hover{ opacity:0.85; }
+  .copy-btn.copied{ background: var(--turquoise); }
+  .promo-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:relative; z-index:1;
+    font-size:0.78rem;
+    color: var(--ink-soft);
+  }
+  .promo-footer a{
+    color: var(--turquoise);
+    font-weight:700;
+    text-decoration:none;
+  }
+
+  /* -------- قسم الاقتراح -------- */
+  .suggest-section{
+    max-width:1040px;
+    margin: 60px auto 0;
+    padding: 0 20px;
+  }
+  .suggest-card{
+    position:relative;
+    overflow:hidden;
+    background: var(--night);
+    color: var(--jasmine);
+    border-radius: var(--radius);
+    padding: 40px 30px;
+    text-align:center;
+  }
+  .suggest-card h2{
+    font-family:'Aref Ruqaa', serif;
+    font-size:1.8rem;
+    margin: 0 0 10px;
+    position:relative; z-index:1;
+  }
+  .suggest-card p{
+    color:#d8ddea;
+    max-width:520px;
+    margin: 0 auto 22px;
+    position:relative; z-index:1;
+  }
+  .suggest-actions{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+    position:relative; z-index:1;
+  }
+  .btn-gold{
+    background: var(--gold);
+    color: var(--night);
+  }
+  .btn-outline-light{
+    background:transparent;
+    border:1px solid rgba(251,249,244,0.4);
+    color: var(--jasmine);
+  }
+
+  footer{
+    text-align:center;
+    color: var(--ink-soft);
+    font-size:0.85rem;
+    padding: 50px 20px 40px;
+  }
+  footer a{ color: var(--turquoise); font-weight:700; text-decoration:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .card{ transition:none; }
+  }
+
+  .sr-only{
+    position:absolute; width:1px; height:1px;
+    padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="star-pattern" aria-hidden="true"></div>
+  <h1>دليل التطبيقات السورية</h1>
+  <p class="subtitle">قائمة موحّدة وموثّقة لأبرز التطبيقات المحلية في سوريا — روابط رسمية فقط، بدون ملفات تثبيت غير موثوقة.</p>
+  <span class="badge">مشروع مفتوح المصدر · مساهمة مجتمعية</span>
+</header>
+
+<div class="controls-wrap">
+  <div class="controls">
+    <div class="search-row">
+      <label for="search" class="sr-only">ابحث عن تطبيق</label>
+      <input type="text" id="search" placeholder="ابحث باسم التطبيق أو وصفه...">
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="تصفية حسب الفئة"></div>
+  </div>
+</div>
+
+<section class="promos-section" id="promosSection" style="display:none;">
+  <div class="promos-heading">
+    <span class="flame">🔥</span>
+    <h2>عروض وكوبونات حالية</h2>
+  </div>
+  <div class="promos-scroller" id="promosScroller"></div>
+</section>
+
+<main>
+  <p class="result-count" id="resultCount"></p>
+  <div class="grid" id="grid"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="glyph">🔍</div>
+    <p>لا توجد نتائج مطابقة. جرّب كلمة بحث أخرى أو فئة مختلفة.</p>
+  </div>
+</main>
+
+<section class="suggest-section">
+  <div class="suggest-card">
+    <div class="star-pattern" aria-hidden="true"></div>
+    <h2>هل تعرف تطبيقًا سوريًا غير مُدرَج؟</h2>
+    <p>اقترحه عبر النموذج التالي وسنقوم بمراجعته وإضافته بعد التحقق من الرابط الرسمي.</p>
+    <div class="suggest-actions">
+      <a class="btn btn-gold" href="GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener">📋 اقترح تطبيقًا</a>
+      <a class="btn btn-outline-light" href="https://github.com/YOUR_USERNAME/YOUR_REPO" target="_blank" rel="noopener">💻 ساهم عبر GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider-star" aria-hidden="true">۞</div>
+
+<footer>
+  <p>مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق</p>
+  <p><a href="https://github.com/YOUR_USERNAME/YOUR_REPO" target="_blank" rel="noopener">شاهد المصدر على GitHub</a></p>
+</footer>
+
+<script src="apps-data.js"></script>
+<script src="promotions-data.js"></script>
+<script src="reviews-data.js"></script>
+<script>
+  function isPromoActive(promo){
+    if(!promo.expiryDate) return true;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const expiry = new Date(promo.expiryDate);
+    return expiry >= today;
+  }
+
+  function daysLeftLabel(expiryDate){
+    if(!expiryDate) return '';
+    const today = new Date(); today.setHours(0,0,0,0);
+    const expiry = new Date(expiryDate);
+    const diffDays = Math.ceil((expiry - today) / (1000*60*60*24));
+    if(diffDays <= 0) return '';
+    if(diffDays === 1) return 'ينتهي غدًا';
+    if(diffDays <= 7) return `يتبقى ${diffDays} أيام`;
+    return `حتى ${expiryDate}`;
+  }
+
+  function promoAppName(appId){
+    const app = (typeof APPS !== 'undefined') ? APPS.find(a => a.id === appId) : null;
+    return app ? app.name : '';
+  }
+
+  function promoCardHTML(promo){
+    const appName = promoAppName(promo.appId);
+    return `
+      <article class="promo-card">
+        <span class="promo-badge">${promo.discountLabel || 'عرض خاص'}</span>
+        <h3>${promo.title}${appName ? ` — ${appName}` : ''}</h3>
+        <p class="promo-desc">${promo.description}</p>
+        ${promo.type === 'coupon' && promo.code ? `
+          <div class="promo-code-row">
+            <span class="promo-code" id="code-${promo.id}">${promo.code}</span>
+            <button class="copy-btn" data-code="${promo.code}" data-target="code-${promo.id}">نسخ</button>
+          </div>
+        ` : ''}
+        <div class="promo-footer">
+          <span>${daysLeftLabel(promo.expiryDate)}</span>
+          <a href="${promo.link}" target="_blank" rel="noopener">فتح العرض ←</a>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderPromotions(){
+    const section = document.getElementById('promosSection');
+    const scroller = document.getElementById('promosScroller');
+    if(typeof PROMOTIONS === 'undefined'){ return; }
+
+    const active = PROMOTIONS.filter(isPromoActive);
+    if(active.length === 0){
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = 'block';
+    scroller.innerHTML = active.map(promoCardHTML).join('');
+
+    scroller.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        navigator.clipboard.writeText(btn.dataset.code).then(() => {
+          const original = btn.textContent;
+          btn.textContent = 'تم النسخ ✓';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove('copied');
+          }, 1500);
+        });
+      });
+    });
+  }
+
+  const grid = document.getElementById('grid');
+  const chipsWrap = document.getElementById('chips');
+  const searchInput = document.getElementById('search');
+  const resultCount = document.getElementById('resultCount');
+  const emptyState = document.getElementById('emptyState');
+
+  let activeCategory = 'all';
+
+  function platformLabel(p){
+    return { android: 'أندرويد', ios: 'آيفون', web: 'ويب' }[p] || p;
+  }
+
+  function renderChips(){
+    const allChip = document.createElement('button');
+    allChip.className = 'chip active';
+    allChip.textContent = 'الكل';
+    allChip.dataset.key = 'all';
+    chipsWrap.appendChild(allChip);
+
+    CATEGORIES.forEach(cat => {
+      const chip = document.createElement('button');
+      chip.className = 'chip';
+      chip.dataset.key = cat.key;
+      chip.innerHTML = `<span>${cat.icon}</span><span>${cat.label}</span>`;
+      chipsWrap.appendChild(chip);
+    });
+
+    chipsWrap.addEventListener('click', (e) => {
+      const btn = e.target.closest('.chip');
+      if(!btn) return;
+      activeCategory = btn.dataset.key;
+      [...chipsWrap.children].forEach(c => c.classList.toggle('active', c === btn));
+      render();
+    });
+  }
+
+  function catInfo(key){
+    return CATEGORIES.find(c => c.key === key) || { label: key, icon: '✨' };
+  }
+
+  function computeRating(appId){
+    const revs = (typeof REVIEWS !== 'undefined') ? REVIEWS.filter(r => r.appId === appId) : [];
+    if(revs.length === 0) return { avg: 0, count: 0 };
+    const avg = revs.reduce((sum, r) => sum + r.rating, 0) / revs.length;
+    return { avg, count: revs.length };
+  }
+
+  function starsHTML(avg){
+    const rounded = Math.round(avg);
+    return '★'.repeat(rounded) + '☆'.repeat(5 - rounded);
+  }
+
+  function reviewsListHTML(appId){
+    const revs = (typeof REVIEWS !== 'undefined') ? REVIEWS.filter(r => r.appId === appId) : [];
+    if(revs.length === 0){
+      return '<p class="no-reviews">لا توجد آراء بعد — كن أول من يشارك رأيه عبر نموذج الاقتراحات.</p>';
+    }
+    return revs.map(r => `
+      <div class="review-item">
+        <div class="review-head">
+          <span class="author">${r.author}</span>
+          <span class="stars">${starsHTML(r.rating)}</span>
+        </div>
+        <p class="review-comment">${r.comment}</p>
+        <span class="review-date">${r.date}</span>
+      </div>
+    `).join('');
+  }
+
+  function cardHTML(app){
+    const cat = catInfo(app.category);
+    const links = app.storeLinks || {};
+    const primaryLink = links.android || links.ios || links.web || app.officialLink;
+    const { avg, count } = computeRating(app.id);
+    const reviewsId = `reviews-${app.id}`;
+    return `
+      <article class="card">
+        <div class="card-top">
+          <div class="card-icon" aria-hidden="true">${cat.icon}</div>
+          ${app.verified ? '<span class="verified-tag">✓ موثّق</span>' : ''}
+        </div>
+        <div>
+          <h3>${app.name}</h3>
+          <span class="cat-tag">${cat.label}</span>
+        </div>
+        <div class="rating-row">
+          <span class="stars ${count === 0 ? 'stars-muted' : ''}">${starsHTML(avg)}</span>
+          ${count > 0 ? `<span class="rating-num">${avg.toFixed(1)}</span><span class="rating-count">(${count} ${count === 1 ? 'رأي' : 'آراء'})</span>` : '<span class="rating-count">لا توجد تقييمات بعد</span>'}
+        </div>
+        <p class="desc">${app.description}</p>
+        <div class="platforms">
+          ${(app.platforms||[]).map(p => `<span>${platformLabel(p)}</span>`).join('')}
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="${primaryLink}" target="_blank" rel="noopener">تثبيت / فتح</a>
+          <a class="btn btn-ghost" href="${app.officialLink}" target="_blank" rel="noopener">الموقع الرسمي</a>
+        </div>
+        <button class="toggle-reviews-btn" data-target="${reviewsId}">عرض الآراء (${count})</button>
+        <div class="reviews-panel" id="${reviewsId}">
+          ${reviewsListHTML(app.id)}
+        </div>
+      </article>
+    `;
+  }
+
+  function render(){
+    const q = searchInput.value.trim().toLowerCase();
+    const filtered = APPS.filter(app => {
+      const matchesCategory = activeCategory === 'all' || app.category === activeCategory;
+      const matchesQuery = !q ||
+        app.name.toLowerCase().includes(q) ||
+        app.description.toLowerCase().includes(q);
+      return matchesCategory && matchesQuery;
+    });
+
+    grid.innerHTML = filtered.map(cardHTML).join('');
+    resultCount.textContent = `عدد التطبيقات: ${filtered.length}`;
+    emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
+  }
+
+  renderChips();
+  searchInput.addEventListener('input', render);
+  render();
+  renderPromotions();
+
+  grid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.toggle-reviews-btn');
+    if(!btn) return;
+    const panel = document.getElementById(btn.dataset.target);
+    const isOpen = panel.classList.toggle('open');
+    const count = panel.querySelectorAll('.review-item').length;
+    btn.textContent = isOpen
+      ? `إخفاء الآراء (${count})`
+      : `عرض الآراء (${count})`;
+  });
+</script>
+
+</body>
+</html>
