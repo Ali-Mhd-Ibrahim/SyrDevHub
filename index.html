@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>دليل التطبيقات السورية</title>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ7NFMPZPY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JZ7NFMPZPY');
+</script>
+<!-- End Google Analytics -->
 <meta name="description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -595,6 +605,23 @@
 <script src="promotions-data.js"></script>
 <script src="reviews-data.js"></script>
 <script>
+  function trackAnalytics(eventName, params){
+    try{
+      if(typeof gtag === 'function'){
+        gtag('event', eventName, params || {});
+      }
+    }catch(err){ /* تجاهل الأخطاء */ }
+  }
+
+  function trackViaDelegate(target, selector, eventName, getParams){
+    if(!target) return;
+    target.addEventListener('click', (e) => {
+      const el = e.target.closest(selector);
+      if(!el) return;
+      trackAnalytics(eventName, getParams ? getParams(el) : {});
+    });
+  }
+
   function isPromoActive(promo){
     if(!promo.expiryDate) return true;
     const today = new Date();
@@ -653,9 +680,24 @@
     section.style.display = 'block';
     scroller.innerHTML = active.map(promoCardHTML).join('');
 
+    trackViaDelegate(scroller, '.promo-footer a', 'promo_open', (el) => {
+      const card = el.closest('.promo-card');
+      const coupon = card.querySelector('.promo-code');
+      return {
+        promo_title: card.querySelector('h3').textContent.trim(),
+        promo_badge: card.querySelector('.promo-badge').textContent.trim(),
+        coupon_code: coupon ? coupon.textContent.trim() : ''
+      };
+    });
+
     scroller.querySelectorAll('.copy-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         navigator.clipboard.writeText(btn.dataset.code).then(() => {
+          trackAnalytics('promo_code_copy', {
+            promo_code: btn.dataset.code,
+            promo_id: btn.dataset.target.replace('code-',''),
+            value: btn.dataset.code
+          });
           const original = btn.textContent;
           btn.textContent = 'تم النسخ ✓';
           btn.classList.add('copied');
@@ -700,6 +742,10 @@
       if(!btn) return;
       activeCategory = btn.dataset.key;
       [...chipsWrap.children].forEach(c => c.classList.toggle('active', c === btn));
+      trackAnalytics('filter_category', {
+        category: btn.dataset.key,
+        category_label: btn.textContent.trim()
+      });
       render();
     });
   }
@@ -789,11 +835,43 @@
   }
 
   renderChips();
-  searchInput.addEventListener('input', render);
+  searchInput.addEventListener('input', () => {
+    if(searchInput._lastSearch !== searchInput.value.trim()){
+      searchInput._lastSearch = searchInput.value.trim();
+      if(searchInput._lastSearch){
+        trackAnalytics('search', { search_term: searchInput._lastSearch });
+      }
+    }
+    render();
+  });
   render();
   renderPromotions();
 
   grid.addEventListener('click', (e) => {
+    const card = e.target.closest('.card');
+    if(card){
+      const appName = card.querySelector('h3').textContent.trim();
+      const appCat = card.querySelector('.cat-tag').textContent.trim();
+      const appParams = { app_name: appName, app_category: appCat };
+
+      if(e.target.closest('.btn-primary')){
+        trackAnalytics('select_content', {
+          ...appParams,
+          content_type: 'install',
+          content_id: appName
+        });
+        return;
+      }
+      if(e.target.closest('.btn-ghost')){
+        trackAnalytics('select_content', {
+          ...appParams,
+          content_type: 'official_site',
+          content_id: appName
+        });
+        return;
+      }
+    }
+
     const btn = e.target.closest('.toggle-reviews-btn');
     if(!btn) return;
     const panel = document.getElementById(btn.dataset.target);
@@ -802,6 +880,11 @@
     btn.textContent = isOpen
       ? `إخفاء الآراء (${count})`
       : `عرض الآراء (${count})`;
+    const card = e.target.closest('.card');
+    trackAnalytics(isOpen ? 'reviews_open' : 'reviews_close', {
+      app_name: card ? card.querySelector('h3').textContent.trim() : '',
+      review_count: count
+    });
   });
 </script>
 
