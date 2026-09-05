@@ -11,6 +11,7 @@
  *  author   : اسم صاحب الرأي (أو "مستخدم" إذا فضّل عدم ذكر اسمه)
  *  rating   : رقم من 1 إلى 5
  *  comment  : نص الرأي (يُفضّل جملة أو جملتين)
+ *  comment_en: نص الرأي بالإنجليزية (اختياري)
  *  date     : تاريخ الرأي بصيغة "YYYY-MM-DD"
  *
  * ⚠️ ملاحظة مهمة للمراجعين:
@@ -27,6 +28,7 @@ const REVIEWS = [
     author: "مستخدم",
     rating: 4,
     comment: "التطبيق سهل الاستخدام والتوصيل كان أسرع من المتوقع.",
+    comment_en: "The app is easy to use and delivery was faster than expected.",
     date: "2026-02-10",
   },
   {
@@ -35,6 +37,7 @@ const REVIEWS = [
     author: "مستخدم",
     rating: 5,
     comment: "دعم فني ممتاز عند حصول مشكلة بالطلب.",
+    comment_en: "Excellent support when an issue came up with my order.",
     date: "2026-03-02",
   },
 ];
