@@ -10,7 +10,9 @@
  *  appId        : id التطبيق كما هو في apps-data.js (لربط العرض بالتطبيق)
  *  type         : "coupon" (كود خصم) أو "promotion" (عرض/إعلان عام بدون كود)
  *  title        : عنوان قصير وجذاب للعرض
+ *  title_en     : عنوان العرض بالإنجليزية (اختياري)
  *  description  : تفاصيل العرض (سطر أو سطرين)
+ *  description_en: تفاصيل العرض بالإنجليزية (اختياري)
  *  code         : كود الكوبون (اتركه "" إذا type = "promotion")
  *  discountLabel: نص مختصر يظهر كشارة، مثال: "خصم 20%" أو "توصيل مجاني"
  *  link         : رابط لصفحة العرض أو التطبيق
@@ -25,7 +27,9 @@ const PROMOTIONS = [
     appId: "example-delivery-app",
     type: "coupon",
     title: "خصم على أول طلب",
+    title_en: "Discount on your first order",
     description: "استخدم الكود التالي للحصول على خصم عند أول عملية شراء عبر التطبيق.",
+    description_en: "Use the code below to get a discount on your first purchase in the app.",
     code: "WELCOME20",
     discountLabel: "خصم 20%",
     link: "https://example.com",
