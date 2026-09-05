@@ -1,9 +1,21 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>دليل التطبيقات السورية</title>
+<meta name="description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
+<meta name="theme-color" content="#1B2A4A">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='5' fill='%231B2A4A'/><path fill='%23C9A24B' d='M12 3l2.7 5.4 6 .9-4.35 4.2 1.05 5.95L12 17.7 6.6 19.45l1.05-5.95L3.3 9.3l6-.9z'/></svg>">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SyrDevHub">
+<meta property="og:title" content="دليل التطبيقات السورية">
+<meta property="og:description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
+<meta property="og:locale" content="ar_SY">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary">
 
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ7NFMPZPY"></script>
@@ -14,49 +26,192 @@
   gtag('config', 'G-JZ7NFMPZPY');
 </script>
 <!-- End Google Analytics -->
-<meta name="description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
+
+<script>
+  (function(){
+    var r = document.documentElement;
+    var t = localStorage.getItem('syh-theme');
+    if(!t){ t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; }
+    r.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+    var l = localStorage.getItem('syh-lang') || 'ar';
+    l = l === 'en' ? 'en' : 'ar';
+    r.setAttribute('lang', l);
+    r.setAttribute('dir', l === 'en' ? 'ltr' : 'rtl');
+  })();
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 
 <style>
   :root{
-    --night: #1B2A4A;
-    --night-2: #12203a;
-    --turquoise: #2E9C97;
-    --turquoise-soft: #e4f4f3;
-    --jasmine: #FBF9F4;
-    --gold: #C9A24B;
-    --ink: #22262B;
-    --ink-soft: #5b6470;
-    --border: #e7e3d8;
-    --radius: 14px;
-    --shadow: 0 8px 24px rgba(27,42,74,0.08);
+    --bg:#FBF9F4;
+    --surface:#ffffff;
+    --surface-2:#ffffff;
+    --surface-3:#FBF9F4;
+    --text:#22262B;
+    --text-soft:#5b6470;
+    --text-faint:#9aa2ac;
+    --border:#e7e3d8;
+    --primary:#2E9C97;
+    --primary-soft:#e4f4f3;
+    --navy:#1B2A4A;
+    --navy-2:#12203a;
+    --gold:#C9A24B;
+    --btn-primary-color:#1B2A4A;
+    --btn-primary-text:#ffffff;
+    --hero-text:#FBF9F4;
+    --hero-text-soft:#d8ddea;
+    --on-primary:#ffffff;
+    --radius:14px;
+    --shadow:0 8px 24px rgba(27,42,74,0.08);
+    --shadow-lg:0 14px 40px rgba(27,42,74,0.14);
+    --topbar-bg:rgba(251,249,244,0.82);
+    --topbar-blur:12px;
+    --star-opacity:0.10;
   }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  [data-theme="dark"]{
+    --bg:#0a101d;
+    --surface:#141c30;
+    --surface-2:#1a2440;
+    --surface-3:#0e1626;
+    --text:#e9edf6;
+    --text-soft:#9fb0c9;
+    --text-faint:#6d7c95;
+    --border:#26344f;
+    --primary:#3ec0b8;
+    --primary-soft:rgba(62,192,184,0.16);
+    --navy:#0a101d;
+    --navy-2:#0e1833;
+    --gold:#d6ab4e;
+    --btn-primary-color:#2E9C97;
+    --btn-primary-text:#ffffff;
+    --hero-text:#f4f7fd;
+    --hero-text-soft:#c7d3e6;
+    --on-primary:#ffffff;
+    --shadow:0 8px 24px rgba(0,0,0,0.35);
+    --shadow-lg:0 14px 40px rgba(0,0,0,0.5);
+    --topbar-bg:rgba(10,16,29,0.82);
+    --star-opacity:0.14;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:84px; }
   body{
     margin:0;
-    font-family:'Tajawal', sans-serif;
-    background:var(--jasmine);
-    color:var(--ink);
+    font-family:'Inter','Tajawal',sans-serif;
+    background:var(--bg);
+    color:var(--text);
     line-height:1.6;
+    transition: background-color .25s ease, color .25s ease;
   }
 
-  a{color:inherit;}
+  a{ color:inherit; }
+  ::selection{ background:var(--primary); color:#fff; }
 
-  /* -------- نمط النجمة الثمانية (الزخرفة الموقّعة) -------- */
+  *::-webkit-scrollbar{ width:10px; height:10px; }
+  *::-webkit-scrollbar-thumb{ background:var(--border); border-radius:999px; }
+  *::-webkit-scrollbar-track{ background:transparent; }
+
+  .sr-only{
+    position:absolute; width:1px; height:1px;
+    padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  button{ font-family:inherit; }
+
+  /* -------- الشريط العلوي -------- */
+  .topbar{
+    position:fixed; inset:0 0 auto 0;
+    z-index:60;
+    background:var(--topbar-bg);
+    -webkit-backdrop-filter:blur(var(--topbar-blur));
+    backdrop-filter:blur(var(--topbar-blur));
+    border-bottom:1px solid var(--border);
+    transition: background-color .25s ease, border-color .25s ease;
+  }
+  .nav-inner{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 20px;
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    font-weight:800;
+    color:var(--text);
+    flex-shrink:0;
+  }
+  .brand svg{ width:30px; height:30px; display:block; }
+  .brand-name{ font-size:1.05rem; letter-spacing:0.2px; }
+  .nav-links{
+    display:flex;
+    gap:4px;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    color:var(--text-soft);
+    font-weight:500;
+    font-size:0.9rem;
+    padding:8px 12px;
+    border-radius:9px;
+    transition: color .15s ease, background-color .15s ease;
+  }
+  .nav-links a:hover{ color:var(--primary); background:var(--primary-soft); }
+  .nav-actions{ display:flex; gap:8px; flex-shrink:0; }
+  .icon-btn{
+    cursor:pointer;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text);
+    border-radius:999px;
+    height:38px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.82rem;
+    font-weight:700;
+    transition: transform .15s ease, border-color .15s ease, background-color .2s ease;
+  }
+  .icon-btn:hover{ border-color:var(--primary); transform:translateY(-1px); }
+  .icon-btn:active{ transform:scale(0.95); }
+  .icon-btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  #langToggle{ padding:0 14px; gap:6px; min-width:52px; }
+  #themeToggle{ width:38px; padding:0; font-size:0.95rem; }
+  .icon-sun{ display:none; }
+  [data-theme="dark"] .icon-sun{ display:inline; }
+  [data-theme="dark"] .icon-moon{ display:none; }
+
+  @media (max-width:720px){
+    .nav-links{ display:none; }
+    .search-row{ flex-wrap:wrap; }
+    .sort-box{ width:100%; }
+    .sort-box select{ flex:1; }
+  }
+
+  /* -------- الزخرفة -------- */
   .star-pattern{
     position:absolute;
     inset:0;
-    opacity:0.10;
+    opacity:var(--star-opacity);
     background-image:
       linear-gradient(45deg, var(--gold) 25%, transparent 25.5%, transparent 75%, var(--gold) 75.5%),
       linear-gradient(135deg, var(--gold) 25%, transparent 25.5%, transparent 75%, var(--gold) 75.5%);
-    background-size: 46px 46px;
-    background-position: 0 0, 23px 23px;
+    background-size:46px 46px;
+    background-position:0 0, 23px 23px;
     pointer-events:none;
   }
 
@@ -65,69 +220,91 @@
     align-items:center;
     justify-content:center;
     gap:14px;
-    margin: 8px 0 28px;
-    color: var(--gold);
+    margin:8px 0 28px;
+    color:var(--gold);
   }
   .divider-star::before, .divider-star::after{
     content:"";
     height:1px;
     width:64px;
-    background: linear-gradient(90deg, transparent, var(--border));
+    background:linear-gradient(90deg, transparent, var(--border));
   }
-  .divider-star::after{ background: linear-gradient(90deg, var(--border), transparent); }
+  .divider-star::after{ background:linear-gradient(90deg, var(--border), transparent); }
 
   /* -------- الترويسة -------- */
   header.hero{
     position:relative;
-    background: radial-gradient(1200px 500px at 20% -10%, var(--night-2), var(--night));
-    color: var(--jasmine);
-    padding: 72px 24px 96px;
+    background:
+      radial-gradient(900px 420px at 18% -12%, color-mix(in srgb, var(--primary) 28%, var(--navy-2)), transparent 60%),
+      radial-gradient(700px 380px at 85% -10%, color-mix(in srgb, var(--gold) 18%, var(--navy-2)), transparent 55%),
+      radial-gradient(1200px 500px at 20% -10%, var(--navy-2), var(--navy));
+    color:var(--hero-text);
+    padding:140px 24px 92px;
     overflow:hidden;
     text-align:center;
+  }
+  header.hero.in-anim{ opacity:0; transform:translateY(16px); animation:fadeUp .7s ease forwards; }
+
+  header.hero .hero-kicker{
+    position:relative;
+    z-index:1;
+    display:inline-block;
+    font-size:0.8rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:12px;
   }
   header.hero h1{
     font-family:'Aref Ruqaa', serif;
     font-weight:700;
-    font-size: clamp(2.4rem, 5vw, 3.6rem);
-    margin: 0 0 14px;
+    font-size:clamp(2.4rem, 5vw, 3.6rem);
+    margin:0 0 14px;
     position:relative;
     z-index:1;
+  }
+  html[lang="en"] header.hero h1,
+  html[lang="en"] .suggest-card h2{
+    font-family:'Playfair Display', serif;
+    letter-spacing:-0.5px;
   }
   header.hero p.subtitle{
     position:relative;
     z-index:1;
-    max-width: 640px;
-    margin: 0 auto;
-    color: #d8ddea;
-    font-size: 1.05rem;
+    max-width:660px;
+    margin:0 auto;
+    color:var(--hero-text-soft);
+    font-size:1.05rem;
   }
   header.hero .badge{
     position:relative;
     z-index:1;
     display:inline-block;
-    margin-top:20px;
+    margin-top:22px;
     padding:6px 16px;
     border:1px solid rgba(201,162,75,0.5);
     border-radius:999px;
     font-size:0.85rem;
-    color: var(--gold);
+    color:var(--gold);
     letter-spacing:0.3px;
   }
 
   /* -------- شريط البحث/الفلترة العائم -------- */
   .controls-wrap{
-    max-width: 1040px;
-    margin: -46px auto 0;
-    padding: 0 20px;
+    max-width:1080px;
+    margin:-48px auto 0;
+    padding:0 20px;
     position:relative;
     z-index:2;
   }
   .controls{
-    background:#fff;
+    background:var(--surface);
     border:1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 18px 20px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:18px 20px;
+    transition: background-color .25s ease, border-color .25s ease;
   }
   .search-row{
     display:flex;
@@ -136,74 +313,123 @@
   }
   .search-row input{
     flex:1;
-    padding: 12px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    font-family:'Tajawal', sans-serif;
+    min-width:0;
+    padding:12px 16px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    font-family:inherit;
     font-size:1rem;
-    background: var(--jasmine);
+    background:var(--bg);
+    color:var(--text);
+    transition: border-color .15s ease, background-color .2s ease;
   }
   .search-row input:focus{
-    outline: 2px solid var(--turquoise);
+    outline:2px solid var(--primary);
     outline-offset:1px;
   }
-  .chips{
+  .sort-box{
     display:flex;
-    flex-wrap:wrap;
+    align-items:center;
     gap:8px;
+    flex-shrink:0;
   }
+  .sort-box select{
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text);
+    font-family:inherit;
+    font-size:0.95rem;
+    cursor:pointer;
+  }
+  .sort-box select:focus{ outline:2px solid var(--primary); outline-offset:1px; }
+  .sort-label{
+    color:var(--text-soft);
+    font-size:0.88rem;
+    white-space:nowrap;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
   .chip{
     cursor:pointer;
     border:1px solid var(--border);
-    background:#fff;
-    color:var(--ink-soft);
+    background:var(--surface-2);
+    color:var(--text-soft);
     padding:7px 14px;
     border-radius:999px;
     font-size:0.85rem;
-    font-family:'Tajawal', sans-serif;
     font-weight:500;
     transition: all .15s ease;
     display:flex;
     align-items:center;
     gap:6px;
   }
-  .chip:hover{ border-color: var(--turquoise); }
-  .chip:focus-visible{ outline:2px solid var(--turquoise); outline-offset:2px; }
+  .chip:hover{ border-color:var(--primary); color:var(--text); }
+  .chip:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
   .chip.active{
-    background: var(--turquoise);
-    border-color: var(--turquoise);
-    color:#fff;
+    background:var(--primary);
+    border-color:var(--primary);
+    color:var(--on-primary);
+  }
+  .chip:active{ transform:scale(0.96); }
+
+  /* -------- الإحصائيات -------- */
+  .stats-strip{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:12px;
+    margin-bottom:30px;
+  }
+  .stat{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px 14px;
+    text-align:center;
+    transition: background-color .25s ease, transform .15s ease, border-color .25s ease;
+  }
+  .stat:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+  .stat-num{
+    display:block;
+    font-size:1.8rem;
+    font-weight:800;
+    color:var(--primary);
+    line-height:1.2;
+  }
+  .stat-label{
+    display:block;
+    margin-top:4px;
+    font-size:0.85rem;
+    color:var(--text-soft);
   }
 
-  /* -------- الشبكة -------- */
-  main{ max-width:1040px; margin: 0 auto; padding: 40px 20px 20px; }
-
   .result-count{
-    color: var(--ink-soft);
+    color:var(--text-soft);
     font-size:0.9rem;
-    margin-bottom: 16px;
+    margin-bottom:16px;
   }
 
   .grid{
     display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 18px;
+    grid-template-columns:repeat(auto-fill, minmax(270px, 1fr));
+    gap:18px;
   }
 
+  /* -------- بطاقة التطبيق -------- */
   .card{
-    background:#fff;
+    background:var(--surface);
     border:1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
+    border-radius:var(--radius);
+    padding:20px;
     display:flex;
     flex-direction:column;
     gap:10px;
-    transition: transform .15s ease, box-shadow .15s ease;
+    opacity:0;
+    transform:translateY(10px);
+    animation:fadeUp .45s ease forwards;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .25s ease, border-color .25s ease;
   }
-  .card:hover{
-    transform: translateY(-3px);
-    box-shadow: var(--shadow);
-  }
+  .card:hover{ transform:translateY(-3px); box-shadow:var(--shadow); }
   .card-top{
     display:flex;
     align-items:flex-start;
@@ -212,11 +438,12 @@
   }
   .card-icon{
     font-size:1.6rem;
-    background: var(--turquoise-soft);
+    background:var(--primary-soft);
     width:44px; height:44px;
     display:flex; align-items:center; justify-content:center;
     border-radius:10px;
     flex-shrink:0;
+    transition: background-color .25s ease;
   }
   .card h3{
     margin:0;
@@ -226,8 +453,8 @@
   .cat-tag{
     display:inline-block;
     font-size:0.75rem;
-    color: var(--turquoise);
-    background: var(--turquoise-soft);
+    color:var(--primary);
+    background:var(--primary-soft);
     padding:3px 10px;
     border-radius:999px;
     font-weight:700;
@@ -235,15 +462,16 @@
   }
   .card p.desc{
     margin:0;
-    color: var(--ink-soft);
+    color:var(--text-soft);
     font-size:0.92rem;
     flex-grow:1;
   }
   .platforms{
     display:flex;
+    flex-wrap:wrap;
     gap:6px;
     font-size:0.78rem;
-    color: var(--ink-soft);
+    color:var(--text-soft);
   }
   .platforms span{
     border:1px solid var(--border);
@@ -258,7 +486,6 @@
   }
   .btn{
     text-decoration:none;
-    font-family:'Tajawal', sans-serif;
     font-weight:700;
     font-size:0.85rem;
     padding:9px 14px;
@@ -266,56 +493,43 @@
     display:inline-flex;
     align-items:center;
     gap:6px;
-    transition: opacity .15s ease;
+    transition: opacity .15s ease, transform .15s ease, border-color .15s ease;
   }
-  .btn:hover{ opacity:0.85; }
+  .btn:hover{ opacity:0.88; transform:translateY(-1px); }
+  .btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
   .btn-primary{
-    background: var(--night);
-    color:#fff;
+    background:var(--btn-primary-color);
+    color:var(--btn-primary-text);
+    transition: background-color .25s ease, opacity .15s ease, transform .15s ease;
   }
   .btn-ghost{
-    background: transparent;
-    color: var(--night);
+    background:transparent;
+    color:var(--text);
     border:1px solid var(--border);
   }
   .verified-tag{
     font-size:0.72rem;
-    color: var(--gold);
+    color:var(--gold);
     display:flex;
     align-items:center;
     gap:4px;
   }
 
   /* -------- التقييم والآراء -------- */
-  .rating-row{
-    display:flex;
-    align-items:center;
-    gap:7px;
-  }
-  .stars{
-    color: var(--gold);
-    letter-spacing:1px;
-    font-size:0.95rem;
-  }
-  .stars.stars-muted{ color: #cfcabb; }
-  .rating-num{
-    font-weight:800;
-    font-size:0.88rem;
-  }
-  .rating-count{
-    color: var(--ink-soft);
-    font-size:0.78rem;
-  }
+  .rating-row{ display:flex; align-items:center; gap:7px; }
+  .stars{ color:var(--gold); letter-spacing:1px; font-size:0.95rem; }
+  .stars.stars-muted{ color:var(--text-faint); }
+  .rating-num{ font-weight:800; font-size:0.88rem; }
+  .rating-count{ color:var(--text-soft); font-size:0.78rem; }
   .toggle-reviews-btn{
     background:transparent;
     border:none;
-    color: var(--turquoise);
-    font-family:'Tajawal', sans-serif;
+    color:var(--primary);
     font-weight:700;
     font-size:0.82rem;
     cursor:pointer;
     padding:0;
-    text-align:right;
+    text-align:start;
   }
   .toggle-reviews-btn:hover{ text-decoration:underline; }
   .reviews-panel{
@@ -323,13 +537,13 @@
     margin-top:4px;
     padding-top:10px;
     border-top:1px dashed var(--border);
-    display:none;
     flex-direction:column;
     gap:8px;
   }
   .reviews-panel.open{ display:flex; }
   .review-item{
-    background: var(--jasmine);
+    background:var(--surface-3);
+    border:1px solid var(--border);
     border-radius:8px;
     padding:9px 11px;
   }
@@ -338,25 +552,23 @@
     justify-content:space-between;
     align-items:center;
     margin-bottom:3px;
+    gap:8px;
   }
-  .review-head .author{
-    font-weight:700;
-    font-size:0.85rem;
-  }
+  .review-head .author{ font-weight:700; font-size:0.85rem; }
   .review-item .stars{ font-size:0.78rem; }
   .review-comment{
     margin:0;
     font-size:0.85rem;
-    color: var(--ink-soft);
+    color:var(--text-soft);
   }
   .review-date{
     display:block;
     margin-top:4px;
     font-size:0.72rem;
-    color:#9aa2ac;
+    color:var(--text-faint);
   }
   .no-reviews{
-    color: var(--ink-soft);
+    color:var(--text-soft);
     font-size:0.85rem;
     font-style:italic;
     margin:0;
@@ -364,16 +576,17 @@
 
   .empty-state{
     text-align:center;
-    padding: 60px 20px;
-    color: var(--ink-soft);
+    padding:60px 20px;
+    color:var(--text-soft);
   }
   .empty-state .glyph{ font-size:2.2rem; margin-bottom:10px; }
+  .empty-state p{ margin:4px 0 0; }
 
   /* -------- قسم العروض والكوبونات -------- */
   .promos-section{
-    max-width:1040px;
-    margin: 32px auto 0;
-    padding: 0 20px;
+    max-width:1080px;
+    margin:32px auto 0;
+    padding:0 20px;
   }
   .promos-heading{
     display:flex;
@@ -392,31 +605,32 @@
     gap:14px;
     overflow-x:auto;
     padding-bottom:8px;
-    scroll-snap-type: x proximity;
+    scroll-snap-type:x proximity;
   }
   .promo-card{
     scroll-snap-align:start;
-    flex: 0 0 300px;
-    background: linear-gradient(160deg, #fff, var(--turquoise-soft));
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px;
+    flex:0 0 300px;
+    background:linear-gradient(160deg, var(--surface), var(--primary-soft));
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
     position:relative;
     overflow:hidden;
+    transition: background-color .25s ease, border-color .25s ease;
   }
   .promo-card::before{
     content:"";
     position:absolute;
     inset:0;
-    background-image: radial-gradient(circle, var(--gold) 1px, transparent 1.4px);
-    background-size: 16px 16px;
+    background-image:radial-gradient(circle, var(--gold) 1px, transparent 1.4px);
+    background-size:16px 16px;
     opacity:0.08;
     pointer-events:none;
   }
   .promo-badge{
     display:inline-block;
-    background: var(--gold);
-    color: var(--night);
+    background:var(--gold);
+    color:var(--navy);
     font-weight:800;
     font-size:0.78rem;
     padding:4px 12px;
@@ -432,7 +646,7 @@
   .promo-card p.promo-desc{
     margin:0 0 12px;
     font-size:0.86rem;
-    color: var(--ink-soft);
+    color:var(--text-soft);
     position:relative; z-index:1;
   }
   .promo-code-row{
@@ -444,69 +658,72 @@
   }
   .promo-code{
     flex:1;
-    border: 1.5px dashed var(--gold);
-    background:#fff;
+    border:1.5px dashed var(--gold);
+    background:var(--surface);
     border-radius:8px;
     padding:8px 12px;
     font-weight:800;
     letter-spacing:1px;
     font-size:0.92rem;
     text-align:center;
-    color: var(--night);
+    color:var(--text);
   }
   .copy-btn{
     border:none;
-    background: var(--night);
-    color:#fff;
+    background:var(--btn-primary-color);
+    color:var(--btn-primary-text);
     border-radius:8px;
     padding:8px 12px;
     font-size:0.8rem;
-    font-family:'Tajawal', sans-serif;
     font-weight:700;
     cursor:pointer;
     flex-shrink:0;
+    transition: background-color .2s ease, opacity .15s ease;
   }
   .copy-btn:hover{ opacity:0.85; }
-  .copy-btn.copied{ background: var(--turquoise); }
+  .copy-btn.copied{ background:var(--primary); }
   .promo-footer{
     display:flex;
     align-items:center;
     justify-content:space-between;
     position:relative; z-index:1;
     font-size:0.78rem;
-    color: var(--ink-soft);
+    color:var(--text-soft);
+    gap:8px;
   }
   .promo-footer a{
-    color: var(--turquoise);
+    color:var(--primary);
     font-weight:700;
     text-decoration:none;
   }
 
   /* -------- قسم الاقتراح -------- */
   .suggest-section{
-    max-width:1040px;
-    margin: 60px auto 0;
-    padding: 0 20px;
+    max-width:1080px;
+    margin:60px auto 0;
+    padding:0 20px;
   }
   .suggest-card{
     position:relative;
     overflow:hidden;
-    background: var(--night);
-    color: var(--jasmine);
-    border-radius: var(--radius);
-    padding: 40px 30px;
+    background:var(--navy);
+    color:var(--hero-text);
+    border-radius:var(--radius);
+    padding:44px 30px;
     text-align:center;
+    background-image:
+      radial-gradient(700px 320px at 80% 0%, color-mix(in srgb, var(--gold) 16%, transparent), transparent 55%);
   }
   .suggest-card h2{
     font-family:'Aref Ruqaa', serif;
     font-size:1.8rem;
-    margin: 0 0 10px;
+    margin:0 0 10px;
     position:relative; z-index:1;
   }
   .suggest-card p{
-    color:#d8ddea;
-    max-width:520px;
-    margin: 0 auto 22px;
+    color:var(--hero-text-soft);
+    max-width:540px;
+    margin:0 auto 22px;
     position:relative; z-index:1;
   }
   .suggest-actions{
@@ -517,79 +734,170 @@
     position:relative; z-index:1;
   }
   .btn-gold{
-    background: var(--gold);
-    color: var(--night);
+    background:var(--gold);
+    color:var(--navy);
   }
   .btn-outline-light{
     background:transparent;
     border:1px solid rgba(251,249,244,0.4);
-    color: var(--jasmine);
+    color:var(--hero-text);
   }
 
   footer{
     text-align:center;
-    color: var(--ink-soft);
+    color:var(--text-soft);
     font-size:0.85rem;
-    padding: 50px 20px 40px;
+    padding:50px 20px 60px;
   }
-  footer a{ color: var(--turquoise); font-weight:700; text-decoration:none; }
+  footer p{ margin:6px 0; }
+  footer a{ color:var(--primary); font-weight:700; text-decoration:none; }
+  .footer-brand{
+    font-weight:800;
+    color:var(--text);
+    margin-bottom:10px;
+    font-size:1rem;
+  }
+
+  /* -------- زر العودة للأعلى -------- */
+  .back-to-top{
+    position:fixed;
+    inset-inline-end:22px;
+    bottom:22px;
+    z-index:50;
+    width:44px; height:44px;
+    border-radius:50%;
+    border:none;
+    background:var(--primary);
+    color:var(--on-primary);
+    font-size:1.1rem;
+    cursor:pointer;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translateY(8px);
+    transition:opacity .25s ease, transform .25s ease, visibility .25s;
+    box-shadow:var(--shadow-lg);
+  }
+  .back-to-top.visible{ opacity:1; visibility:visible; pointer-events:auto; transform:none; }
+  .back-to-top:hover{ transform:translateY(-2px); }
+
+  .apps-section{
+    max-width:1080px;
+    margin:0 auto;
+    padding:34px 20px 20px;
+  }
+
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
 
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
-    .card{ transition:none; }
-  }
-
-  .sr-only{
-    position:absolute; width:1px; height:1px;
-    padding:0; margin:-1px; overflow:hidden;
-    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    *, *::before, *::after{ animation:none !important; transition:none !important; }
+    .card{ opacity:1; transform:none; }
+    header.hero.in-anim{ opacity:1; transform:none; animation:none; }
   }
 </style>
 </head>
 <body>
 
-<header class="hero">
+<nav class="topbar" aria-label="الشريط العلوي">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="SyrDevHub">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect width="24" height="24" rx="5" fill="#1B2A4A"/>
+        <path fill="#C9A24B" d="M12 3l2.7 5.4 6 .9-4.35 4.2 1.05 5.95L12 17.7 6.6 19.45l1.05-5.95L3.3 9.3l6-.9z"/>
+      </svg>
+      <span class="brand-name">SyrDevHub</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#apps" data-i18n="navApps">التطبيقات</a></li>
+      <li><a href="#promosSection" data-i18n="navOffers">العروض</a></li>
+      <li><a href="#contribute" data-i18n="navContribute">ساهم</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button id="langToggle" class="icon-btn" type="button" data-action="lang">EN</button>
+      <button id="themeToggle" class="icon-btn" type="button" data-action="theme">
+        <span class="icon-sun" aria-hidden="true">☀️</span>
+        <span class="icon-moon" aria-hidden="true">🌙</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero in-anim" id="top">
   <div class="star-pattern" aria-hidden="true"></div>
-  <h1>دليل التطبيقات السورية</h1>
-  <p class="subtitle">قائمة موحّدة وموثّقة لأبرز التطبيقات المحلية في سوريا — روابط رسمية فقط، بدون ملفات تثبيت غير موثوقة.</p>
-  <span class="badge">مشروع مفتوح المصدر · مساهمة مجتمعية</span>
+  <p class="hero-kicker" data-i18n="tagline">الدليل السوري الموحّد للتطبيقات المحلية</p>
+  <h1 data-i18n="heroH1">دليل التطبيقات السورية</h1>
+  <p class="subtitle" data-i18n="heroSubtitle">قائمة موحّدة وموثّقة لأبرز التطبيقات المحلية في سوريا — روابط رسمية فقط، بدون ملفات تثبيت غير موثوقة.</p>
+  <span class="badge" data-i18n="heroBadge">مشروع مفتوح المصدر · مساهمة مجتمعية</span>
 </header>
 
 <div class="controls-wrap">
   <div class="controls">
     <div class="search-row">
-      <label for="search" class="sr-only">ابحث عن تطبيق</label>
-      <input type="text" id="search" placeholder="ابحث باسم التطبيق أو وصفه...">
+      <label for="search" class="sr-only" data-i18n="searchLabel">ابحث عن تطبيق</label>
+      <input type="text" id="search" data-i18n-placeholder="searchPlaceholder" placeholder="ابحث باسم التطبيق أو وصفه...">
+      <div class="sort-box">
+        <span class="sort-label" data-i18n="sortLabel">ترتيب:</span>
+        <select id="sortSel" aria-label="sort">
+          <option value="rating"></option>
+          <option value="name"></option>
+        </select>
+      </div>
     </div>
-    <div class="chips" id="chips" role="group" aria-label="تصفية حسب الفئة"></div>
+    <div class="chips" id="chips" role="group" data-i18n-aria="filterLabel"></div>
   </div>
 </div>
 
 <section class="promos-section" id="promosSection" style="display:none;">
   <div class="promos-heading">
-    <span class="flame">🔥</span>
-    <h2>عروض وكوبونات حالية</h2>
+    <span class="flame" aria-hidden="true">🔥</span>
+    <h2 data-i18n="promoHeading">عروض وكوبونات حالية</h2>
   </div>
   <div class="promos-scroller" id="promosScroller"></div>
 </section>
 
-<main>
-  <p class="result-count" id="resultCount"></p>
+<section id="apps" class="apps-section">
+  <div class="stats-strip" role="list" aria-label="statistics">
+    <div class="stat" role="listitem">
+      <span class="stat-num" id="statApps">0</span>
+      <span class="stat-label" data-i18n="statApps">تطبيق</span>
+    </div>
+    <div class="stat" role="listitem">
+      <span class="stat-num" id="statCats">0</span>
+      <span class="stat-label" data-i18n="statCats">فئة</span>
+    </div>
+    <div class="stat" role="listitem">
+      <span class="stat-num" id="statVerified">0</span>
+      <span class="stat-label" data-i18n="statVerified">موثّق</span>
+    </div>
+    <div class="stat" role="listitem">
+      <span class="stat-num" id="statOffers">0</span>
+      <span class="stat-label" data-i18n="statOffers">عرض نشط</span>
+    </div>
+  </div>
+
+  <p class="result-count" id="resultCount" aria-live="polite"></p>
   <div class="grid" id="grid"></div>
   <div class="empty-state" id="emptyState" style="display:none;">
-    <div class="glyph">🔍</div>
-    <p>لا توجد نتائج مطابقة. جرّب كلمة بحث أخرى أو فئة مختلفة.</p>
+    <div class="glyph" aria-hidden="true">🔍</div>
+    <p class="empty-title" data-i18n="emptyTitle">لا توجد نتائج مطابقة</p>
+    <p data-i18n="emptyText">جرّب كلمة بحث أخرى أو فئة مختلفة.</p>
   </div>
-</main>
+</section>
 
-<section class="suggest-section">
+<section class="suggest-section" id="contribute">
   <div class="suggest-card">
     <div class="star-pattern" aria-hidden="true"></div>
-    <h2>هل تعرف تطبيقًا سوريًا غير مُدرَج؟</h2>
-    <p>اقترحه عبر النموذج التالي وسنقوم بمراجعته وإضافته بعد التحقق من الرابط الرسمي.</p>
+    <h2 data-i18n="suggestH2">هل تعرف تطبيقًا سوريًا غير مُدرَج؟</h2>
+    <p data-i18n="suggestText">اقترحه عبر النموذج التالي وسنقوم بمراجعته وإضافته بعد التحقق من الرابط الرسمي.</p>
     <div class="suggest-actions">
-      <a class="btn btn-gold" href="https://docs.google.com/forms/d/e/1FAIpQLSfstN79qCSarLESqoXBvTfXKlg6OuRPbB_vEuNCJ7cSDArM9g/viewform?usp=publish-editor" target="_blank" rel="noopener">📋 اقترح تطبيقًا</a>
-      <a class="btn btn-outline-light" href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener">💻 ساهم عبر GitHub</a>
+      <a class="btn btn-gold" href="https://docs.google.com/forms/d/e/1FAIpQLSfstN79qCSarLESqoXBvTfXKlg6OuRPbB_vEuNCJ7cSDArM9g/viewform?usp=publish-editor" target="_blank" rel="noopener" data-i18n="suggestBtn">📋 اقترح تطبيقًا</a>
+      <a class="btn btn-outline-light" href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener" data-i18n="githubBtn">💻 ساهم عبر GitHub</a>
     </div>
   </div>
 </section>
@@ -597,295 +905,569 @@
 <div class="divider-star" aria-hidden="true">۞</div>
 
 <footer>
-  <p>مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق</p>
-  <p><a href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener">شاهد المصدر على GitHub</a></p>
+  <p class="footer-brand">SyrDevHub</p>
+  <p data-i18n="footerNote">مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق</p>
+  <p><a href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener" data-i18n="footerSource">شاهد المصدر على GitHub</a></p>
+  <p id="footerRights"></p>
 </footer>
+
+<button class="back-to-top" id="backToTop" type="button">↑</button>
 
 <script src="apps-data.js"></script>
 <script src="promotions-data.js"></script>
 <script src="reviews-data.js"></script>
 <script>
-  function trackAnalytics(eventName, params){
-    try{
-      if(typeof gtag === 'function'){
-        gtag('event', eventName, params || {});
-      }
-    }catch(err){ /* تجاهل الأخطاء */ }
-  }
+  (function(){
+    'use strict';
 
-  function trackViaDelegate(target, selector, eventName, getParams){
-    if(!target) return;
-    target.addEventListener('click', (e) => {
-      const el = e.target.closest(selector);
-      if(!el) return;
-      trackAnalytics(eventName, getParams ? getParams(el) : {});
-    });
-  }
-
-  function isPromoActive(promo){
-    if(!promo.expiryDate) return true;
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    const expiry = new Date(promo.expiryDate);
-    return expiry >= today;
-  }
-
-  function daysLeftLabel(expiryDate){
-    if(!expiryDate) return '';
-    const today = new Date(); today.setHours(0,0,0,0);
-    const expiry = new Date(expiryDate);
-    const diffDays = Math.ceil((expiry - today) / (1000*60*60*24));
-    if(diffDays <= 0) return '';
-    if(diffDays === 1) return 'ينتهي غدًا';
-    if(diffDays <= 7) return `يتبقى ${diffDays} أيام`;
-    return `حتى ${expiryDate}`;
-  }
-
-  function promoAppName(appId){
-    const app = (typeof APPS !== 'undefined') ? APPS.find(a => a.id === appId) : null;
-    return app ? app.name : '';
-  }
-
-  function promoCardHTML(promo){
-    const appName = promoAppName(promo.appId);
-    return `
-      <article class="promo-card">
-        <span class="promo-badge">${promo.discountLabel || 'عرض خاص'}</span>
-        <h3>${promo.title}${appName ? ` — ${appName}` : ''}</h3>
-        <p class="promo-desc">${promo.description}</p>
-        ${promo.type === 'coupon' && promo.code ? `
-          <div class="promo-code-row">
-            <span class="promo-code" id="code-${promo.id}">${promo.code}</span>
-            <button class="copy-btn" data-code="${promo.code}" data-target="code-${promo.id}">نسخ</button>
-          </div>
-        ` : ''}
-        <div class="promo-footer">
-          <span>${daysLeftLabel(promo.expiryDate)}</span>
-          <a href="${promo.link}" target="_blank" rel="noopener">فتح العرض ←</a>
-        </div>
-      </article>
-    `;
-  }
-
-  function renderPromotions(){
-    const section = document.getElementById('promosSection');
-    const scroller = document.getElementById('promosScroller');
-    if(typeof PROMOTIONS === 'undefined'){ return; }
-
-    const active = PROMOTIONS.filter(isPromoActive);
-    if(active.length === 0){
-      section.style.display = 'none';
-      return;
+    /* ============ التتبع التحليلي ============ */
+    function trackAnalytics(eventName, params){
+      try{
+        if(typeof gtag === 'function'){ gtag('event', eventName, params || {}); }
+      }catch(err){ /* تجاهل */ }
     }
-    section.style.display = 'block';
-    scroller.innerHTML = active.map(promoCardHTML).join('');
-
-    trackViaDelegate(scroller, '.promo-footer a', 'promo_open', (el) => {
-      const card = el.closest('.promo-card');
-      const coupon = card.querySelector('.promo-code');
-      return {
-        promo_title: card.querySelector('h3').textContent.trim(),
-        promo_badge: card.querySelector('.promo-badge').textContent.trim(),
-        coupon_code: coupon ? coupon.textContent.trim() : ''
-      };
-    });
-
-    scroller.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        navigator.clipboard.writeText(btn.dataset.code).then(() => {
-          trackAnalytics('promo_code_copy', {
-            promo_code: btn.dataset.code,
-            promo_id: btn.dataset.target.replace('code-',''),
-            value: btn.dataset.code
-          });
-          const original = btn.textContent;
-          btn.textContent = 'تم النسخ ✓';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            btn.textContent = original;
-            btn.classList.remove('copied');
-          }, 1500);
-        });
+    function trackViaDelegate(target, selector, eventName, getParams){
+      if(!target) return;
+      target.addEventListener('click', function(e){
+        var el = e.target.closest(selector);
+        if(!el) return;
+        trackAnalytics(eventName, getParams ? getParams(el) : {});
       });
-    });
-  }
+    }
 
-  const grid = document.getElementById('grid');
-  const chipsWrap = document.getElementById('chips');
-  const searchInput = document.getElementById('search');
-  const resultCount = document.getElementById('resultCount');
-  const emptyState = document.getElementById('emptyState');
+    /* ============ الترجمة ============ */
+    var I18N = {
+      ar: {
+        dir:'rtl',
+        metaTitle:"دليل التطبيقات السورية",
+        metaDesc:"دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.",
+        tagline:"الدليل السوري الموحّد للتطبيقات المحلية",
+        heroH1:"دليل التطبيقات السورية",
+        heroSubtitle:"قائمة موحّدة وموثّقة لأبرز التطبيقات المحلية في سوريا — روابط رسمية فقط، بدون ملفات تثبيت غير موثوقة.",
+        heroBadge:"مشروع مفتوح المصدر · مساهمة مجتمعية",
+        navApps:"التطبيقات",
+        navOffers:"العروض",
+        navContribute:"ساهم",
+        statApps:"تطبيق",
+        statCats:"فئة",
+        statVerified:"موثّق",
+        statOffers:"عرض نشط",
+        searchPlaceholder:"ابحث باسم التطبيق أو وصفه...",
+        searchLabel:"ابحث عن تطبيق",
+        filterLabel:"تصفية حسب الفئة",
+        all:"الكل",
+        promoHeading:"عروض وكوبونات حالية",
+        copy:"نسخ",
+        copied:"تم النسخ ✓",
+        openOffer:"فتح العرض ←",
+        specialOffer:"عرض خاص",
+        resultCount:function(n){ return 'عدد التطبيقات: ' + n; },
+        ratingCountNone:"لا توجد تقييمات بعد",
+        reviewCount:function(n){ return n === 1 ? 'رأي' : 'آراء'; },
+        showReviews:function(n){ return 'عرض الآراء (' + n + ')'; },
+        hideReviews:function(n){ return 'إخفاء الآراء (' + n + ')'; },
+        noReviews:"لا توجد آراء بعد — كن أول من يشارك رأيه عبر نموذج الاقتراحات.",
+        install:"تثبيت / فتح",
+        officialSite:"الموقع الرسمي",
+        verified:"✓ موثّق",
+        emptyTitle:"لا توجد نتائج مطابقة",
+        emptyText:"جرّب كلمة بحث أخرى أو فئة مختلفة.",
+        sortLabel:"ترتيب:",
+        sortRating:"الأعلى تقييماً",
+        sortName:"الاسم (أ–ي)",
+        suggestH2:"هل تعرف تطبيقًا سوريًا غير مُدرَج؟",
+        suggestText:"اقترحه عبر النموذج التالي وسنقوم بمراجعته وإضافته بعد التحقق من الرابط الرسمي.",
+        suggestBtn:"📋 اقترح تطبيقًا",
+        githubBtn:"💻 ساهم عبر GitHub",
+        footerNote:"مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق",
+        footerSource:"شاهد المصدر على GitHub",
+        footerRights:function(y){ return '© ' + y + ' SyrDevHub — صُنع بفخر للمجتمع السوري'; },
+        langLabel:"English",
+        langAria:"التبديل إلى الإنجليزية",
+        themeAriaLight:"تفعيل الوضع الليلي",
+        themeAriaDark:"تفعيل الوضع النهاري",
+        backToTop:"العودة إلى الأعلى",
+        platform:{ android:"أندرويد", ios:"آيفون", web:"ويب" },
+        daysLeft:function(n, date){
+          if(n <= 0) return '';
+          if(n === 1) return 'ينتهي غدًا';
+          if(n <= 7) return 'يتبقى ' + n + ' أيام';
+          return 'حتى ' + date;
+        }
+      },
+      en: {
+        dir:'ltr',
+        metaTitle:"Syrian Apps Directory",
+        metaDesc:"A curated directory of leading local Syrian apps, categorized with official links only.",
+        tagline:"The unified Syrian hub for local apps",
+        heroH1:"Syrian Apps Directory",
+        heroSubtitle:"A unified, verified list of the best local apps in Syria — official links only, no untrusted install files.",
+        heroBadge:"Open Source · Community Driven",
+        navApps:"Apps",
+        navOffers:"Offers",
+        navContribute:"Contribute",
+        statApps:"Apps",
+        statCats:"Categories",
+        statVerified:"Verified",
+        statOffers:"Active Offers",
+        searchPlaceholder:"Search by app name or description...",
+        searchLabel:"Search apps",
+        filterLabel:"Filter by category",
+        all:"All",
+        promoHeading:"Current Deals & Coupons",
+        copy:"Copy",
+        copied:"Copied ✓",
+        openOffer:"Open offer →",
+        specialOffer:"Special Offer",
+        resultCount:function(n){ return n + ' apps'; },
+        ratingCountNone:"No ratings yet",
+        reviewCount:function(n){ return n === 1 ? 'review' : 'reviews'; },
+        showReviews:function(n){ return 'Show reviews (' + n + ')'; },
+        hideReviews:function(n){ return 'Hide reviews (' + n + ')'; },
+        noReviews:"No reviews yet — be the first to share your feedback via the suggestion form.",
+        install:"Install / Open",
+        officialSite:"Official site",
+        verified:"✓ Verified",
+        emptyTitle:"No matching results",
+        emptyText:"Try a different search term or category.",
+        sortLabel:"Sort:",
+        sortRating:"Top rated",
+        sortName:"Name (A–Z)",
+        suggestH2:"Know a Syrian app we missed?",
+        suggestText:"Suggest it via the form below and we'll review and add it after verifying the official link.",
+        suggestBtn:"📋 Suggest an app",
+        githubBtn:"💻 Contribute on GitHub",
+        footerNote:"An independent, community-driven project · all links lead to each app's official source",
+        footerSource:"View the source on GitHub",
+        footerRights:function(y){ return '© ' + y + ' SyrDevHub — proudly made for the Syrian community'; },
+        langLabel:"العربية",
+        langAria:"Switch to Arabic",
+        themeAriaLight:"Enable dark mode",
+        themeAriaDark:"Enable light mode",
+        backToTop:"Back to top",
+        platform:{ android:"Android", ios:"iOS", web:"Web" },
+        daysLeft:function(n, date){
+          if(n <= 0) return '';
+          if(n === 1) return 'Ends tomorrow';
+          if(n <= 7) return n + ' days left';
+          return 'until ' + date;
+        }
+      }
+    };
 
-  let activeCategory = 'all';
+    var root = document.documentElement;
+    var lang = root.getAttribute('lang') === 'en' ? 'en' : 'ar';
+    var theme = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    var activeCategory = 'all';
+    var sortBy = 'rating';
+    var T;
 
-  function platformLabel(p){
-    return { android: 'أندرويد', ios: 'آيفون', web: 'ويب' }[p] || p;
-  }
+    /* ============ الحالة والواجهة ============ */
+    function applyTheme(next){
+      theme = next === 'dark' ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      try{ localStorage.setItem('syh-theme', theme); }catch(e){}
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if(meta){ meta.setAttribute('content', theme === 'dark' ? '#0a101d' : '#1B2A4A'); }
+      var btn = document.getElementById('themeToggle');
+      if(btn){
+        btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        btn.setAttribute('aria-label', theme === 'dark' ? T.themeAriaDark : T.themeAriaLight);
+      }
+    }
 
-  function renderChips(){
-    const allChip = document.createElement('button');
-    allChip.className = 'chip active';
-    allChip.textContent = 'الكل';
-    allChip.dataset.key = 'all';
-    chipsWrap.appendChild(allChip);
+    function applyLang(next){
+      lang = next === 'en' ? 'en' : 'ar';
+      T = I18N[lang];
+      root.setAttribute('lang', lang);
+      root.setAttribute('dir', T.dir);
+      try{ localStorage.setItem('syh-lang', lang); }catch(e){}
 
-    CATEGORIES.forEach(cat => {
-      const chip = document.createElement('button');
-      chip.className = 'chip';
-      chip.dataset.key = cat.key;
-      chip.innerHTML = `<span>${cat.icon}</span><span>${cat.label}</span>`;
-      chipsWrap.appendChild(chip);
-    });
+      document.title = T.metaTitle;
+      updateMeta('description', T.metaDesc);
+      updateMeta('og:title', T.metaTitle);
+      updateMeta('og:description', T.metaDesc);
 
-    chipsWrap.addEventListener('click', (e) => {
-      const btn = e.target.closest('.chip');
-      if(!btn) return;
-      activeCategory = btn.dataset.key;
-      [...chipsWrap.children].forEach(c => c.classList.toggle('active', c === btn));
-      trackAnalytics('filter_category', {
-        category: btn.dataset.key,
-        category_label: btn.textContent.trim()
+      document.querySelectorAll('[data-i18n]').forEach(function(el){
+        var key = el.getAttribute('data-i18n');
+        if(T[key] !== undefined){ el.textContent = T[key]; }
       });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+        el.setAttribute('placeholder', T[el.getAttribute('data-i18n-placeholder')]);
+      });
+      document.querySelectorAll('[data-i18n-aria]').forEach(function(el){
+        el.setAttribute('aria-label', T[el.getAttribute('data-i18n-aria')]);
+      });
+      document.querySelectorAll('[data-action="lang"]').forEach(function(el){
+        el.textContent = T.langLabel;
+        el.setAttribute('aria-label', T.langAria);
+      });
+      document.getElementById('footerRights').textContent = T.footerRights(new Date().getFullYear());
+
+      var sortSel = document.getElementById('sortSel');
+      sortSel.options[0].textContent = T.sortRating;
+      sortSel.options[1].textContent = T.sortName;
+
+      applyTheme(theme);
+      renderChips();
       render();
-    });
-  }
-
-  function catInfo(key){
-    return CATEGORIES.find(c => c.key === key) || { label: key, icon: '✨' };
-  }
-
-  function computeRating(appId){
-    const revs = (typeof REVIEWS !== 'undefined') ? REVIEWS.filter(r => r.appId === appId) : [];
-    if(revs.length === 0) return { avg: 0, count: 0 };
-    const avg = revs.reduce((sum, r) => sum + r.rating, 0) / revs.length;
-    return { avg, count: revs.length };
-  }
-
-  function starsHTML(avg){
-    const rounded = Math.round(avg);
-    return '★'.repeat(rounded) + '☆'.repeat(5 - rounded);
-  }
-
-  function reviewsListHTML(appId){
-    const revs = (typeof REVIEWS !== 'undefined') ? REVIEWS.filter(r => r.appId === appId) : [];
-    if(revs.length === 0){
-      return '<p class="no-reviews">لا توجد آراء بعد — كن أول من يشارك رأيه عبر نموذج الاقتراحات.</p>';
+      renderStats();
+      renderPromotions();
     }
-    return revs.map(r => `
-      <div class="review-item">
-        <div class="review-head">
-          <span class="author">${r.author}</span>
-          <span class="stars">${starsHTML(r.rating)}</span>
-        </div>
-        <p class="review-comment">${r.comment}</p>
-        <span class="review-date">${r.date}</span>
-      </div>
-    `).join('');
-  }
 
-  function cardHTML(app){
-    const cat = catInfo(app.category);
-    const links = app.storeLinks || {};
-    const primaryLink = links.android || links.ios || links.web || app.officialLink;
-    const { avg, count } = computeRating(app.id);
-    const reviewsId = `reviews-${app.id}`;
-    return `
-      <article class="card">
-        <div class="card-top">
-          <div class="card-icon" aria-hidden="true">${cat.icon}</div>
-          ${app.verified ? '<span class="verified-tag">✓ موثّق</span>' : ''}
-        </div>
-        <div>
-          <h3>${app.name}</h3>
-          <span class="cat-tag">${cat.label}</span>
-        </div>
-        <div class="rating-row">
-          <span class="stars ${count === 0 ? 'stars-muted' : ''}">${starsHTML(avg)}</span>
-          ${count > 0 ? `<span class="rating-num">${avg.toFixed(1)}</span><span class="rating-count">(${count} ${count === 1 ? 'رأي' : 'آراء'})</span>` : '<span class="rating-count">لا توجد تقييمات بعد</span>'}
-        </div>
-        <p class="desc">${app.description}</p>
-        <div class="platforms">
-          ${(app.platforms||[]).map(p => `<span>${platformLabel(p)}</span>`).join('')}
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="${primaryLink}" target="_blank" rel="noopener">تثبيت / فتح</a>
-          <a class="btn btn-ghost" href="${app.officialLink}" target="_blank" rel="noopener">الموقع الرسمي</a>
-        </div>
-        <button class="toggle-reviews-btn" data-target="${reviewsId}">عرض الآراء (${count})</button>
-        <div class="reviews-panel" id="${reviewsId}">
-          ${reviewsListHTML(app.id)}
-        </div>
-      </article>
-    `;
-  }
-
-  function render(){
-    const q = searchInput.value.trim().toLowerCase();
-    const filtered = APPS.filter(app => {
-      const matchesCategory = activeCategory === 'all' || app.category === activeCategory;
-      const matchesQuery = !q ||
-        app.name.toLowerCase().includes(q) ||
-        app.description.toLowerCase().includes(q);
-      return matchesCategory && matchesQuery;
-    });
-
-    grid.innerHTML = filtered.map(cardHTML).join('');
-    resultCount.textContent = `عدد التطبيقات: ${filtered.length}`;
-    emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
-  }
-
-  renderChips();
-  searchInput.addEventListener('input', () => {
-    if(searchInput._lastSearch !== searchInput.value.trim()){
-      searchInput._lastSearch = searchInput.value.trim();
-      if(searchInput._lastSearch){
-        trackAnalytics('search', { search_term: searchInput._lastSearch });
-      }
+    function updateMeta(prop, content){
+      var sel = 'meta[property="' + prop + '"]';
+      if(prop === 'description'){ sel = 'meta[name="description"]'; }
+      var el = document.querySelector(sel);
+      if(el){ el.setAttribute('content', content); }
     }
-    render();
-  });
-  render();
-  renderPromotions();
 
-  grid.addEventListener('click', (e) => {
-    const card = e.target.closest('.card');
-    if(card){
-      const appName = card.querySelector('h3').textContent.trim();
-      const appCat = card.querySelector('.cat-tag').textContent.trim();
-      const appParams = { app_name: appName, app_category: appCat };
+    /* ============ بيانات موضعية (ثنائية اللغة) ============ */
+    function appName(app){ return lang === 'en' ? (app.name_en || app.name) : app.name; }
+    function appDesc(app){ return lang === 'en' ? (app.description_en || app.description) : app.description; }
+    function catLabel(cat){ return lang === 'en' ? (cat.label_en || cat.label) : cat.label; }
+    function platformLabel(p){
+      return T.platform[p] || p;
+    }
+    function isPromoActive(promo){
+      if(!promo.expiryDate) return true;
+      var today = new Date();
+      today.setHours(0,0,0,0);
+      var expiry = new Date(promo.expiryDate + 'T00:00:00');
+      return expiry >= today;
+    }
+    function daysLeftLabel(promo){
+      if(!promo.expiryDate) return '';
+      var today = new Date(); today.setHours(0,0,0,0);
+      var expiry = new Date(promo.expiryDate + 'T00:00:00');
+      var diff = Math.ceil((expiry - today) / (1000*60*60*24));
+      return T.daysLeft(diff, promo.expiryDate);
+    }
+    function promoTitle(promo){
+      return lang === 'en' ? (promo.title_en || promo.title) : promo.title;
+    }
+    function promoDesc(promo){
+      return lang === 'en' ? (promo.description_en || promo.description) : promo.description;
+    }
+    function reviewComment(rev){
+      return lang === 'en' ? (rev.comment_en || rev.comment) : rev.comment;
+    }
+    function promoAppName(appId){
+      var app = (typeof APPS !== 'undefined') ? APPS.filter(function(a){ return a.id === appId; })[0] : null;
+      return app ? appName(app) : '';
+    }
+    function computeRating(appId){
+      var revs = (typeof REVIEWS !== 'undefined') ? REVIEWS.filter(function(r){ return r.appId === appId; }) : [];
+      if(revs.length === 0) return { avg: 0, count: 0 };
+      var sum = revs.reduce(function(s, r){ return s + r.rating; }, 0);
+      return { avg: sum / revs.length, count: revs.length };
+    }
+    function starsHTML(avg){
+      var rounded = Math.round(avg);
+      return '★'.repeat(rounded) + '☆'.repeat(5 - rounded);
+    }
+    function catInfo(key){
+      return (typeof CATEGORIES !== 'undefined') ? (CATEGORIES.filter(function(c){ return c.key === key; })[0] || { label: key, icon: '✨' }) : { label: key, icon: '✨' };
+    }
+    function activePromos(){
+      return (typeof PROMOTIONS !== 'undefined') ? PROMOTIONS.filter(isPromoActive) : [];
+    }
 
-      if(e.target.closest('.btn-primary')){
-        trackAnalytics('select_content', {
-          ...appParams,
-          content_type: 'install',
-          content_id: appName
+    /* ============ بطاقة العرض ============ */
+    function promoCardHTML(promo){
+      var appN = promoAppName(promo.appId);
+      var titleHTML = promoTitle(promo) + (appN ? ' — ' + appN : '');
+      var codeRow = (promo.type === 'coupon' && promo.code)
+        ? '<div class="promo-code-row">' +
+            '<span class="promo-code" id="code-' + promo.id + '">' + promo.code + '</span>' +
+            '<button class="copy-btn" data-code="' + promo.code + '" data-target="code-' + promo.id + '" data-key="copy">' + T.copy + '</button>' +
+          '</div>'
+        : '';
+      return '' +
+        '<article class="promo-card">' +
+          '<span class="promo-badge">' + (promo.discountLabel || T.specialOffer) + '</span>' +
+          '<h3>' + titleHTML + '</h3>' +
+          '<p class="promo-desc">' + promoDesc(promo) + '</p>' +
+          codeRow +
+          '<div class="promo-footer">' +
+            '<span>' + daysLeftLabel(promo) + '</span>' +
+            '<a href="' + promo.link + '" target="_blank" rel="noopener">' + T.openOffer + '</a>' +
+          '</div>' +
+        '</article>';
+    }
+
+    function renderPromotions(){
+      try{
+        var section = document.getElementById('promosSection');
+        var scroller = document.getElementById('promosScroller');
+        if(!section || !scroller){ return; }
+        if(typeof PROMOTIONS === 'undefined'){ return; }
+        var active = activePromos();
+        if(active.length === 0){
+          section.style.display = 'none';
+          return;
+        }
+        section.style.display = 'block';
+        scroller.innerHTML = active.map(promoCardHTML).join('');
+
+        trackViaDelegate(scroller, '.promo-footer a', 'promo_open', function(el){
+          var card = el.closest('.promo-card');
+          var coupon = card.querySelector('.promo-code');
+          return {
+            promo_title: card.querySelector('h3').textContent.trim(),
+            promo_badge: card.querySelector('.promo-badge').textContent.trim(),
+            coupon_code: coupon ? coupon.textContent.trim() : ''
+          };
         });
-        return;
-      }
-      if(e.target.closest('.btn-ghost')){
-        trackAnalytics('select_content', {
-          ...appParams,
-          content_type: 'official_site',
-          content_id: appName
+
+        scroller.querySelectorAll('.copy-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            if(!navigator.clipboard || !navigator.clipboard.writeText) return;
+            navigator.clipboard.writeText(btn.dataset.code).then(function(){
+              trackAnalytics('promo_code_copy', {
+                promo_code: btn.dataset.code,
+                value: btn.dataset.code
+              });
+              var original = btn.textContent;
+              btn.textContent = T.copied;
+              btn.classList.add('copied');
+              setTimeout(function(){
+                btn.textContent = original;
+                btn.classList.remove('copied');
+              }, 1500);
+            });
+          });
         });
-        return;
-      }
+      }catch(err){ /* لا يسمح لخطأ العروض بمنع شبكة التطبيقات */ }
     }
 
-    const btn = e.target.closest('.toggle-reviews-btn');
-    if(!btn) return;
-    const panel = document.getElementById(btn.dataset.target);
-    const isOpen = panel.classList.toggle('open');
-    const count = panel.querySelectorAll('.review-item').length;
-    btn.textContent = isOpen
-      ? `إخفاء الآراء (${count})`
-      : `عرض الآراء (${count})`;
-    const card = e.target.closest('.card');
-    trackAnalytics(isOpen ? 'reviews_open' : 'reviews_close', {
-      app_name: card ? card.querySelector('h3').textContent.trim() : '',
-      review_count: count
-    });
-  });
+    /* ============ الفلاتر ============ */
+    function renderChips(){
+      var wrap = document.getElementById('chips');
+      wrap.innerHTML = '';
+      var all = document.createElement('button');
+      all.type = 'button';
+      all.className = 'chip' + (activeCategory === 'all' ? ' active' : '');
+      all.dataset.key = 'all';
+      all.textContent = T.all;
+      wrap.appendChild(all);
+
+      (typeof CATEGORIES !== 'undefined' ? CATEGORIES : []).forEach(function(cat){
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'chip' + (activeCategory === cat.key ? ' active' : '');
+        chip.dataset.key = cat.key;
+        chip.innerHTML = '<span>' + cat.icon + '</span><span>' + catLabel(cat) + '</span>';
+        wrap.appendChild(chip);
+      });
+    }
+
+    /* ============ بطاقات التطبيقات ============ */
+    function reviewsListHTML(appId){
+      var revs = (typeof REVIEWS !== 'undefined') ? REVIEWS.filter(function(r){ return r.appId === appId; }) : [];
+      if(revs.length === 0){
+        return '<p class="no-reviews">' + T.noReviews + '</p>';
+      }
+      return revs.map(function(r){
+        return '<div class="review-item">' +
+          '<div class="review-head">' +
+            '<span class="author">' + r.author + '</span>' +
+            '<span class="stars">' + starsHTML(r.rating) + '</span>' +
+          '</div>' +
+          '<p class="review-comment">' + reviewComment(r) + '</p>' +
+          '<span class="review-date">' + r.date + '</span>' +
+        '</div>';
+      }).join('');
+    }
+
+    function cardHTML(app, index){
+      var cat = catInfo(app.category);
+      var links = app.storeLinks || {};
+      var primaryLink = links.android || links.ios || links.web || app.officialLink;
+      var rating = computeRating(app.id);
+      var reviewsId = 'reviews-' + app.id;
+      var ratingHTML = rating.count > 0
+        ? '<span class="rating-num">' + rating.avg.toFixed(1) + '</span>' +
+          '<span class="rating-count">(' + rating.count + ' ' + T.reviewCount(rating.count) + ')</span>'
+        : '<span class="rating-count">' + T.ratingCountNone + '</span>';
+      return '' +
+        '<article class="card" style="animation-delay:' + Math.min(index * 35, 400) + 'ms">' +
+          '<div class="card-top">' +
+            '<div class="card-icon" aria-hidden="true">' + cat.icon + '</div>' +
+            (app.verified ? '<span class="verified-tag">' + T.verified + '</span>' : '') +
+          '</div>' +
+          '<div>' +
+            '<h3>' + appName(app) + '</h3>' +
+            '<span class="cat-tag">' + catLabel(cat) + '</span>' +
+          '</div>' +
+          '<div class="rating-row">' +
+            '<span class="stars ' + (rating.count === 0 ? 'stars-muted' : '') + '" aria-label="' + (rating.avg.toFixed(1) || '0') + '/5">' + starsHTML(rating.avg) + '</span>' +
+            ratingHTML +
+          '</div>' +
+          '<p class="desc">' + appDesc(app) + '</p>' +
+          '<div class="platforms">' +
+            (app.platforms || []).map(function(p){ return '<span>' + platformLabel(p) + '</span>'; }).join('') +
+          '</div>' +
+          '<div class="card-actions">' +
+            '<a class="btn btn-primary" href="' + primaryLink + '" target="_blank" rel="noopener">' + T.install + '</a>' +
+            '<a class="btn btn-ghost" href="' + app.officialLink + '" target="_blank" rel="noopener">' + T.officialSite + '</a>' +
+          '</div>' +
+          '<button class="toggle-reviews-btn" type="button" data-target="' + reviewsId + '">' + T.showReviews(rating.count) + '</button>' +
+          '<div class="reviews-panel" id="' + reviewsId + '">' +
+            reviewsListHTML(app.id) +
+          '</div>' +
+        '</article>';
+    }
+
+    function sortApps(list){
+      var arr = list.slice();
+      if(sortBy === 'name'){
+        arr.sort(function(a, b){
+          return appName(a).localeCompare(appName(b), lang === 'ar' ? 'ar' : 'en');
+        });
+      } else {
+        arr.sort(function(a, b){
+          return computeRating(b.id).avg - computeRating(a.id).avg;
+        });
+      }
+      return arr;
+    }
+
+    function render(){
+      var grid = document.getElementById('grid');
+      var searchInput = document.getElementById('search');
+      var resultCount = document.getElementById('resultCount');
+      var emptyState = document.getElementById('emptyState');
+      var q = searchInput.value.trim().toLowerCase();
+
+      var filtered = (typeof APPS !== 'undefined' ? APPS : []).filter(function(app){
+        var matchesCategory = activeCategory === 'all' || app.category === activeCategory;
+        if(!matchesCategory) return false;
+        if(!q) return true;
+        var cat = catInfo(app.category);
+        var haystack = [
+          appName(app), appDesc(app), app.name, app.description,
+          cat.label, cat.label_en,
+          (app.platforms || []).join(' ')
+        ].join(' ').toLowerCase();
+        return haystack.indexOf(q) !== -1;
+      });
+
+      var sorted = sortApps(filtered);
+      grid.innerHTML = sorted.map(function(app, i){ return cardHTML(app, i); }).join('');
+      resultCount.textContent = T.resultCount(sorted.length);
+      emptyState.style.display = sorted.length === 0 ? 'block' : 'none';
+    }
+
+    function renderStats(){
+      var apps = (typeof APPS !== 'undefined' ? APPS : []);
+      var cats = (typeof CATEGORIES !== 'undefined' ? CATEGORIES : []);
+      document.getElementById('statApps').textContent = apps.length;
+      document.getElementById('statCats').textContent = cats.length;
+      document.getElementById('statVerified').textContent = apps.filter(function(a){ return a.verified; }).length;
+      document.getElementById('statOffers').textContent = activePromos().length;
+    }
+
+    /* ============ ربط الأحداث ============ */
+    function init(){
+      T = I18N[lang];
+
+      var themeBtn = document.getElementById('themeToggle');
+      themeBtn.addEventListener('click', function(){
+        applyTheme(theme === 'dark' ? 'light' : 'dark');
+        trackAnalytics('toggle_theme', { theme: theme });
+      });
+
+      var langBtn = document.getElementById('langToggle');
+      langBtn.addEventListener('click', function(){
+        applyLang(lang === 'en' ? 'ar' : 'en');
+        trackAnalytics('change_language', { language: lang });
+      });
+
+      var searchInput = document.getElementById('search');
+      searchInput.addEventListener('input', function(){
+        var v = searchInput.value.trim();
+        if(v !== searchInput._lastSearch){
+          searchInput._lastSearch = v;
+          if(v){ trackAnalytics('search', { search_term: v }); }
+        }
+        render();
+      });
+
+      var sortSel = document.getElementById('sortSel');
+      sortSel.addEventListener('change', function(){
+        sortBy = sortSel.value;
+        trackAnalytics('sort_apps', { sort_by: sortBy });
+        render();
+      });
+
+      document.getElementById('chips').addEventListener('click', function(e){
+        var btn = e.target.closest('.chip');
+        if(!btn) return;
+        activeCategory = btn.dataset.key;
+        document.querySelectorAll('#chips .chip').forEach(function(c){
+          c.classList.toggle('active', c === btn);
+        });
+        trackAnalytics('filter_category', {
+          category: btn.dataset.key,
+          category_label: btn.textContent.trim()
+        });
+        render();
+      });
+
+      var grid = document.getElementById('grid');
+      grid.addEventListener('click', function(e){
+        var card = e.target.closest('.card');
+        if(card){
+          var appNameText = card.querySelector('h3').textContent.trim();
+          var appCatText = card.querySelector('.cat-tag').textContent.trim();
+          if(e.target.closest('.btn-primary')){
+            trackAnalytics('select_content', {
+              content_type: 'install',
+              content_id: appNameText,
+              app_name: appNameText,
+              app_category: appCatText
+            });
+            return;
+          }
+          if(e.target.closest('.btn-ghost')){
+            trackAnalytics('select_content', {
+              content_type: 'official_site',
+              content_id: appNameText,
+              app_name: appNameText,
+              app_category: appCatText
+            });
+            return;
+          }
+        }
+
+        var btn = e.target.closest('.toggle-reviews-btn');
+        if(!btn) return;
+        var panel = document.getElementById(btn.dataset.target);
+        var isOpen = panel.classList.toggle('open');
+        var count = panel.querySelectorAll('.review-item').length;
+        btn.textContent = isOpen ? T.hideReviews(count) : T.showReviews(count);
+        card = e.target.closest('.card');
+        trackAnalytics(isOpen ? 'reviews_open' : 'reviews_close', {
+          app_name: card ? card.querySelector('h3').textContent.trim() : '',
+          review_count: count
+        });
+      });
+
+      var backBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', function(){
+        backBtn.classList.toggle('visible', window.scrollY > 500);
+      }, { passive: true });
+      backBtn.addEventListener('click', function(){
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      backBtn.setAttribute('aria-label', T.backToTop);
+
+      applyLang(lang);
+    }
+
+    init();
+  })();
 </script>
 
 </body>
