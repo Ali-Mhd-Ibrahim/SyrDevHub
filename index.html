@@ -573,6 +573,111 @@
     font-style:italic;
     margin:0;
   }
+  .card-meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .btn-review{
+    color:var(--primary);
+    font-weight:700;
+    font-size:0.82rem;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .btn-review:hover{ text-decoration:underline; }
+
+  /* -------- نافذة المساهمة -------- */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(8,14,26,0.6);
+    -webkit-backdrop-filter:blur(4px);
+    backdrop-filter:blur(4px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .2s ease, visibility .2s;
+  }
+  .modal-overlay.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .modal{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-lg);
+    width:100%;
+    max-width:520px;
+    padding:28px 24px 24px;
+    position:relative;
+    transform:translateY(14px) scale(0.98);
+    transition:transform .25s ease;
+    transition: background-color .25s ease, transform .25s ease, border-color .25s ease;
+  }
+  .modal-overlay.open .modal{ transform:none; }
+  .modal-close{
+    position:absolute;
+    inset-inline-end:14px;
+    top:14px;
+    width:34px; height:34px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text-soft);
+    font-size:1.1rem;
+    line-height:1;
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .modal-close:hover{ border-color:var(--primary); color:var(--primary); }
+  .modal h2{
+    margin:0 0 6px;
+    font-size:1.3rem;
+    font-weight:800;
+  }
+  html[lang="en"] .modal h2{ font-family:'Playfair Display', serif; }
+  .modal-sub{
+    margin:0 0 18px;
+    color:var(--text-soft);
+    font-size:0.92rem;
+  }
+  .modal-options{ display:flex; flex-direction:column; gap:10px; }
+  .modal-option{
+    display:flex;
+    align-items:flex-start;
+    gap:13px;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    text-decoration:none;
+    color:var(--text);
+    background:var(--surface-2);
+    transition:border-color .15s ease, transform .15s ease, background-color .2s ease;
+  }
+  .modal-option:hover{ border-color:var(--primary); transform:translateY(-1px); }
+  .modal-option:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  .modal-option .mo-icon{ font-size:1.35rem; line-height:1.4; }
+  .modal-option .mo-title{
+    display:block;
+    font-weight:700;
+    font-size:0.95rem;
+  }
+  .modal-option .mo-desc{
+    display:block;
+    font-size:0.82rem;
+    color:var(--text-soft);
+    margin-top:2px;
+  }
 
   .empty-state{
     text-align:center;
@@ -896,7 +1001,7 @@
     <h2 data-i18n="suggestH2">هل تعرف تطبيقًا سوريًا غير مُدرَج؟</h2>
     <p data-i18n="suggestText">اقترحه عبر النموذج التالي وسنقوم بمراجعته وإضافته بعد التحقق من الرابط الرسمي.</p>
     <div class="suggest-actions">
-      <a class="btn btn-gold" href="https://docs.google.com/forms/d/e/1FAIpQLSfstN79qCSarLESqoXBvTfXKlg6OuRPbB_vEuNCJ7cSDArM9g/viewform?usp=publish-editor" target="_blank" rel="noopener" data-i18n="suggestBtn">📋 اقترح تطبيقًا</a>
+      <button id="contributeOpen" class="btn btn-gold" type="button" data-i18n="contributeBtn">شارك معنا</button>
       <a class="btn btn-outline-light" href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener" data-i18n="githubBtn">💻 ساهم عبر GitHub</a>
     </div>
   </div>
@@ -912,6 +1017,37 @@
 </footer>
 
 <button class="back-to-top" id="backToTop" type="button">↑</button>
+
+<div class="modal-overlay" id="contributeModal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" type="button" data-i18n-aria="modalCloseAria">×</button>
+    <h2 id="modalTitle" data-i18n="modalTitle">كيف تريد أن تساهم؟</h2>
+    <p class="modal-sub" data-i18n="modalSub">اختر نوع طلبك وسيتم تحويلك إلى نموذج مختصر.</p>
+    <div class="modal-options">
+      <a class="modal-option" href="#" target="_blank" rel="noopener" data-type="app">
+        <span class="mo-icon" aria-hidden="true">📋</span>
+        <span class="mo-body">
+          <span class="mo-title" data-i18n="optAppTitle">أقترح تطبيقًا جديدًا</span>
+          <span class="mo-desc" data-i18n="optAppDesc">تطبيق سوري موثّق يستحق الإضافة إلى الدليل</span>
+        </span>
+      </a>
+      <a class="modal-option" href="#" target="_blank" rel="noopener" data-type="promo">
+        <span class="mo-icon" aria-hidden="true">🔥</span>
+        <span class="mo-body">
+          <span class="mo-title" data-i18n="optPromoTitle">أقترح عرضًا أو كوبونًا</span>
+          <span class="mo-desc" data-i18n="optPromoDesc">عرض حالي أو خصم يفيد زوّار الدليل</span>
+        </span>
+      </a>
+      <a class="modal-option" href="#" target="_blank" rel="noopener" data-type="review">
+        <span class="mo-icon" aria-hidden="true">⭐</span>
+        <span class="mo-body">
+          <span class="mo-title" data-i18n="optReviewTitle">أكتب تقييمًا أو رأيًا</span>
+          <span class="mo-desc" data-i18n="optReviewDesc">شارك تجربتك مع تطبيق استخدمته</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
 
 <script src="apps-data.js"></script>
 <script src="promotions-data.js"></script>
@@ -975,9 +1111,19 @@
         sortLabel:"ترتيب:",
         sortRating:"الأعلى تقييماً",
         sortName:"الاسم (أ–ي)",
-        suggestH2:"هل تعرف تطبيقًا سوريًا غير مُدرَج؟",
-        suggestText:"اقترحه عبر النموذج التالي وسنقوم بمراجعته وإضافته بعد التحقق من الرابط الرسمي.",
-        suggestBtn:"📋 اقترح تطبيقًا",
+        suggestH2:"شاركنا اقتراحك أو تقييمك",
+        suggestText:"سواء أردت إضافة تطبيق أو عرض أو تقييم، سنراجع مساهمتك ونضيفها بعد التحقق من صحتها.",
+        contributeBtn:"شارك معنا",
+        modalTitle:"كيف تريد أن تساهم؟",
+        modalSub:"اختر نوع طلبك وسيتم تحويلك إلى نموذج مختصر.",
+        modalCloseAria:"إغلاق النافذة",
+        optAppTitle:"أقترح تطبيقًا جديدًا",
+        optAppDesc:"تطبيق سوري موثّق يستحق الإضافة إلى الدليل",
+        optPromoTitle:"أقترح عرضًا أو كوبونًا",
+        optPromoDesc:"عرض حالي أو خصم يفيد زوّار الدليل",
+        optReviewTitle:"أكتب تقييمًا أو رأيًا",
+        optReviewDesc:"شارك تجربتك مع تطبيق استخدمته",
+        reviewCta:"⭐ أكتب رأيًا",
         githubBtn:"💻 ساهم عبر GitHub",
         footerNote:"مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق",
         footerSource:"شاهد المصدر على GitHub",
@@ -1033,9 +1179,19 @@
         sortLabel:"Sort:",
         sortRating:"Top rated",
         sortName:"Name (A–Z)",
-        suggestH2:"Know a Syrian app we missed?",
-        suggestText:"Suggest it via the form below and we'll review and add it after verifying the official link.",
-        suggestBtn:"📋 Suggest an app",
+        suggestH2:"Let us in on your idea or feedback",
+        suggestText:"Whether it's a new app, a deal, or a review — we'll review your contribution and publish it after verification.",
+        contributeBtn:"Contribute",
+        modalTitle:"How would you like to contribute?",
+        modalSub:"Pick your request type and we'll take you to a short form.",
+        modalCloseAria:"Close dialog",
+        optAppTitle:"Suggest a new app",
+        optAppDesc:"A verified Syrian app worth adding to the directory",
+        optPromoTitle:"Suggest a deal or coupon",
+        optPromoDesc:"A live deal or discount helpful to visitors",
+        optReviewTitle:"Write a review or rating",
+        optReviewDesc:"Share your experience with an app you've used",
+        reviewCta:"⭐ Write a review",
         githubBtn:"💻 Contribute on GitHub",
         footerNote:"An independent, community-driven project · all links lead to each app's official source",
         footerSource:"View the source on GitHub",
@@ -1061,6 +1217,12 @@
     var activeCategory = 'all';
     var sortBy = 'rating';
     var T;
+    var FORMS = {
+      app:    'https://docs.google.com/forms/d/e/1FAIpQLSc2EqvL7lU0jqXP4K1MkWH5dw3OwEW_VAHkV-25sS4ZKEZ8Hg/viewform?usp=dialog',
+      promo:  'https://docs.google.com/forms/d/e/1FAIpQLSfbhwr2pEJ6MoOIhSiiGndtRHQQTIWFPkCQMgwhk1M-xnfEPA/viewform?usp=dialog',
+      review: 'https://docs.google.com/forms/d/e/1FAIpQLSdan0WxJf-kAHXRJi40AIbyJ8llfWHACyreEKJU_nlGi09i1A/viewform?usp=dialog'
+    };
+    var CONTRIBUTE_FORM = FORMS.app;
 
     /* ============ الحالة والواجهة ============ */
     function applyTheme(next){
@@ -1312,7 +1474,10 @@
             '<a class="btn btn-primary" href="' + primaryLink + '" target="_blank" rel="noopener">' + T.install + '</a>' +
             '<a class="btn btn-ghost" href="' + app.officialLink + '" target="_blank" rel="noopener">' + T.officialSite + '</a>' +
           '</div>' +
-          '<button class="toggle-reviews-btn" type="button" data-target="' + reviewsId + '">' + T.showReviews(rating.count) + '</button>' +
+          '<div class="card-meta">' +
+            '<button class="toggle-reviews-btn" type="button" data-target="' + reviewsId + '">' + T.showReviews(rating.count) + '</button>' +
+            '<a class="btn-review" href="' + FORMS.review + '" target="_blank" rel="noopener" data-app="' + app.id + '">' + T.reviewCta + '</a>' +
+          '</div>' +
           '<div class="reviews-panel" id="' + reviewsId + '">' +
             reviewsListHTML(app.id) +
           '</div>' +
@@ -1439,6 +1604,15 @@
             });
             return;
           }
+          var reviewLink = e.target.closest('.btn-review');
+          if(reviewLink){
+            trackAnalytics('write_review', {
+              app_name: appNameText,
+              app_category: appCatText,
+              app_id: reviewLink.dataset.app || ''
+            });
+            return;
+          }
         }
 
         var btn = e.target.closest('.toggle-reviews-btn');
@@ -1462,6 +1636,50 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
       backBtn.setAttribute('aria-label', T.backToTop);
+
+      /* ============ نافذة المساهمة ============ */
+      var modal = document.getElementById('contributeModal');
+      var modalOpenBtn = document.getElementById('contributeOpen');
+      var modalCloseBtn = document.getElementById('modalClose');
+      var lastFocus = null;
+
+      modal.querySelectorAll('.modal-option').forEach(function(opt){
+        opt.href = FORMS[opt.dataset.type] || FORMS.app;
+        opt.addEventListener('click', function(){
+          trackAnalytics('contribute_pick', {
+            request_type: opt.dataset.type,
+            language: lang
+          });
+        });
+      });
+
+      function openContributeModal(){
+        if(!lastFocus) lastFocus = document.activeElement;
+        modal.classList.add('open');
+        var first = modal.querySelector('.modal-option');
+        if(first) first.focus();
+        trackAnalytics('contribute_open', { language: lang });
+      }
+      function closeContributeModal(){
+        modal.classList.remove('open');
+        if(lastFocus && lastFocus.focus){ lastFocus.focus(); }
+        lastFocus = null;
+      }
+
+      modalOpenBtn.addEventListener('click', function(){
+        openContributeModal();
+      });
+      modalCloseBtn.addEventListener('click', function(){
+        closeContributeModal();
+      });
+      modal.addEventListener('click', function(e){
+        if(e.target === modal){ closeContributeModal(); }
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && modal.classList.contains('open')){
+          closeContributeModal();
+        }
+      });
 
       applyLang(lang);
     }
