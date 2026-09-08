@@ -582,6 +582,69 @@
     font-style:italic;
     margin:0;
   }
+  .card-extra{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:4px;
+  }
+  .fav-btn{
+    cursor:pointer;
+    background:var(--surface-2);
+    color:var(--text-soft);
+    border:1px solid var(--border);
+    border-radius:9px;
+    font-size:0.8rem;
+    font-weight:700;
+    font-family:inherit;
+    padding:7px 12px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+  }
+  .fav-btn:hover{ border-color:var(--gold); color:var(--gold); }
+  .fav-btn.active{
+    border-color:var(--gold);
+    color:var(--gold);
+    background:color-mix(in srgb, var(--gold) 14%, transparent);
+  }
+  .fav-btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+
+  .card.flash{
+    outline:3px solid var(--gold);
+    outline-offset:-3px;
+    box-shadow:var(--shadow-lg);
+  }
+
+  /* -------- قسم شوهد مؤخراً -------- */
+  .recent-section{
+    max-width:1080px;
+    margin:8px auto 0;
+    padding:0 20px;
+  }
+  .recent-card{
+    scroll-snap-align:start;
+    flex:0 0 190px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    cursor:pointer;
+    font-family:inherit;
+    text-align:start;
+    color:var(--text);
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .recent-card:hover{ transform:translateY(-2px); border-color:var(--primary); }
+  .recent-card:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  .recent-card .rc-name{ font-weight:800; font-size:0.95rem; line-height:1.3; }
+  .recent-card .rc-cat{ font-size:0.76rem; color:var(--text-soft); }
+  .recent-card .rc-rating{ font-size:0.78rem; color:var(--gold); font-weight:700; }
+
   .card-meta{
     display:flex;
     align-items:center;
@@ -895,6 +958,135 @@
   .back-to-top.visible{ opacity:1; visibility:visible; pointer-events:auto; transform:none; }
   .back-to-top:hover{ transform:translateY(-2px); }
 
+  /* -------- نافذة تفاصيل التطبيق -------- */
+  body.no-scroll{ overflow:hidden; }
+  .detail-overlay{
+    position:fixed;
+    inset:0;
+    z-index:95;
+    background:rgba(8,14,26,0.65);
+    -webkit-backdrop-filter:blur(5px);
+    backdrop-filter:blur(5px);
+    padding:24px 16px;
+    overflow-y:auto;
+    display:none;
+  }
+  .detail-overlay:not([hidden]){ display:flex; align-items:flex-start; justify-content:center; }
+  .detail-panel{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-lg);
+    width:100%;
+    max-width:680px;
+    padding:22px;
+    margin:auto 0;
+    animation:fadeUp .3s ease;
+    transition: background-color .25s ease, border-color .25s ease;
+  }
+  .detail-toolbar{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .detail-toolbar .btn{ padding:8px 14px; font-size:0.85rem; }
+  .detail-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .detail-icon{
+    flex:0 0 58px;
+    width:58px; height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.8rem;
+    background:var(--primary-soft);
+    border-radius:16px;
+    border:1px solid var(--border);
+  }
+  .detail-head h2{
+    margin:0 0 4px;
+    font-size:1.35rem;
+    font-weight:800;
+    line-height:1.2;
+  }
+  html[lang="en"] .detail-head h2{ font-family:'Playfair Display', serif; }
+  .detail-meta{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+  .detail-meta .stars{ color:var(--gold); letter-spacing:2px; font-size:0.9rem; }
+  .detail-rating-num{ font-weight:800; }
+  .detail-meta .rating-count{ color:var(--text-soft); font-size:0.85rem; }
+  .detail-desc{
+    margin:0 0 14px;
+    color:var(--text-soft);
+    font-size:0.95rem;
+    line-height:1.7;
+  }
+  .detail-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:14px 0 10px;
+  }
+  .detail-stores{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .btn-store{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text);
+    border-radius:10px;
+    padding:9px 14px;
+    font-size:0.85rem;
+    font-weight:700;
+    text-decoration:none;
+    transition:border-color .15s ease, color .15s ease, background-color .2s ease;
+  }
+  .btn-store:hover{ border-color:var(--primary); color:var(--primary); }
+  .detail-section{
+    margin-top:18px;
+    border-top:1px solid var(--border);
+    padding-top:14px;
+  }
+  .detail-section h3{
+    margin:0 0 10px;
+    font-size:1rem;
+    font-weight:800;
+  }
+  .detail-section .promos-scroller{ flex-direction:column; }
+  .detail-section .promo-card{ flex:0 0 auto; width:100%; }
+  .detail-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid var(--border);
+  }
+  .detail-panel .review-item{ margin-top:10px; }
+  @media (max-width:520px){
+    .detail-toolbar{ flex-direction:column; }
+    .detail-toolbar .btn{ width:100%; text-align:center; }
+  }
+
   .apps-section{
     max-width:1080px;
     margin:0 auto;
@@ -975,6 +1167,14 @@
   <div class="promos-scroller" id="promosScroller"></div>
 </section>
 
+<section class="promos-section" id="recentSection" style="display:none;">
+  <div class="promos-heading">
+    <span aria-hidden="true">🕘</span>
+    <h2 data-i18n="recentHeading">شاهدت مؤخرًا</h2>
+  </div>
+  <div class="promos-scroller" id="recentScroller"></div>
+</section>
+
 <section id="apps" class="apps-section">
   <div class="stats-strip" role="list" aria-label="statistics">
     <div class="stat" role="listitem">
@@ -1027,6 +1227,42 @@
 
 <button class="back-to-top" id="backToTop" type="button">↑</button>
 
+<div class="detail-overlay" id="detailView" hidden>
+  <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailName">
+    <div class="detail-toolbar">
+      <button class="btn btn-ghost" id="detailBack" type="button" data-i18n="detailBack">عودة</button>
+      <button class="btn btn-ghost" id="detailShare" type="button" data-i18n="detailShare">مشاركة</button>
+    </div>
+    <div class="detail-head">
+      <span class="detail-icon" id="detailIcon" aria-hidden="true"></span>
+      <div>
+        <h2 id="detailName"></h2>
+        <span class="cat-tag" id="detailCat"></span>
+      </div>
+    </div>
+    <div class="detail-meta">
+      <span id="detailRating"></span>
+      <span class="verified-tag" id="detailVerified" hidden></span>
+    </div>
+    <p class="detail-desc" id="detailDesc"></p>
+    <div class="platforms" id="detailPlatforms"></div>
+    <div class="detail-actions" id="detailActions"></div>
+    <div class="detail-stores" id="detailStores"></div>
+    <div class="detail-section" id="detailOffers">
+      <h3 id="detailOffersHeading" data-i18n="relatedOffers">عروض مرتبطة</h3>
+      <div id="detailOffersList"></div>
+    </div>
+    <div class="detail-section" id="detailReviews">
+      <h3 id="detailReviewsHeading"></h3>
+      <div id="detailReviewsList"></div>
+    </div>
+    <div class="detail-footer">
+      <button class="fav-btn" id="detailFav" type="button"></button>
+      <a class="btn-review" id="detailReviewCta" href="#" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="contributeModal">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <button class="modal-close" id="modalClose" type="button" data-i18n-aria="modalCloseAria">×</button>
@@ -1058,6 +1294,7 @@
   </div>
 </div>
 
+<script src="storage.js"></script>
 <script src="apps-data.js"></script>
 <script src="promotions-data.js"></script>
 <script src="reviews-data.js"></script>
@@ -1142,6 +1379,18 @@
         themeAriaLight:"تفعيل الوضع الليلي",
         themeAriaDark:"تفعيل الوضع النهاري",
         backToTop:"العودة إلى الأعلى",
+        favLabel:"المفضلة",
+        favAdd:"♡ أضف للمفضلة",
+        favAdded:"★ أزل من المفضلة",
+        favEmpty:"لا توجد تطبيقات في المفضلة بعد — اضغط ♡ على أي تطبيق لحفظه.",
+        recentHeading:"شاهدت مؤخرًا",
+        detailBack:"عودة",
+        detailShare:"مشاركة",
+        detailShareSuccess:"تم النسخ ✓",
+        detailNotFoundTitle:"التطبيق غير موجود",
+        detailNotFoundText:"ربما حُذف هذا التطبيق أو تغيّر رابطه — عد إلى الدليل وتصفّح تطبيقات أخرى.",
+        relatedOffers:"عروض مرتبطة",
+        reviewsHeading:"آراء المستخدمين",
         platform:{ android:"أندرويد", ios:"آيفون", web:"ويب" },
         daysLeft:function(n, date){
           if(n <= 0) return '';
@@ -1210,6 +1459,18 @@
         themeAriaLight:"Enable dark mode",
         themeAriaDark:"Enable light mode",
         backToTop:"Back to top",
+        favLabel:"Favorites",
+        favAdd:"♡ Add to favorites",
+        favAdded:"★ Remove from favorites",
+        favEmpty:"No favorites yet — tap ♡ on any app to save it.",
+        recentHeading:"Recently viewed",
+        detailBack:"Back",
+        detailShare:"Share",
+        detailShareSuccess:"Link copied ✓",
+        detailNotFoundTitle:"App not found",
+        detailNotFoundText:"This app may have been removed or its link changed — go back and browse other apps.",
+        relatedOffers:"Related offers",
+        reviewsHeading:"User reviews",
         platform:{ android:"Android", ios:"iOS", web:"Web" },
         daysLeft:function(n, date){
           if(n <= 0) return '';
@@ -1225,6 +1486,8 @@
     var theme = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
     var activeCategory = 'all';
     var sortBy = 'rating';
+    var currentDetail = null;
+    var prevHash = '';
     var T;
     var FORMS = {
       app:    'https://docs.google.com/forms/d/e/1FAIpQLSc2EqvL7lU0jqXP4K1MkWH5dw3OwEW_VAHkV-25sS4ZKEZ8Hg/viewform?usp=dialog',
@@ -1284,6 +1547,8 @@
       render();
       renderStats();
       renderPromotions();
+      renderRecent();
+      if(currentDetail){ renderDetails(currentDetail); }
     }
 
     function updateMeta(prop, content){
@@ -1342,6 +1607,249 @@
     }
     function activePromos(){
       return (typeof PROMOTIONS !== 'undefined') ? PROMOTIONS.filter(isPromoActive) : [];
+    }
+
+    /* ============ المفضلة وشوهد مؤخراً ============ */
+    function isFavoriteById(id){
+      try{ return SyhStorage.isFavorite(id); }catch(e){ return false; }
+    }
+
+    function favoriteBtnHTML(app){
+      var fav = isFavoriteById(app.id);
+      return '<button type="button" class="fav-btn' + (fav ? ' active' : '') + '" data-app="' + app.id + '" aria-pressed="' + (fav ? 'true' : 'false') + '">' +
+        (fav ? T.favAdded : T.favAdd) +
+      '</button>';
+    }
+
+    function toggleFavorite(appId, btn){
+      var wasFav = isFavoriteById(appId);
+      try{
+        if(wasFav){ SyhStorage.removeFavorite(appId); }
+        else{ SyhStorage.addFavorite(appId); }
+      }catch(e){}
+      var isFav = !wasFav;
+      if(btn){
+        btn.classList.toggle('active', isFav);
+        btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+        btn.textContent = isFav ? T.favAdded : T.favAdd;
+      }
+      var card = btn ? btn.closest('.card') : null;
+      var appNameText = card ? card.querySelector('h3').textContent.trim() : '';
+      var appCatText = card ? card.querySelector('.cat-tag').textContent.trim() : '';
+      trackAnalytics(wasFav ? 'favorite_remove' : 'favorite_add', {
+        app_id: appId,
+        app_name: appNameText,
+        app_category: appCatText
+      });
+      if(activeCategory === 'favorites'){ render(); }
+    }
+
+    function recentMiniHTML(app){
+      var cat = catInfo(app.category);
+      var rating = computeRating(app.id);
+      return '<button type="button" class="recent-card" data-app="' + app.id + '">' +
+        '<span class="rc-name">' + appName(app) + '</span>' +
+        '<span class="rc-cat">' + catLabel(cat) + '</span>' +
+        (rating.count > 0
+          ? '<span class="rc-rating">' + starsHTML(rating.avg) + ' ' + rating.avg.toFixed(1) + '</span>'
+          : '') +
+      '</button>';
+    }
+
+    function renderRecent(){
+      try{
+        var section = document.getElementById('recentSection');
+        var scroller = document.getElementById('recentScroller');
+        if(!section || !scroller){ return; }
+        if(typeof SyhStorage === 'undefined'){ section.style.display = 'none'; return; }
+        var ids = SyhStorage.getRecentlyViewed();
+        var apps = [];
+        ids.forEach(function(id){
+          var matched = (typeof APPS !== 'undefined') ? APPS.filter(function(a){ return a.id === id; })[0] : null;
+          if(matched){ apps.push(matched); }
+        });
+        if(apps.length === 0){ section.style.display = 'none'; scroller.innerHTML = ''; return; }
+        section.style.display = 'block';
+        scroller.innerHTML = apps.map(function(app){ return recentMiniHTML(app); }).join('');
+      }catch(e){ /* تجاهل — لا يقف حجم قائمة مؤخراً شوهد على الموقع */ }
+    }
+
+    /* ============ تفاصيل التطبيق + المشاركة ============ */
+    function findByAppId(id){
+      return (typeof APPS !== 'undefined') ? APPS.filter(function(a){ return a.id === id; })[0] : null;
+    }
+    function hashAppId(){
+      var h = (typeof window !== 'undefined' && window.location) ? window.location.hash : '';
+      var m = (h || '').match(/^#app\/(.+)$/);
+      if(!m){ return ''; }
+      try{ return decodeURIComponent(m[1]); }catch(e){ return m[1]; }
+    }
+    function setAppHash(id){
+      try{
+        var h = '#app/' + encodeURIComponent(id);
+        if(history.replaceState){ history.replaceState(null, '', h); }
+        else{ window.location.hash = h; }
+      }catch(e){
+        try{ window.location.hash = '#app/' + encodeURIComponent(id); }catch(e2){}
+      }
+    }
+    function detailStoreButtons(app){
+      var links = app.storeLinks || {};
+      var out = '';
+      ['android','ios','web'].forEach(function(p){
+        if(!links[p]){ return; }
+        out += '<a class="btn-store" href="' + links[p] + '" target="_blank" rel="noopener" data-platform="' + p + '">' + platformLabel(p) + '</a>';
+      });
+      return out;
+    }
+    function renderDetails(appId){
+      try{
+        var panel = document.getElementById('detailView');
+        if(!panel){ return; }
+        var app = findByAppId(appId);
+        if(!app){
+          document.getElementById('detailName').textContent = T.detailNotFoundTitle;
+          document.getElementById('detailCat').textContent = '';
+          document.getElementById('detailDesc').textContent = T.detailNotFoundText;
+          document.getElementById('detailIcon').textContent = '❓';
+          document.getElementById('detailVerified').hidden = true;
+          document.getElementById('detailPlatforms').innerHTML = '';
+          document.getElementById('detailActions').innerHTML = '';
+          document.getElementById('detailStores').style.display = 'none';
+          document.getElementById('detailOffers').style.display = 'none';
+          document.getElementById('detailReviews').style.display = 'none';
+          document.getElementById('detailFav').style.display = 'none';
+          currentDetail = appId;
+          return;
+        }
+        var cat = catInfo(app.category);
+        var rating = computeRating(app.id);
+        var links = app.storeLinks || {};
+        var primaryLink = links.android || links.ios || links.web || app.officialLink;
+        document.getElementById('detailIcon').textContent = cat.icon;
+        document.getElementById('detailName').textContent = appName(app);
+        document.getElementById('detailCat').textContent = catLabel(cat);
+        document.getElementById('detailVerified').textContent = T.verified;
+        document.getElementById('detailVerified').hidden = !app.verified;
+        document.getElementById('detailRating').innerHTML = rating.count > 0
+          ? '<span class="stars" aria-label="' + rating.avg.toFixed(1) + '/5">' + starsHTML(rating.avg) + '</span>' +
+            '<span class="detail-rating-num">' + rating.avg.toFixed(1) + '</span>' +
+            '<span class="rating-count">(' + rating.count + ' ' + T.reviewCount(rating.count) + ')</span>'
+          : '<span class="rating-count">' + T.ratingCountNone + '</span>';
+        document.getElementById('detailDesc').textContent = appDesc(app);
+        document.getElementById('detailPlatforms').innerHTML = (app.platforms || []).map(function(p){ return '<span>' + platformLabel(p) + '</span>'; }).join('');
+        document.getElementById('detailActions').innerHTML =
+          '<a class="btn btn-ghost" href="' + app.officialLink + '" target="_blank" rel="noopener">' + T.officialSite + '</a>' +
+          '<a class="btn btn-primary" href="' + primaryLink + '" target="_blank" rel="noopener">' + T.install + '</a>';
+        var storesEl = document.getElementById('detailStores');
+        var stores = detailStoreButtons(app);
+        storesEl.style.display = stores ? 'flex' : 'none';
+        storesEl.innerHTML = stores;
+        var promos = activePromos().filter(function(p){ return p.appId === app.id; });
+        var offersEl = document.getElementById('detailOffers');
+        if(promos.length > 0){
+          offersEl.style.display = 'block';
+          document.getElementById('detailOffersList').innerHTML = promos.map(promoCardHTML).join('');
+        } else {
+          offersEl.style.display = 'none';
+          document.getElementById('detailOffersList').innerHTML = '';
+        }
+        var revs = (typeof REVIEWS !== 'undefined') ? REVIEWS.filter(function(r){ return r.appId === app.id; }) : [];
+        document.getElementById('detailReviewsList').innerHTML = reviewsListHTML(app.id);
+        document.getElementById('detailReviewsHeading').textContent = T.reviewsHeading + ' (' + revs.length + ')';
+        document.getElementById('detailReviews').style.display = 'block';
+        var favBtn = document.getElementById('detailFav');
+        var fav = isFavoriteById(app.id);
+        favBtn.style.display = 'inline-block';
+        favBtn.setAttribute('data-app', app.id);
+        favBtn.classList.toggle('active', fav);
+        favBtn.setAttribute('aria-pressed', fav ? 'true' : 'false');
+        favBtn.textContent = fav ? T.favAdded : T.favAdd;
+        var revCta = document.getElementById('detailReviewCta');
+        revCta.href = FORMS.review;
+        revCta.textContent = T.reviewCta;
+        currentDetail = app.id;
+      }catch(e){ /* لا تكسر التصفح عند أي خطأ في التفاصيل */ }
+    }
+    function showDetails(appId){
+      renderDetails(appId);
+      var panel = document.getElementById('detailView');
+      if(panel){ panel.hidden = false; }
+      try{ document.body.classList.add('no-scroll'); }catch(e){}
+      var firstBtn = panel ? panel.querySelector('.detail-toolbar .btn') : null;
+      if(firstBtn && firstBtn.focus){ firstBtn.focus(); }
+    }
+    function closeDetails(){
+      try{ document.body.classList.remove('no-scroll'); }catch(e){}
+      var panel = document.getElementById('detailView');
+      if(panel){ panel.hidden = true; }
+      currentDetail = null;
+    }
+    function handleRoute(){
+      var id = hashAppId();
+      if(id){ openApp(id); return; }
+      if(currentDetail){
+        var closedId = currentDetail;
+        closeDetails();
+        trackAnalytics('app_back', { app_id: closedId });
+      }
+    }
+    function fallbackCopy(text, done){
+      try{
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try{ document.execCommand('copy'); done('copy'); }catch(e){ done('legacy'); }
+        document.body.removeChild(ta);
+      }catch(e){
+        done('legacy');
+      }
+    }
+    function shareApp(appId){
+      var app = findByAppId(appId);
+      if(!app){ return; }
+      var url = location.origin + location.pathname + '#app/' + encodeURIComponent(appId);
+      var finish = function(method){
+        trackAnalytics('share_app', { app_id: appId, method: method, page: '#app/' + appId });
+        var btn = document.getElementById('detailShare');
+        if(btn){
+          var original = btn.textContent;
+          btn.textContent = T.detailShareSuccess;
+          setTimeout(function(){ btn.textContent = original; }, 2000);
+        }
+      };
+      if(typeof navigator !== 'undefined' && navigator.share){
+        navigator.share({ title: appName(app), text: appDesc(app), url: url })
+          .then(function(){ finish('native'); })
+          .catch(function(){});
+        return;
+      }
+      if(typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url)
+          .then(function(){ finish('copy'); })
+          .catch(function(){ fallbackCopy(url, finish); });
+        return;
+      }
+      fallbackCopy(url, finish);
+    }
+
+    function openApp(appId){
+      try{ SyhStorage.addRecentlyViewed(appId); }
+      catch(e){}
+      renderRecent();
+      var app = findByAppId(appId);
+      if(currentDetail !== appId){
+        var current = (typeof window !== 'undefined' && window.location) ? window.location.hash : '';
+        if(current.indexOf('#app/') !== 0){ prevHash = current; }
+        setAppHash(appId);
+      }
+      if(app){
+        trackAnalytics('app_view', { app_id: appId, page: '#app/' + appId });
+      }
+      showDetails(appId);
     }
 
     /* ============ بطاقة العرض ============ */
@@ -1431,6 +1939,13 @@
         chip.innerHTML = '<span>' + cat.icon + '</span><span>' + catLabel(cat) + '</span>';
         wrap.appendChild(chip);
       });
+
+      var favChip = document.createElement('button');
+      favChip.type = 'button';
+      favChip.className = 'chip' + (activeCategory === 'favorites' ? ' active' : '');
+      favChip.dataset.key = 'favorites';
+      favChip.innerHTML = '<span>★</span><span>' + T.favLabel + '</span>';
+      wrap.appendChild(favChip);
     }
 
     /* ============ بطاقات التطبيقات ============ */
@@ -1462,7 +1977,7 @@
           '<span class="rating-count">(' + rating.count + ' ' + T.reviewCount(rating.count) + ')</span>'
         : '<span class="rating-count">' + T.ratingCountNone + '</span>';
       return '' +
-        '<article class="card" style="animation-delay:' + Math.min(index * 35, 400) + 'ms">' +
+        '<article class="card" data-app="' + app.id + '" style="animation-delay:' + Math.min(index * 35, 400) + 'ms">' +
           '<div class="card-top">' +
             '<div class="card-icon" aria-hidden="true">' + cat.icon + '</div>' +
             (app.verified ? '<span class="verified-tag">' + T.verified + '</span>' : '') +
@@ -1482,6 +1997,9 @@
           '<div class="card-actions">' +
             '<a class="btn btn-primary" href="' + primaryLink + '" target="_blank" rel="noopener">' + T.install + '</a>' +
             '<a class="btn btn-ghost" href="' + app.officialLink + '" target="_blank" rel="noopener">' + T.officialSite + '</a>' +
+          '</div>' +
+          '<div class="card-extra">' +
+            favoriteBtnHTML(app) +
           '</div>' +
           '<div class="card-meta">' +
             '<button class="toggle-reviews-btn" type="button" data-target="' + reviewsId + '">' + T.showReviews(rating.count) + '</button>' +
@@ -1515,7 +2033,7 @@
       var q = searchInput.value.trim().toLowerCase();
 
       var filtered = (typeof APPS !== 'undefined' ? APPS : []).filter(function(app){
-        var matchesCategory = activeCategory === 'all' || app.category === activeCategory;
+        var matchesCategory = activeCategory === 'all' || activeCategory === 'favorites' || app.category === activeCategory;
         if(!matchesCategory) return false;
         if(!q) return true;
         var cat = catInfo(app.category);
@@ -1527,9 +2045,24 @@
         return haystack.indexOf(q) !== -1;
       });
 
+      if(activeCategory === 'favorites'){
+        filtered = filtered.filter(function(app){
+          return isFavoriteById(app.id);
+        });
+      }
+
       var sorted = sortApps(filtered);
       grid.innerHTML = sorted.map(function(app, i){ return cardHTML(app, i); }).join('');
       resultCount.textContent = T.resultCount(sorted.length);
+      var emptyTitle = emptyState.querySelector('.empty-title');
+      var emptyText = emptyState.querySelectorAll('p')[1];
+      if(sorted.length === 0 && activeCategory === 'favorites'){
+        emptyTitle.textContent = T.favLabel;
+        emptyText.textContent = T.favEmpty;
+      } else {
+        emptyTitle.textContent = T.emptyTitle;
+        emptyText.textContent = T.emptyText;
+      }
       emptyState.style.display = sorted.length === 0 ? 'block' : 'none';
     }
 
@@ -1622,6 +2155,15 @@
             });
             return;
           }
+          var favBtn = e.target.closest('.fav-btn');
+          if(favBtn){
+            toggleFavorite(favBtn.dataset.app, favBtn);
+            return;
+          }
+          if(e.target.closest('.card-icon, h3, .cat-tag')){
+            openApp(card.dataset.app);
+            return;
+          }
         }
 
         var btn = e.target.closest('.toggle-reviews-btn');
@@ -1634,6 +2176,70 @@
         trackAnalytics(isOpen ? 'reviews_open' : 'reviews_close', {
           app_name: card ? card.querySelector('h3').textContent.trim() : '',
           review_count: count
+        });
+      });
+
+      var recentScroller = document.getElementById('recentScroller');
+      recentScroller.addEventListener('click', function(e){
+        var rc = e.target.closest('.recent-card');
+        if(rc){
+          var id = rc.getAttribute('data-app') || '';
+          trackAnalytics('recently_viewed_click', { app_id: id });
+          openApp(id);
+        }
+      });
+
+      /* ============ تفاصيل التطبيق + المشاركة ============ */
+      var detailView = document.getElementById('detailView');
+      var detailFav = document.getElementById('detailFav');
+      var navToPrev = function(){
+        var target = (prevHash && prevHash.indexOf('#app/') !== 0) ? prevHash : '';
+        try{ window.location.hash = target; }catch(e){ closeDetails(); }
+      };
+      document.getElementById('detailBack').addEventListener('click', navToPrev);
+      detailFav.addEventListener('click', function(){
+        toggleFavorite(detailFav.getAttribute('data-app'), detailFav);
+      });
+      document.getElementById('detailShare').addEventListener('click', function(){
+        if(currentDetail){ shareApp(currentDetail); }
+      });
+      detailView.addEventListener('click', function(e){
+        if(e.target === detailView){ navToPrev(); }
+      });
+      trackViaDelegate(detailView, '.detail-actions .btn-primary', 'select_content', function(){
+        var app = findByAppId(currentDetail);
+        return { content_type: 'install', app_id: currentDetail || '', app_name: app ? appName(app) : '' };
+      });
+      trackViaDelegate(detailView, '.detail-actions .btn-ghost', 'select_content', function(){
+        var app = findByAppId(currentDetail);
+        return { content_type: 'official_site', app_id: currentDetail || '', app_name: app ? appName(app) : '' };
+      });
+      trackViaDelegate(detailView, '.btn-store', 'app_store_click', function(el){
+        var app = findByAppId(currentDetail);
+        return { app_id: currentDetail || '', platform: el.getAttribute('data-platform') || '', app_name: app ? appName(app) : '' };
+      });
+      trackViaDelegate(detailView, '.detail-footer .btn-review', 'write_review', function(){
+        return { app_id: currentDetail || '' };
+      });
+      trackViaDelegate(detailView, '#detailOffersList .promo-footer a', 'promo_open', function(el){
+        var card = el.closest('.promo-card');
+        var coupon = card ? card.querySelector('.promo-code') : null;
+        return {
+          promo_title: card ? card.querySelector('h3').textContent.trim() : '',
+          promo_badge: card ? card.querySelector('.promo-badge').textContent.trim() : '',
+          coupon_code: coupon ? coupon.textContent.trim() : ''
+        };
+      });
+      detailView.addEventListener('click', function(e){
+        var copyBtn = e.target.closest('#detailOffersList .copy-btn');
+        if(!copyBtn){ return; }
+        if(!navigator.clipboard || !navigator.clipboard.writeText){ return; }
+        navigator.clipboard.writeText(copyBtn.dataset.code).then(function(){
+          trackAnalytics('promo_code_copy', { promo_code: copyBtn.dataset.code, value: copyBtn.dataset.code });
+          var original = copyBtn.textContent;
+          copyBtn.textContent = T.copied;
+          copyBtn.classList.add('copied');
+          setTimeout(function(){ copyBtn.textContent = original; copyBtn.classList.remove('copied'); }, 1500);
         });
       });
 
@@ -1685,12 +2291,15 @@
         if(e.target === modal){ closeContributeModal(); }
       });
       document.addEventListener('keydown', function(e){
-        if(e.key === 'Escape' && modal.classList.contains('open')){
-          closeContributeModal();
+        if(e.key === 'Escape'){
+          if(modal.classList.contains('open')){ closeContributeModal(); return; }
+          if(detailView && !detailView.hidden){ navToPrev(); }
         }
       });
 
       applyLang(lang);
+      window.addEventListener('hashchange', handleRoute);
+      handleRoute();
     }
 
     init();

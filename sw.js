@@ -1,5 +1,5 @@
 /* SyrDevHub Service Worker — v1.0.0 */
-var CACHE_NAME = 'syh-cache-v1';
+var CACHE_NAME = 'syh-cache-v3';
 var CORE_ASSETS = [
   './',
   './index.html',
@@ -9,7 +9,8 @@ var CORE_ASSETS = [
   './icons/icon-512-maskable.png',
   './apps-data.js',
   './promotions-data.js',
-  './reviews-data.js'
+  './reviews-data.js',
+  './storage.js'
 ];
 
 self.addEventListener('install', function(event){
