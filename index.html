@@ -190,29 +190,55 @@
   }
   .nav-links a:hover{ color:var(--primary); background:var(--primary-soft); }
   .nav-actions{ display:flex; gap:8px; flex-shrink:0; }
-  .app-dl-btn{
-    cursor:pointer;
-    border:1px solid var(--border);
-    background:var(--surface-2);
-    color:var(--text);
-    border-radius:999px;
-    height:38px;
-    padding:0 14px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    font-size:0.82rem;
-    font-weight:700;
-    text-decoration:none;
-    font-family:inherit;
-    transition: transform .15s ease, border-color .15s ease, background-color .2s ease;
+  /* ------ شارات النسخ (APK / PWA) — الزاوية اليمنى السفلية ------ */
+  .app-badges{
+    position:fixed;
+    right:12px; bottom:88px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    z-index:60;
+    pointer-events:none;
   }
-  .app-dl-btn:hover{ border-color:var(--primary); color:var(--primary); transform:translateY(-1px); }
-  .app-dl-btn:active{ transform:scale(0.95); }
-  .app-dl-btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
-  @media (max-width:480px){
-    .app-dl-btn .dl-label{ display:none; }
+  .app-badges:not([hidden]) > *{ pointer-events:auto; }
+  .app-badge{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:9px 14px;
+    box-shadow:var(--shadow-lg);
+    color:var(--text);
+    text-decoration:none;
+    cursor:pointer;
+    font:inherit;
+    text-align:start;
+    animation:fadeUp .4s ease both;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .app-badge:hover{ transform:translateY(-2px); border-color:var(--primary); box-shadow:var(--shadow-lg); }
+  .app-badge:active{ transform:scale(0.97); }
+  .app-badge:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  .app-badge[hidden]{ display:none; }
+  .app-badge .ab-ico{
+    width:34px; height:34px; flex-shrink:0;
+    border-radius:9px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.15rem;
+    background:var(--primary-soft);
+  }
+  .app-badge.pwa-badge .ab-ico{ background:#1B2A4A; }
+  .app-badge .ab-text{ display:flex; flex-direction:column; line-height:1.3; }
+  .app-badge .ab-title{ font-size:.84rem; font-weight:800; }
+  .app-badge .ab-sub{ font-size:.7rem; color:var(--text-soft); }
+  .install-steps{ margin:14px 0 18px; padding-inline-start:22px; display:flex; flex-direction:column; gap:10px; }
+  .install-steps li{ font-size:0.9rem; color:var(--text); line-height:1.5; }
+  @media (max-width:600px){
+    .app-badges{ right:10px; bottom:74px; }
+    .app-badge{ padding:8px 11px; }
+    .app-badge .ab-sub{ font-size:.66rem; }
   }
   .icon-btn{
     cursor:pointer;
@@ -1378,10 +1404,6 @@
     </ul>
 
     <div class="nav-actions">
-      <a class="app-dl-btn" id="apkDownload" href="#" target="_blank" rel="noopener" hidden>
-        <span aria-hidden="true">📥</span>
-        <span class="dl-label" data-i18n="apkDownload">تحميل التطبيق</span>
-      </a>
       <button id="langToggle" class="icon-btn" type="button" data-action="lang">EN</button>
       <button id="themeToggle" class="icon-btn" type="button" data-action="theme">
         <span class="icon-sun" aria-hidden="true">☀️</span>
@@ -1517,8 +1539,6 @@
       <button class="sheet-opt" type="button" id="sheetLang"><span class="so-ico" aria-hidden="true">🌐</span><span data-i18n="moreLanguage">English</span></button>
       <button class="sheet-opt" type="button" id="sheetContribute"><span class="so-ico" aria-hidden="true">💬</span><span data-i18n="moreContribute">ساهم معنا</span></button>
       <button class="sheet-opt" type="button" id="sheetClearRecent"><span class="so-ico" aria-hidden="true">🧹</span><span data-i18n="moreClearRecent">مسح سجل التصفح</span></button>
-      <a class="sheet-opt" id="sheetApk" href="#" target="_blank" rel="noopener" hidden><span class="so-ico" aria-hidden="true">📥</span><span data-i18n="apkDownload">تحميل التطبيق</span></a>
-      <button class="sheet-opt" type="button" id="sheetInstall" hidden><span class="so-ico" aria-hidden="true">📲</span><span data-i18n="moreInstall">تثبيت التطبيق</span></button>
     </div>
   </div>
 </div>
@@ -1633,6 +1653,40 @@
 <script src="apps-data.js"></script>
 <script src="promotions-data.js"></script>
 <script src="reviews-data.js"></script>
+
+<!-- شارات النسخ: APK وأندرويد + PWA للآيفون -->
+<div class="app-badges" id="appBadges" hidden>
+  <a class="app-badge apk-badge" id="badgeApk" href="#" target="_blank" rel="noopener" hidden>
+    <span class="ab-ico" aria-hidden="true">🤖</span>
+    <span class="ab-text">
+      <span class="ab-title" id="badgeApkTitle" data-i18n="apkBadgeTitle">تطبيق أندرويد</span>
+      <span class="ab-sub" data-i18n="apkBadgeSub">نسخة APK — اضغط للتحميل</span>
+    </span>
+  </a>
+  <button class="app-badge pwa-badge" id="badgePwa" type="button" hidden>
+    <span class="ab-ico" aria-hidden="true">🍎</span>
+    <span class="ab-text">
+      <span class="ab-title" data-i18n="pwaBadgeTitle">نسخة PWA</span>
+      <span class="ab-sub" id="badgePwaSub" data-i18n="pwaBadgeSub">يُثبَّت على الآيفون</span>
+    </span>
+  </button>
+</div>
+
+<!-- نافذة تعليمات تثبيت PWA -->
+<div class="modal-overlay" id="installModal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="installModalTitle">
+    <button class="modal-close" id="installModalClose" type="button" data-i18n-aria="modalCloseAria">×</button>
+    <h2 id="installModalTitle" data-i18n="installModalTitle">تثبيت الموقع كتطبيق</h2>
+    <p class="modal-sub" data-i18n="installModalSub">يمكنك الاحتفاظ بالموقع على شاشتك الرئيسية كتطبيق مستقل.</p>
+    <ol class="install-steps" id="installSteps">
+      <li data-i18n="installStepShare">اضغط زر المشاركة في المتصفح</li>
+      <li data-i18n="installStepHome">اختر "إضافة إلى الشاشة الرئيسية"</li>
+      <li data-i18n="installStepConfirm">اضغط "إضافة" للتأكيد</li>
+    </ol>
+    <button class="btn btn-primary" id="installGotIt" type="button" data-i18n="installGotIt">فهمت</button>
+  </div>
+</div>
+
 <script>
   (function(){
     'use strict';
@@ -1717,8 +1771,17 @@
         moreLanguage:"English",
         moreContribute:"ساهم معنا",
         moreClearRecent:"مسح سجل التصفح",
-        apkDownload:"تحميل التطبيق",
-        moreInstall:"تثبيت التطبيق",
+        apkBadgeTitle:"تطبيق أندرويد",
+        apkBadgeSub:"نسخة APK — اضغط للتحميل",
+        pwaBadgeTitle:"نسخة PWA",
+        pwaBadgeSub:"يُثبَّت على الآيفون",
+        pwaBadgeSubAndroid:"نسخة ويب قابلة للتثبيت",
+        installModalTitle:"تثبيت الموقع كتطبيق",
+        installModalSub:"يمكنك الاحتفاظ بالموقع على شاشتك الرئيسية كتطبيق مستقل.",
+        installStepShare:"اضغط زر المشاركة في المتصفح",
+        installStepHome:"اختر \"إضافة إلى الشاشة الرئيسية\"",
+        installStepConfirm:"اضغط \"إضافة\" للتأكيد",
+        installGotIt:"فهمت",
         compareSheetTitle:"المقارنة",
         compareEmpty:"لم تختر أي تطبيق بعد — اضغط ⇄ على بطاقة أي تطبيق لإضافته إلى المقارنة.",
         compareAdd:"⇄ قارن",
@@ -1831,7 +1894,17 @@
         moreContribute:"Contribute",
         moreClearRecent:"Clear history",
         apkDownload:"Download app",
-        moreInstall:"Install app",
+        apkBadgeTitle:"Android app",
+        apkBadgeSub:"APK build — tap to download",
+        pwaBadgeTitle:"PWA build",
+        pwaBadgeSub:"Installable on iPhone",
+        pwaBadgeSubAndroid:"Installable web build",
+        installModalTitle:"Install the site as an app",
+        installModalSub:"Keep the site on your home screen as a standalone app.",
+        installStepShare:"Tap the browser share button",
+        installStepHome:"Choose \"Add to Home Screen\"",
+        installStepConfirm:"Tap \"Add\" to confirm",
+        installGotIt:"Got it",
         compareSheetTitle:"Compare",
         compareEmpty:"No apps selected yet — tap ⇄ on any app card to add it to your comparison.",
         compareAdd:"⇄ Compare",
@@ -1893,13 +1966,53 @@
     var T;
     /* ⚡ رابط تحميل تطبيق الأندرويد (APK) — ضع رابط التحميل هنا.
        عند ترك القيمة فارغة يختفي زر التحميل تلقائيًا حتى تضعه. */
-    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrDevHub/refs/heads/main/SyrDevHub-v1.0.apk';
+    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrDevHub/refs/heads/main/SyrDevHub-v1.01.apk';
     var FORMS = {
       app:    'https://docs.google.com/forms/d/e/1FAIpQLSc2EqvL7lU0jqXP4K1MkWH5dw3OwEW_VAHkV-25sS4ZKEZ8Hg/viewform?usp=dialog',
       promo:  'https://docs.google.com/forms/d/e/1FAIpQLSfbhwr2pEJ6MoOIhSiiGndtRHQQTIWFPkCQMgwhk1M-xnfEPA/viewform?usp=dialog',
       review: 'https://docs.google.com/forms/d/e/1FAIpQLSdan0WxJf-kAHXRJi40AIbyJ8llfWHACyreEKJU_nlGi09i1A/viewform?usp=dialog'
     };
     var CONTRIBUTE_FORM = FORMS.app;
+
+    /* ============ شارات النسخ (APK / PWA) ============ */
+    var DEVICE_IS_ANDROID = /Android/i.test((typeof navigator !== 'undefined') ? (navigator.userAgent || '') : '');
+    var DEVICE_IS_IOS = /iP(hone|od|ad)/i.test((typeof navigator !== 'undefined') ? (navigator.userAgent || '') : '');
+    function isAppInstalled(){
+      try{
+        if(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches){ return true; }
+        if(window.navigator && window.navigator.standalone === true){ return true; }
+        if(localStorage.getItem('syh-installed') === '1'){ return true; }
+      }catch(e){}
+      return false;
+    }
+    function syncAppBadges(){
+      try{
+        var badges = document.getElementById('appBadges');
+        var badgeApk = document.getElementById('badgeApk');
+        var badgePwa = document.getElementById('badgePwa');
+        if(!badges){ return; }
+        var any = false;
+        if(badgeApk){
+          var showApk = !!APK_LINK && DEVICE_IS_ANDROID && !isAppInstalled();
+          if(showApk){
+            badgeApk.href = APK_LINK;
+            badgeApk.hidden = false;
+            any = true;
+          } else { badgeApk.hidden = true; }
+        }
+        if(badgePwa){
+          var showPwa = !isAppInstalled();
+          if(showPwa){
+            var sub = document.getElementById('badgePwaSub');
+            var curT = (typeof I18N !== 'undefined' && I18N[lang]) ? I18N[lang] : T;
+            if(sub){ sub.textContent = DEVICE_IS_IOS ? curT.pwaBadgeSub : curT.pwaBadgeSubAndroid; }
+            badgePwa.hidden = false;
+            any = true;
+          } else { badgePwa.hidden = true; }
+        }
+        badges.hidden = !any;
+      }catch(e){ /* لا تُوقف الشارات الصفحة عند أي خطأ */ }
+    }
 
     /* ============ الحالة والواجهة ============ */
     function applyTheme(next){
@@ -1946,6 +2059,7 @@
         el.textContent = T.langLabel;
         el.setAttribute('aria-label', T.langAria);
       });
+      syncAppBadges();
       document.getElementById('footerRights').textContent = T.footerRights(new Date().getFullYear());
 
       var sortSel = document.getElementById('sortSel');
@@ -2852,21 +2966,59 @@
     function init(){
       T = I18N[lang];
 
-      /* زر تحميل التطبيق (APK) — يظهر فقط عند وضع رابط في APK_LINK */
-      var apkTop = document.getElementById('apkDownload');
-      var apkSheet = document.getElementById('sheetApk');
-      if(APK_LINK){
-        [apkTop, apkSheet].forEach(function(el){
-          if(!el){ return; }
-          el.hidden = false;
-          el.href = APK_LINK;
+      /* شارات النسخ — APK (أندرويد) + PWA (الآيفون) أسفل يمين الموقع */
+      var badgeApk = document.getElementById('badgeApk');
+      var badgePwa = document.getElementById('badgePwa');
+      var badgesBox = document.getElementById('appBadges');
+      var deferredInstall = null;
+      window.addEventListener('beforeinstallprompt', function(e){
+        if(e && e.preventDefault){ e.preventDefault(); }
+        deferredInstall = e;
+        if(badgesBox){ badgesBox.classList.add('installable'); }
+      });
+      window.addEventListener('appinstalled', function(){
+        try{ localStorage.setItem('syh-installed', '1'); }catch(e){}
+        trackAnalytics('install_complete', { language: lang });
+        syncAppBadges();
+      });
+      var openInstallModal = function(){
+        try{
+          var m = document.getElementById('installModal');
+          if(m && !m.classList.contains('open')){
+            m.classList.add('open');
+            var got = document.getElementById('installGotIt');
+            if(got && got.focus){ got.focus(); }
+            trackAnalytics('install_guide_open', { language: lang });
+          }
+        }catch(e){}
+      };
+      var closeInstallModal = function(){
+        try{
+          var m = document.getElementById('installModal');
+          if(m){ m.classList.remove('open'); }
+        }catch(e){}
+      };
+      if(badgeApk){
+        badgeApk.addEventListener('click', function(){
+          trackAnalytics('apk_download', { method: 'badge', platform: 'android', language: lang });
         });
-        var apkClick = function(method){
-          trackAnalytics('apk_download', { method: method, language: lang });
-        };
-        apkTop.addEventListener('click', function(){ apkClick('topbar'); });
-        apkSheet.addEventListener('click', function(){ apkClick('more_sheet'); });
       }
+      if(badgePwa){
+        badgePwa.addEventListener('click', function(){
+          trackAnalytics('install_prompt', { action: 'click', source: 'badge', language: lang });
+          if(deferredInstall && deferredInstall.prompt){ deferredInstall.prompt(); }
+          else { openInstallModal(); }
+        });
+      }
+      document.getElementById('installGotIt').addEventListener('click', closeInstallModal);
+      document.getElementById('installModalClose').addEventListener('click', closeInstallModal);
+      var installModalBox = document.getElementById('installModal');
+      if(installModalBox){
+        installModalBox.addEventListener('click', function(e){
+          if(e.target === installModalBox){ closeInstallModal(); }
+        });
+      }
+      syncAppBadges();
 
       var themeBtn = document.getElementById('themeToggle');
       themeBtn.addEventListener('click', function(){
@@ -3148,25 +3300,6 @@
         trackAnalytics('clear_recent', { language: lang });
         try{ document.getElementById('apps').scrollIntoView({ behavior:'smooth', block:'start' }); }catch(e){}
       });
-      /* زر تثبيت التطبيق (PWA) — يظهر فقط عندما يتيح المتصفح التثبيت */
-      var deferredInstall = null;
-      var sheetInstall = document.getElementById('sheetInstall');
-      window.addEventListener('beforeinstallprompt', function(e){
-        if(e && e.preventDefault){ e.preventDefault(); }
-        deferredInstall = e;
-        if(sheetInstall){ sheetInstall.hidden = false; }
-      });
-      sheetInstall.addEventListener('click', function(){
-        trackAnalytics('install_prompt', { action: 'click', language: lang });
-        if(deferredInstall && deferredInstall.prompt){
-          deferredInstall.prompt();
-        }
-      });
-      window.addEventListener('appinstalled', function(){
-        localStorage.setItem('syh-installed', '1');
-        trackAnalytics('install_complete', { language: lang });
-        if(sheetInstall){ sheetInstall.hidden = true; }
-      });
 
       /* ============ نظام المقارنة ============ */
       var cmpBar = document.getElementById('cmpBar');
@@ -3273,6 +3406,8 @@
         if(e.key === 'Escape'){
           if(lastSheetOpen){ closeSheet(); return; }
           if(modal.classList.contains('open')){ closeContributeModal(); return; }
+          var iw = document.getElementById('installModal');
+          if(iw && iw.classList.contains('open')){ closeInstallModal(); return; }
           if(compareOpen){ closeCompareView(); return; }
           if(detailView && !detailView.hidden){ navToPrev(); }
         }
