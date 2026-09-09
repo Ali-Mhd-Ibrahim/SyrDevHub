@@ -126,6 +126,9 @@
   a{ color:inherit; }
   ::selection{ background:var(--primary); color:#fff; }
 
+  button, a, [role="button"], .recent-card{ touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+  button, a{ -webkit-touch-callout:none; }
+
   *::-webkit-scrollbar{ width:10px; height:10px; }
   *::-webkit-scrollbar-thumb{ background:var(--border); border-radius:999px; }
   *::-webkit-scrollbar-track{ background:transparent; }
@@ -466,6 +469,8 @@
     opacity:0;
     transform:translateY(10px);
     animation:fadeUp .45s ease forwards;
+    content-visibility:auto;
+    contain-intrinsic-size:auto 230px;
     transition: transform .15s ease, box-shadow .15s ease, background-color .25s ease, border-color .25s ease;
   }
   .card:hover{ transform:translateY(-3px); box-shadow:var(--shadow); }
@@ -1511,7 +1516,9 @@
       <button class="sheet-opt" type="button" id="sheetTheme"><span class="so-ico" aria-hidden="true">🌙</span><span id="sheetThemeLabel" data-i18n="moreTheme">الوضع الليلي</span></button>
       <button class="sheet-opt" type="button" id="sheetLang"><span class="so-ico" aria-hidden="true">🌐</span><span data-i18n="moreLanguage">English</span></button>
       <button class="sheet-opt" type="button" id="sheetContribute"><span class="so-ico" aria-hidden="true">💬</span><span data-i18n="moreContribute">ساهم معنا</span></button>
+      <button class="sheet-opt" type="button" id="sheetClearRecent"><span class="so-ico" aria-hidden="true">🧹</span><span data-i18n="moreClearRecent">مسح سجل التصفح</span></button>
       <a class="sheet-opt" id="sheetApk" href="#" target="_blank" rel="noopener" hidden><span class="so-ico" aria-hidden="true">📥</span><span data-i18n="apkDownload">تحميل التطبيق</span></a>
+      <button class="sheet-opt" type="button" id="sheetInstall" hidden><span class="so-ico" aria-hidden="true">📲</span><span data-i18n="moreInstall">تثبيت التطبيق</span></button>
     </div>
   </div>
 </div>
@@ -1709,7 +1716,9 @@
         moreThemeLight:"الوضع النهاري",
         moreLanguage:"English",
         moreContribute:"ساهم معنا",
+        moreClearRecent:"مسح سجل التصفح",
         apkDownload:"تحميل التطبيق",
+        moreInstall:"تثبيت التطبيق",
         compareSheetTitle:"المقارنة",
         compareEmpty:"لم تختر أي تطبيق بعد — اضغط ⇄ على بطاقة أي تطبيق لإضافته إلى المقارنة.",
         compareAdd:"⇄ قارن",
@@ -1820,7 +1829,9 @@
         moreThemeLight:"Light mode",
         moreLanguage:"العربية",
         moreContribute:"Contribute",
+        moreClearRecent:"Clear history",
         apkDownload:"Download app",
+        moreInstall:"Install app",
         compareSheetTitle:"Compare",
         compareEmpty:"No apps selected yet — tap ⇄ on any app card to add it to your comparison.",
         compareAdd:"⇄ Compare",
@@ -2294,7 +2305,7 @@
     function setAppHash(id){
       try{
         var h = '#app/' + encodeURIComponent(id);
-        if(history.replaceState){ history.replaceState(null, '', h); }
+        if(history.pushState){ history.pushState(null, '', h); }
         else{ window.location.hash = h; }
       }catch(e){
         try{ window.location.hash = '#app/' + encodeURIComponent(id); }catch(e2){}
@@ -2446,7 +2457,11 @@
     }
     function handleRoute(){
       var id = hashAppId();
-      if(id){ openApp(id); return; }
+      if(id){
+        if(compareOpen){ closeCompareView(); }
+        openApp(id);
+        return;
+      }
       if(hashIsCompare()){
         showCompareView();
         return;
@@ -2552,7 +2567,7 @@
       catch(e){}
       renderRecent();
       var app = findByAppId(appId);
-      if(currentDetail !== appId){
+      if(hashAppId() !== appId){
         var current = (typeof window !== 'undefined' && window.location) ? window.location.hash : '';
         if(current.indexOf('#app/') !== 0){ prevHash = current; }
         setAppHash(appId);
@@ -2867,18 +2882,22 @@
 
       var searchInput = document.getElementById('search');
       searchInput.addEventListener('input', function(){
-        var v = searchInput.value.trim();
-        render();
-        if(v !== searchInput._lastSearch){
-          searchInput._lastSearch = v;
-          if(v){
-            trackAnalytics('search', {
-              search_term: v,
-              result_count: lastSearchCount,
-              has_results: lastSearchCount > 0
-            });
+        var inp = this;
+        if(inp._debounceTimer){ clearTimeout(inp._debounceTimer); }
+        inp._debounceTimer = setTimeout(function(){
+          render();
+          var v = inp.value.trim();
+          if(v !== inp._lastSearch){
+            inp._lastSearch = v;
+            if(v){
+              trackAnalytics('search', {
+                search_term: v,
+                result_count: lastSearchCount,
+                has_results: lastSearchCount > 0
+              });
+            }
           }
-        }
+        }, 120);
       });
 
       var sortSel = document.getElementById('sortSel');
@@ -3118,6 +3137,35 @@
       document.getElementById('sheetContribute').addEventListener('click', function(){
         closeSheet();
         openContributeModal();
+      });
+      var sheetClearRecent = document.getElementById('sheetClearRecent');
+      sheetClearRecent.addEventListener('click', function(){
+        closeSheet();
+        try{
+          if(typeof SyhStorage !== 'undefined' && SyhStorage.clearRecentlyViewed){ SyhStorage.clearRecentlyViewed(); }
+        }catch(err){}
+        renderRecent();
+        trackAnalytics('clear_recent', { language: lang });
+        try{ document.getElementById('apps').scrollIntoView({ behavior:'smooth', block:'start' }); }catch(e){}
+      });
+      /* زر تثبيت التطبيق (PWA) — يظهر فقط عندما يتيح المتصفح التثبيت */
+      var deferredInstall = null;
+      var sheetInstall = document.getElementById('sheetInstall');
+      window.addEventListener('beforeinstallprompt', function(e){
+        if(e && e.preventDefault){ e.preventDefault(); }
+        deferredInstall = e;
+        if(sheetInstall){ sheetInstall.hidden = false; }
+      });
+      sheetInstall.addEventListener('click', function(){
+        trackAnalytics('install_prompt', { action: 'click', language: lang });
+        if(deferredInstall && deferredInstall.prompt){
+          deferredInstall.prompt();
+        }
+      });
+      window.addEventListener('appinstalled', function(){
+        localStorage.setItem('syh-installed', '1');
+        trackAnalytics('install_complete', { language: lang });
+        if(sheetInstall){ sheetInstall.hidden = true; }
       });
 
       /* ============ نظام المقارنة ============ */
