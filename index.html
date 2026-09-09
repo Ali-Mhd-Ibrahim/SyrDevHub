@@ -190,21 +190,13 @@
   }
   .nav-links a:hover{ color:var(--primary); background:var(--primary-soft); }
   .nav-actions{ display:flex; gap:8px; flex-shrink:0; }
-  /* ------ شارات النسخ (APK / PWA) — مثبتتان أسفل يمين الشاشة ------ */
+  /* ------ شارات النسخ (APK / PWA) — داخل تذييل الصفحة، أسفل يمين الموقع ------ */
   .app-badges{
-    position:fixed;
-    right:14px; bottom:14px;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-end;
-    gap:8px;
-    z-index:60;
-    pointer-events:none;
+    display:block;
+    text-align:right;
+    margin-bottom:16px;
   }
   .app-badges[hidden]{ display:none !important; }
-  .app-badges > *{
-    pointer-events:auto;
-  }
   .app-badge{
     display:inline-flex;
     align-items:center;
@@ -213,7 +205,7 @@
     border:1px solid var(--border);
     border-radius:14px;
     padding:9px 14px;
-    box-shadow:var(--shadow-lg);
+    box-shadow:var(--shadow);
     color:var(--text);
     text-decoration:none;
     cursor:pointer;
@@ -241,7 +233,6 @@
   .install-steps{ margin:14px 0 18px; padding-inline-start:22px; display:flex; flex-direction:column; gap:10px; }
   .install-steps li{ font-size:0.9rem; color:var(--text); line-height:1.5; }
   @media (max-width:600px){
-    .app-badges{ right:8px; bottom:76px; z-index:82; }
     .app-badge{ padding:8px 11px; }
     .app-badge .ab-sub{ font-size:.66rem; }
   }
@@ -1503,6 +1494,22 @@
 <div class="divider-star" aria-hidden="true">۞</div>
 
 <footer>
+  <div class="app-badges" id="appBadges" hidden>
+    <a class="app-badge apk-badge" id="badgeApk" href="#" target="_blank" rel="noopener" hidden>
+      <span class="ab-ico" aria-hidden="true">🤖</span>
+      <span class="ab-text">
+        <span class="ab-title" id="badgeApkTitle" data-i18n="apkBadgeTitle">تطبيق أندرويد</span>
+        <span class="ab-sub" data-i18n="apkBadgeSub">نسخة APK — اضغط للتحميل</span>
+      </span>
+    </a>
+    <button class="app-badge pwa-badge" id="badgePwa" type="button" hidden>
+      <span class="ab-ico" aria-hidden="true">🍎</span>
+      <span class="ab-text">
+        <span class="ab-title" data-i18n="pwaBadgeTitle">نسخة PWA</span>
+        <span class="ab-sub" id="badgePwaSub" data-i18n="pwaBadgeSub">يُثبَّت على الآيفون</span>
+      </span>
+    </button>
+  </div>
   <p class="footer-brand">SyrDevHub</p>
   <p data-i18n="footerNote">مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق</p>
   <p><a href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener" data-i18n="footerSource">شاهد المصدر على GitHub</a></p>
@@ -1658,24 +1665,6 @@
 <script src="apps-data.js"></script>
 <script src="promotions-data.js"></script>
 <script src="reviews-data.js"></script>
-
-<!-- شارات النسخ: APK وأندرويد + PWA للآيفون -->
-<div class="app-badges" id="appBadges" hidden>
-  <a class="app-badge apk-badge" id="badgeApk" href="#" target="_blank" rel="noopener" hidden>
-    <span class="ab-ico" aria-hidden="true">🤖</span>
-    <span class="ab-text">
-      <span class="ab-title" id="badgeApkTitle" data-i18n="apkBadgeTitle">تطبيق أندرويد</span>
-      <span class="ab-sub" data-i18n="apkBadgeSub">نسخة APK — اضغط للتحميل</span>
-    </span>
-  </a>
-  <button class="app-badge pwa-badge" id="badgePwa" type="button" hidden>
-    <span class="ab-ico" aria-hidden="true">🍎</span>
-    <span class="ab-text">
-      <span class="ab-title" data-i18n="pwaBadgeTitle">نسخة PWA</span>
-      <span class="ab-sub" id="badgePwaSub" data-i18n="pwaBadgeSub">يُثبَّت على الآيفون</span>
-    </span>
-  </button>
-</div>
 
 <!-- نافذة تعليمات تثبيت PWA -->
 <div class="modal-overlay" id="installModal">
@@ -1984,8 +1973,14 @@
     var DEVICE_IS_IOS = /iP(hone|od|ad)/i.test((typeof navigator !== 'undefined') ? (navigator.userAgent || '') : '');
     function isAppInstalled(){
       try{
-        /* مثبّتة فعلياً الآن: نافذة مستقلة (PWA) — لا حاجة لشارات التثبيت */
-        if(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches){ return true; }
+        /* مثبّتة فعلياً الآن: نافذة مستقلة (PWA) بكل أنماطها — لا حاجة لشارات التثبيت */
+        if(window.matchMedia){
+          var standalone = window.matchMedia('(display-mode: standalone)').matches ||
+            window.matchMedia('(display-mode: minimal-ui)').matches ||
+            window.matchMedia('(display-mode: fullscreen)').matches ||
+            window.matchMedia('(display-mode: window-controls-overlay)').matches;
+          if(standalone){ return true; }
+        }
         if(window.navigator && window.navigator.standalone === true){ return true; }
         /* داخل النسخة المثبّتة (APK): يُفتح الموقع في WebView أو ملف محلي */
         var winLoc = (typeof window !== 'undefined' && window.location) ? window.location : null;
@@ -3447,6 +3442,13 @@
         /* تجاهل أخطاء التسجيل — لا يجب أن تعطل الموقع */
       });
     });
+    /* تحديث تلقائي: عندما يثبّت المتصفح نسخة جديدة من sw.js (بعد رفع CACHE_NAME)
+       يتم تحميل أحدث الصفحات والبيانات فوراً دون مسح يدوي لأي شيء. */
+    if(navigator.serviceWorker.controller){
+      navigator.serviceWorker.addEventListener('controllerchange', function(){
+        window.location.reload();
+      });
+    }
   }
 </script>
 
