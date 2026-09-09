@@ -6,6 +6,7 @@
 <title>SyrHub — دليل التطبيقات السورية</title>
 <meta name="description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
 <meta name="theme-color" content="#1B2A4A">
+<meta name="color-scheme" content="light dark">
 
 <link rel="icon" type="image/png" href="SyrHub-Icon.png">
 <link rel="apple-touch-icon" href="SyrHub-Icon.png">
@@ -29,6 +30,8 @@
 <meta name="twitter:title" content="SyrHub — دليل التطبيقات السورية">
 <meta name="twitter:description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
 
+<script type="application/ld+json" id="seoJsonLd"></script>
+
 <!-- Google Analytics -->
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
@@ -51,6 +54,8 @@
     l = l === 'en' ? 'en' : 'ar';
     r.setAttribute('lang', l);
     r.setAttribute('dir', l === 'en' ? 'ltr' : 'rtl');
+    var tc = document.querySelector('meta[name="theme-color"]');
+    if(tc){ tc.setAttribute('content', r.getAttribute('data-theme') === 'dark' ? '#0a101d' : '#1B2A4A'); }
   })();
 </script>
 
@@ -193,21 +198,23 @@
   /* ------ شارات النسخ (APK / PWA) — بجانب بعضهما داخل تذييل الصفحة ------ */
   .app-badges{
     display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    justify-content:flex-start;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    align-items:stretch;
     gap:10px;
     margin-bottom:16px;
   }
   .app-badges[hidden]{ display:none !important; }
   .app-badge{
-    display:inline-flex;
+    flex:1 1 0;
+    min-width:0;
+    display:flex;
     align-items:center;
     gap:10px;
     background:var(--surface);
     border:1px solid var(--border);
     border-radius:14px;
-    padding:9px 14px;
+    padding:10px 14px;
     box-shadow:var(--shadow);
     color:var(--text);
     text-decoration:none;
@@ -222,21 +229,23 @@
   .app-badge:active{ transform:scale(0.97); }
   .app-badge:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
   .app-badge .ab-ico{
-    width:34px; height:34px; flex-shrink:0;
+    width:36px; height:36px; flex-shrink:0;
     border-radius:9px;
     display:flex; align-items:center; justify-content:center;
     font-size:1.15rem;
     background:var(--primary-soft);
   }
   .app-badge.pwa-badge .ab-ico{ background:#1B2A4A; }
-  .app-badge .ab-text{ display:flex; flex-direction:column; line-height:1.3; }
+  .app-badge .ab-text{ display:flex; flex-direction:column; line-height:1.3; min-width:0; }
   .app-badge .ab-title{ font-size:.84rem; font-weight:800; }
   .app-badge .ab-sub{ font-size:.7rem; color:var(--text-soft); }
   .install-steps{ margin:14px 0 18px; padding-inline-start:22px; display:flex; flex-direction:column; gap:10px; }
   .install-steps li{ font-size:0.9rem; color:var(--text); line-height:1.5; }
-  @media (max-width:600px){
-    .app-badge{ padding:8px 11px; }
-    .app-badge .ab-sub{ font-size:.66rem; }
+  @media (max-width:420px){
+    .app-badge{ padding:9px 10px; gap:8px; }
+    .app-badge .ab-ico{ width:30px; height:30px; font-size:1rem; }
+    .app-badge .ab-title{ font-size:.74rem; }
+    .app-badge .ab-sub{ font-size:.6rem; }
   }
   .icon-btn{
     cursor:pointer;
@@ -439,6 +448,44 @@
   }
   .chip:active{ transform:scale(0.96); }
 
+  /* -------- فلاتر المنصات -------- */
+  .filters-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 18px;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  .filter-group{ display:flex; align-items:center; gap:8px; }
+  .filter-label{ color:var(--text-soft); font-size:0.85rem; white-space:nowrap; }
+  .filter-options{ display:flex; gap:6px; flex-wrap:wrap; }
+  .mini-chip{
+    cursor:pointer;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text-soft);
+    padding:5px 13px;
+    border-radius:999px;
+    font-size:0.8rem;
+    font-weight:600;
+    transition: all .15s ease;
+  }
+  .mini-chip:hover{ border-color:var(--primary); color:var(--text); }
+  .mini-chip.active{ background:var(--primary); border-color:var(--primary); color:var(--on-primary); }
+  .mini-chip:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  .mini-chip:active{ transform:scale(0.96); }
+  .mini-check{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-size:0.87rem;
+    font-weight:500;
+    color:var(--text);
+    cursor:pointer;
+    user-select:none;
+  }
+  .mini-check input{ width:16px; height:16px; accent-color:var(--primary); cursor:pointer; }
+
   /* -------- الإحصائيات -------- */
   .stats-strip{
     display:grid;
@@ -489,15 +536,15 @@
     padding:20px;
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:12px;
     opacity:0;
     transform:translateY(10px);
     animation:fadeUp .45s ease forwards;
     content-visibility:auto;
-    contain-intrinsic-size:auto 230px;
+    contain-intrinsic-size:auto 250px;
     transition: transform .15s ease, box-shadow .15s ease, background-color .25s ease, border-color .25s ease;
   }
-  .card:hover{ transform:translateY(-3px); box-shadow:var(--shadow); }
+  .card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:rgba(46,156,151,0.45); }
   .card-top{
     display:flex;
     align-items:flex-start;
@@ -509,14 +556,23 @@
     background:var(--primary-soft);
     width:44px; height:44px;
     display:flex; align-items:center; justify-content:center;
-    border-radius:10px;
+    border-radius:12px;
     flex-shrink:0;
+    overflow:hidden;
     transition: background-color .25s ease;
+  }
+  .app-icon{
+    width:44px; height:44px;
+    border-radius:12px;
+    object-fit:cover;
+    display:block;
+    background:var(--primary-soft);
   }
   .card h3{
     margin:0;
-    font-size:1.1rem;
+    font-size:1.12rem;
     font-weight:800;
+    line-height:1.3;
   }
   .cat-tag{
     display:inline-block;
@@ -542,16 +598,19 @@
     color:var(--text-soft);
   }
   .platforms span{
-    border:1px solid var(--border);
-    padding:2px 8px;
-    border-radius:6px;
+    border:1px solid transparent;
+    background:var(--surface-3);
+    padding:3px 9px;
+    border-radius:7px;
+    font-weight:600;
   }
   .card-actions{
     display:flex;
     gap:8px;
-    margin-top:6px;
+    margin-top:8px;
     flex-wrap:wrap;
   }
+  .card-actions .btn{ flex:1 1 120px; justify-content:center; }
   .btn{
     text-decoration:none;
     font-weight:700;
@@ -645,8 +704,12 @@
     display:flex;
     gap:8px;
     flex-wrap:wrap;
-    margin-top:4px;
+    margin-top:2px;
+    border-top:1px dashed var(--border);
+    padding-top:12px;
   }
+  .card .fav-btn,
+  .card .cmp-btn{ flex:1 1 120px; justify-content:center; }
   .fav-btn{
     cursor:pointer;
     background:var(--surface-2);
@@ -978,6 +1041,30 @@
     opacity:0.08;
     pointer-events:none;
   }
+  .promo-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+    position:relative; z-index:1;
+  }
+  .promo-app{
+    display:inline-flex;
+    align-items:center;
+    font-weight:800;
+    font-size:0.86rem;
+    color:var(--text);
+    background:var(--surface);
+    border:1px solid var(--border);
+    padding:4px 12px;
+    border-radius:999px;
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
   .promo-badge{
     display:inline-block;
     background:var(--gold);
@@ -986,7 +1073,7 @@
     font-size:0.78rem;
     padding:4px 12px;
     border-radius:999px;
-    margin-bottom:10px;
+    flex-shrink:0;
     position:relative; z-index:1;
   }
   .promo-card h3{
@@ -1114,6 +1201,17 @@
     margin-bottom:10px;
     font-size:1rem;
   }
+  .footer-credit{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:10px;
+    padding-top:12px;
+    border-top:1px solid var(--border);
+    color:var(--text-soft);
+    font-size:0.85rem;
+    font-weight:500;
+  }
 
   /* -------- زر العودة للأعلى -------- */
   .back-to-top{
@@ -1188,6 +1286,14 @@
     background:var(--primary-soft);
     border-radius:16px;
     border:1px solid var(--border);
+    overflow:hidden;
+  }
+  .detail-icon img{
+    width:58px; height:58px;
+    border-radius:16px;
+    object-fit:cover;
+    display:block;
+    background:var(--primary-soft);
   }
   .detail-head h2{
     margin:0 0 4px;
@@ -1211,6 +1317,11 @@
     color:var(--text-soft);
     font-size:0.95rem;
     line-height:1.7;
+  }
+  .detail-update{
+    margin:0 0 8px;
+    color:var(--text-soft);
+    font-size:0.83rem;
   }
   .detail-actions{
     display:flex;
@@ -1432,6 +1543,23 @@
         </select>
       </div>
     </div>
+    <div class="filters-row" id="filtersRow">
+      <div class="filter-group">
+        <span class="filter-label" data-i18n="platformFilterLabel">المنصة:</span>
+        <div class="filter-options" id="platformFilter" role="group" data-i18n-aria="platformFilterAria">
+          <button type="button" class="mini-chip active" data-platform="all" data-i18n="all">الكل</button>
+          <button type="button" class="mini-chip" data-platform="android"></button>
+          <button type="button" class="mini-chip" data-platform="ios"></button>
+          <button type="button" class="mini-chip" data-platform="web"></button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label class="mini-check">
+          <input type="checkbox" id="verifiedOnly">
+          <span data-i18n="verifiedOnly">موثّق فقط</span>
+        </label>
+      </div>
+    </div>
     <div class="chips" id="chips" role="group" data-i18n-aria="filterLabel"></div>
   </div>
 </div>
@@ -1516,6 +1644,7 @@
   <p data-i18n="footerNote">مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق</p>
   <p><a href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener" data-i18n="footerSource">شاهد المصدر على GitHub</a></p>
   <p id="footerRights"></p>
+  <p class="footer-credit">👨‍💻 <span data-i18n="footerDeveloper">تم التطوير من قبل المهندس علي إبراهيم</span></p>
 </footer>
 
 <button class="back-to-top" id="backToTop" type="button">↑</button>
@@ -1610,6 +1739,7 @@
     </div>
     <p class="detail-desc" id="detailDesc"></p>
     <div class="platforms" id="detailPlatforms"></div>
+    <div class="detail-update" id="detailUpdate" hidden></div>
     <div class="detail-actions" id="detailActions"></div>
     <div class="detail-stores" id="detailStores"></div>
     <div class="detail-section" id="detailOffers">
@@ -1627,6 +1757,7 @@
     <div class="detail-footer">
       <button class="fav-btn" id="detailFav" type="button"></button>
       <button class="cmp-btn" id="detailCompare" type="button"></button>
+      <button class="btn btn-ghost" id="detailReport" type="button" data-i18n="reportLinkBtn">الإبلاغ عن رابط معطّل</button>
       <a class="btn-review" id="detailReviewCta" href="#" target="_blank" rel="noopener"></a>
     </div>
   </div>
@@ -1722,6 +1853,11 @@
         searchPlaceholder:"ابحث باسم التطبيق أو وصفه...",
         searchLabel:"ابحث عن تطبيق",
         filterLabel:"تصفية حسب الفئة",
+        platformFilterLabel:"المنصة:",
+        platformFilterAria:"تصفية حسب المنصة",
+        verifiedOnly:"موثّق فقط",
+        lastUpdate:function(d){ return 'آخر تحديث: ' + d; },
+        reportLinkBtn:"الإبلاغ عن رابط معطّل",
         all:"الكل",
         promoHeading:"عروض وكوبونات حالية",
         copy:"نسخ",
@@ -1801,6 +1937,7 @@
         footerNote:"مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق",
         footerSource:"شاهد المصدر على GitHub",
         footerRights:function(y){ return '© ' + y + ' SyrHub — صُنع بفخر للمجتمع السوري'; },
+        footerDeveloper:"تم التطوير من قبل المهندس علي إبراهيم",
         langLabel:"English",
         langAria:"التبديل إلى الإنجليزية",
         themeAriaLight:"تفعيل الوضع الليلي",
@@ -1844,6 +1981,11 @@
         searchPlaceholder:"Search by app name or description...",
         searchLabel:"Search apps",
         filterLabel:"Filter by category",
+        platformFilterLabel:"Platform:",
+        platformFilterAria:"Filter by platform",
+        verifiedOnly:"Verified only",
+        lastUpdate:function(d){ return 'Last updated: ' + d; },
+        reportLinkBtn:"Report a broken link",
         all:"All",
         promoHeading:"Current Deals & Coupons",
         copy:"Copy",
@@ -1924,6 +2066,7 @@
         footerNote:"An independent, community-driven project · all links lead to each app's official source",
         footerSource:"View the source on GitHub",
         footerRights:function(y){ return '© ' + y + ' SyrHub — proudly made for the Syrian community'; },
+        footerDeveloper:"Developed by Engineer Ali Ibrahim",
         langLabel:"العربية",
         langAria:"Switch to Arabic",
         themeAriaLight:"Enable dark mode",
@@ -1956,13 +2099,16 @@
     var theme = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
     var activeCategory = 'all';
     var sortBy = 'rating';
+    var activePlatform = 'all';
+    var verifiedOnly = false;
+    var SITE_URL = 'https://ali-mhd-ibrahim.github.io/SyrDevHub/';
     var currentDetail = null;
     var prevHash = '';
     var compareOpen = false;
     var T;
     /* ⚡ رابط تحميل تطبيق الأندرويد (APK) — ضع رابط التحميل هنا.
        عند ترك القيمة فارغة يختفي زر التحميل تلقائيًا حتى تضعه. */
-    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrDevHub/refs/heads/main/SyrHub-v1.04.apk';
+    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrDevHub/refs/heads/main/SyrDevHub-v1.05.apk';
     var FORMS = {
       app:    'https://docs.google.com/forms/d/e/1FAIpQLSc2EqvL7lU0jqXP4K1MkWH5dw3OwEW_VAHkV-25sS4ZKEZ8Hg/viewform?usp=dialog',
       promo:  'https://docs.google.com/forms/d/e/1FAIpQLSfbhwr2pEJ6MoOIhSiiGndtRHQQTIWFPkCQMgwhk1M-xnfEPA/viewform?usp=dialog',
@@ -2080,6 +2226,7 @@
       sortSel.options[1].textContent = T.sortName;
 
       applyTheme(theme);
+      renderPlatformFilter();
       renderChips();
       render();
       renderStats();
@@ -2109,6 +2256,7 @@
       updateMeta('og:description', p.desc);
       updateMeta('twitter:title', p.title);
       updateMeta('twitter:description', p.desc);
+      updateJsonLd(app);
     }
     function resetSeo(){
       document.title = T.metaTitle;
@@ -2117,6 +2265,40 @@
       updateMeta('og:description', T.metaDesc);
       updateMeta('twitter:title', T.metaTitle);
       updateMeta('twitter:description', T.metaDesc);
+      updateJsonLd(null);
+    }
+    /* ============ بيانات منظمة (JSON-LD) للفهرسة ============ */
+    function jsonLdFor(app){
+      var full = { '@context': 'https://schema.org' };
+      if(app){
+        var r = computeRating(app.id);
+        full['@type'] = 'SoftwareApplication';
+        full.name = appName(app);
+        full.description = appDesc(app);
+        full.applicationCategory = (catInfo(app.category).label_en || catInfo(app.category).label);
+        full.operatingSystem = (app.platforms || []).join(', ');
+        full.url = app.officialLink || '';
+        if(app.lastUpdate){ full.dateModified = app.lastUpdate; }
+        if(app.icon){ full.image = app.icon; }
+        if(r.count > 0){
+          full.aggregateRating = {
+            '@type': 'AggregateRating',
+            ratingValue: r.avg.toFixed(1),
+            ratingCount: r.count
+          };
+        }
+      } else {
+        full['@type'] = 'WebSite';
+        full.name = 'SyrHub';
+        full.alternateName = 'SyrHub — دليل التطبيقات السورية';
+        full.url = SITE_URL;
+        full.description = T.metaDesc;
+      }
+      return JSON.stringify(full);
+    }
+    function updateJsonLd(app){
+      var el = document.getElementById('seoJsonLd');
+      if(el){ el.textContent = jsonLdFor(app); }
     }
 
     /* ============ بيانات موضعية (ثنائية اللغة) ============ */
@@ -2493,6 +2675,7 @@
           document.getElementById('detailIcon').textContent = '❓';
           document.getElementById('detailVerified').hidden = true;
           document.getElementById('detailPlatforms').innerHTML = '';
+          document.getElementById('detailUpdate').hidden = true;
           document.getElementById('detailActions').innerHTML = '';
           document.getElementById('detailStores').style.display = 'none';
           document.getElementById('detailOffers').style.display = 'none';
@@ -2500,6 +2683,8 @@
           var relHide = document.getElementById('detailRelated');
           if(relHide){ relHide.style.display = 'none'; }
           document.getElementById('detailFav').style.display = 'none';
+          var reportHide = document.getElementById('detailReport');
+          if(reportHide){ reportHide.style.display = 'none'; }
           var cmpHide = document.getElementById('detailCompare');
           if(cmpHide){ cmpHide.style.display = 'none'; }
           currentDetail = appId;
@@ -2510,7 +2695,7 @@
         var rating = computeRating(app.id);
         var links = app.storeLinks || {};
         var primaryLink = links.android || links.ios || links.web || app.officialLink;
-        document.getElementById('detailIcon').textContent = cat.icon;
+        document.getElementById('detailIcon').innerHTML = app.icon ? '<img src="' + app.icon + '" alt="" loading="lazy" decoding="async">' : cat.icon;
         document.getElementById('detailName').textContent = appName(app);
         document.getElementById('detailCat').textContent = catLabel(cat);
         document.getElementById('detailVerified').textContent = T.verified;
@@ -2522,6 +2707,13 @@
           : '<span class="rating-count">' + T.ratingCountNone + '</span>';
         document.getElementById('detailDesc').textContent = appDesc(app);
         document.getElementById('detailPlatforms').innerHTML = (app.platforms || []).map(function(p){ return '<span>' + platformLabel(p) + '</span>'; }).join('');
+        var updEl = document.getElementById('detailUpdate');
+        if(updEl){
+          updEl.hidden = !app.lastUpdate;
+          if(app.lastUpdate){ updEl.textContent = T.lastUpdate(app.lastUpdate); }
+        }
+        var reportBtn = document.getElementById('detailReport');
+        if(reportBtn){ reportBtn.style.display = ''; }
         document.getElementById('detailActions').innerHTML =
           '<a class="btn btn-ghost" href="' + app.officialLink + '" target="_blank" rel="noopener">' + T.officialSite + '</a>' +
           '<a class="btn btn-primary" href="' + primaryLink + '" target="_blank" rel="noopener">' + T.install + '</a>';
@@ -2578,6 +2770,22 @@
       if(panel){ panel.hidden = true; }
       currentDetail = null;
       resetSeo();
+    }
+    function reportBrokenLink(){
+      var app = findByAppId(currentDetail);
+      if(!app){ return; }
+      var title = '[Broken link] ' + appName(app);
+      var body = 'App: ' + appName(app) + ' (' + app.id + ')\n';
+      body += 'Official link: ' + (app.officialLink || '') + '\n';
+      var urls = app.storeLinks || {};
+      var keys = ['android', 'ios', 'web'];
+      for(var i = 0; i < keys.length; i++){
+        if(urls[keys[i]]){ body += keys[i] + ': ' + urls[keys[i]] + '\n'; }
+      }
+      var url = 'https://github.com/Ali-Mhd-Ibrahim/SyrDevHub/issues/new?title=' +
+        encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
+      try{ window.open(url, '_blank', 'noopener'); }catch(e2){ window.location.href = url; }
+      trackAnalytics('report_broken_link', { app_id: app.id, app_name: appName(app) });
     }
     function hashIsCompare(){
       return (typeof window !== 'undefined' && window.location && window.location.hash) === '#compare';
@@ -2708,7 +2916,6 @@
     /* ============ بطاقة العرض ============ */
     function promoCardHTML(promo){
       var appN = promoAppName(promo.appId);
-      var titleHTML = promoTitle(promo) + (appN ? ' — ' + appN : '');
       var codeRow = (promo.type === 'coupon' && promo.code)
         ? '<div class="promo-code-row">' +
             '<span class="promo-code" id="code-' + promo.id + '">' + promo.code + '</span>' +
@@ -2717,8 +2924,11 @@
         : '';
       return '' +
         '<article class="promo-card">' +
-          '<span class="promo-badge">' + (promo.discountLabel || T.specialOffer) + '</span>' +
-          '<h3>' + titleHTML + '</h3>' +
+          '<div class="promo-head">' +
+            (appN ? '<span class="promo-app">' + appN + '</span>' : '') +
+            '<span class="promo-badge">' + (promo.discountLabel || T.specialOffer) + '</span>' +
+          '</div>' +
+          '<h3>' + promoTitle(promo) + '</h3>' +
           '<p class="promo-desc">' + promoDesc(promo) + '</p>' +
           codeRow +
           '<div class="promo-footer">' +
@@ -2755,6 +2965,18 @@
     }
 
     /* ============ الفلاتر ============ */
+    function renderPlatformFilter(){
+      var plc = document.getElementById('platformFilter');
+      if(plc){
+        plc.querySelectorAll('.mini-chip').forEach(function(b){
+          var p = b.getAttribute('data-platform');
+          b.classList.toggle('active', p === activePlatform);
+          if(p !== 'all'){ b.textContent = platformLabel(p); }
+        });
+      }
+      var vo = document.getElementById('verifiedOnly');
+      if(vo){ vo.checked = verifiedOnly; }
+    }
     function renderChips(){
       var wrap = document.getElementById('chips');
       wrap.innerHTML = '';
@@ -2810,10 +3032,15 @@
         ? '<span class="rating-num">' + rating.avg.toFixed(1) + '</span>' +
           '<span class="rating-count">(' + rating.count + ' ' + T.reviewCount(rating.count) + ')</span>'
         : '<span class="rating-count">' + T.ratingCountNone + '</span>';
+      var iconHTML = '<div class="card-icon" aria-hidden="true">' +
+        (app.icon
+          ? '<img class="app-icon" src="' + app.icon + '" alt="" loading="lazy" decoding="async" width="44" height="44">'
+          : cat.icon) +
+      '</div>';
       return '' +
         '<article class="card" data-app="' + app.id + '" style="animation-delay:' + Math.min(index * 35, 400) + 'ms">' +
           '<div class="card-top">' +
-            '<div class="card-icon" aria-hidden="true">' + cat.icon + '</div>' +
+            iconHTML +
             (app.verified ? '<span class="verified-tag">' + T.verified + '</span>' : '') +
           '</div>' +
           '<div>' +
@@ -2929,7 +3156,9 @@
 
       var filtered = (typeof APPS !== 'undefined' ? APPS : []).filter(function(app){
         var matchesCategory = activeCategory === 'all' || activeCategory === 'favorites' || app.category === activeCategory;
-        return matchesCategory;
+        var matchesPlatform = activePlatform === 'all' || (app.platforms || []).indexOf(activePlatform) !== -1;
+        var isVerified = !verifiedOnly || !!app.verified;
+        return matchesCategory && matchesPlatform && isVerified;
       });
 
       if(activeCategory === 'favorites'){
@@ -2978,6 +3207,13 @@
     /* ============ ربط الأحداث ============ */
     function init(){
       T = I18N[lang];
+
+      /* فلاتر محفوظة (منصة + موثّق فقط) */
+      try{
+        var sp = localStorage.getItem('syh-platform');
+        if(sp === 'android' || sp === 'ios' || sp === 'web'){ activePlatform = sp; }
+        if(localStorage.getItem('syh-verified') === '1'){ verifiedOnly = true; }
+      }catch(err){}
 
       /* شارات النسخ — APK (أندرويد) + PWA (الآيفون) أسفل يمين الموقع */
       var badgeApk = document.getElementById('badgeApk');
@@ -3072,6 +3308,30 @@
         trackAnalytics('sort_apps', { sort_by: sortBy });
         render();
       });
+
+      var platformFilter = document.getElementById('platformFilter');
+      if(platformFilter){
+        platformFilter.addEventListener('click', function(e){
+          var b = e.target.closest('.mini-chip');
+          if(!b){ return; }
+          var p = b.getAttribute('data-platform');
+          if(p === activePlatform){ return; }
+          activePlatform = p;
+          try{ localStorage.setItem('syh-platform', p); }catch(err){}
+          renderPlatformFilter();
+          trackAnalytics('filter_platform', { platform: p, category: activeCategory });
+          render();
+        });
+      }
+      var verifiedOnlyCheck = document.getElementById('verifiedOnly');
+      if(verifiedOnlyCheck){
+        verifiedOnlyCheck.addEventListener('change', function(){
+          verifiedOnly = this.checked;
+          try{ localStorage.setItem('syh-verified', verifiedOnly ? '1' : '0'); }catch(err){}
+          trackAnalytics('filter_verified', { verified_only: verifiedOnly });
+          render();
+        });
+      }
 
       document.getElementById('chips').addEventListener('click', function(e){
         var btn = e.target.closest('.chip');
@@ -3190,6 +3450,8 @@
       document.getElementById('detailShare').addEventListener('click', function(){
         if(currentDetail){ shareApp(currentDetail); }
       });
+      var detailReportBtn = document.getElementById('detailReport');
+      if(detailReportBtn){ detailReportBtn.addEventListener('click', reportBrokenLink); }
       detailView.addEventListener('click', function(e){
         if(e.target === detailView){ navToPrev(); }
       });

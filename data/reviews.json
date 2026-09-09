@@ -1,11 +1,4 @@
-/**
- * SyrHub — REVIEWS
- * ==========================================
- * ⚠️ ملف مُولَّد آلياً بواسطة build/build.js — لا تعدّله يدوياً.
- * عدّل المصدر في data/*.json ثم أعد التشغيل: node build/build.js
- */
-
-var REVIEWS = [
+[
   {
     "id": "rev-sufra-food-1",
     "appId": "sufra-food",
@@ -735,5 +728,4 @@ var REVIEWS = [
     "comment_en": "Easy interface and comfortable navigation.",
     "date": "2026-01-14"
   }
-];
-
+]

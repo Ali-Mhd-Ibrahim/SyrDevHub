@@ -1,8 +1,9 @@
-/* SyrHub Service Worker — v1.9.0 */
-var CACHE_NAME = 'syh-cache-v19';
+/* SyrHub Service Worker — v1.11.0 */
+var CACHE_NAME = 'syh-cache-v21';
 var CORE_ASSETS = [
   './',
   './index.html',
+  './offline.html',
   './manifest.webmanifest',
   './SyrHub-Icon.png',
   './icons/App-SyrHub-Icon.png',
@@ -11,6 +12,12 @@ var CORE_ASSETS = [
   './reviews-data.js',
   './storage.js'
 ];
+
+function offlineFallback(){
+  return caches.match('./offline.html').then(function(res){
+    return res || caches.match('./index.html');
+  });
+}
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -61,7 +68,7 @@ self.addEventListener('fetch', function(event){
         });
         return response;
       }).catch(function(){
-        return caches.match('./index.html');
+        return offlineFallback();
       })
     );
     return;
@@ -81,7 +88,7 @@ self.addEventListener('fetch', function(event){
       });
       return cached || network;
     }).catch(function(){
-      return caches.match('./index.html');
+      return offlineFallback();
     })
   );
 });
