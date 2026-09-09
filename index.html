@@ -190,19 +190,20 @@
   }
   .nav-links a:hover{ color:var(--primary); background:var(--primary-soft); }
   .nav-actions{ display:flex; gap:8px; flex-shrink:0; }
-  /* ------ شارات النسخ (APK / PWA) — الزاوية اليمنى السفلية ------ */
+  /* ------ شارات النسخ (APK / PWA) — مثبتتان أسفل يمين الصفحة ------ */
   .app-badges{
-    position:fixed;
-    right:12px; bottom:88px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    z-index:60;
+    display:block;
+    text-align:right;
+    padding:6px 18px 12px;
     pointer-events:none;
+    animation:none;
   }
-  .app-badges:not([hidden]) > *{ pointer-events:auto; }
+  .app-badges > *{
+    pointer-events:auto;
+  }
+  .app-badges[hidden]{ display:none; }
   .app-badge{
-    display:flex;
+    display:inline-flex;
     align-items:center;
     gap:10px;
     background:var(--surface);
@@ -215,6 +216,7 @@
     cursor:pointer;
     font:inherit;
     text-align:start;
+    margin-inline-start:8px;
     animation:fadeUp .4s ease both;
     transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
   }
@@ -236,7 +238,6 @@
   .install-steps{ margin:14px 0 18px; padding-inline-start:22px; display:flex; flex-direction:column; gap:10px; }
   .install-steps li{ font-size:0.9rem; color:var(--text); line-height:1.5; }
   @media (max-width:600px){
-    .app-badges{ right:10px; bottom:74px; }
     .app-badge{ padding:8px 11px; }
     .app-badge .ab-sub{ font-size:.66rem; }
   }
@@ -1966,7 +1967,7 @@
     var T;
     /* ⚡ رابط تحميل تطبيق الأندرويد (APK) — ضع رابط التحميل هنا.
        عند ترك القيمة فارغة يختفي زر التحميل تلقائيًا حتى تضعه. */
-    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrDevHub/refs/heads/main/SyrDevHub-v1.01.apk';
+    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrDevHub/refs/heads/main/SyrDevHub-v1.02.apk';
     var FORMS = {
       app:    'https://docs.google.com/forms/d/e/1FAIpQLSc2EqvL7lU0jqXP4K1MkWH5dw3OwEW_VAHkV-25sS4ZKEZ8Hg/viewform?usp=dialog',
       promo:  'https://docs.google.com/forms/d/e/1FAIpQLSfbhwr2pEJ6MoOIhSiiGndtRHQQTIWFPkCQMgwhk1M-xnfEPA/viewform?usp=dialog',
@@ -1982,6 +1983,12 @@
         if(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches){ return true; }
         if(window.navigator && window.navigator.standalone === true){ return true; }
         if(localStorage.getItem('syh-installed') === '1'){ return true; }
+        /* داخل النسخة المثبّتة (APK): يُفتح الموقع في WebView أو ملف محلي */
+        var winLoc = (typeof window !== 'undefined' && window.location) ? window.location : null;
+        var proto = winLoc ? (winLoc.protocol || '') : '';
+        if(proto === 'file:' || proto === 'app:' || proto === 'android-app:'){ return true; }
+        var ua = (typeof navigator !== 'undefined') ? (navigator.userAgent || '') : '';
+        if(/Android/i.test(ua) && /WebView|wv|Version\/4\.0/i.test(ua)){ return true; }
       }catch(e){}
       return false;
     }
