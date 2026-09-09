@@ -1,38 +1,124 @@
 /**
  * ملف العروض والكوبونات
  * ==========================================
- * لإضافة عرض جديد: أضف عنصرًا في المصفوفة PROMOTIONS بالأسفل.
- * العروض المنتهية الصلاحية (expiryDate) تختفي تلقائيًا من الموقع
- * دون الحاجة لحذفها يدويًا — لكن يُفضّل تنظيف الملف بين فترة وأخرى.
+ * ⚠️ بيانات عينة (sample) للتطوير — استبدلها بعروض حقيقية موثّقة قبل النشر.
+ * العروض المنتهية (expiryDate) تختفي تلقائيًا دون حذف يدوي.
  *
  * الحقول:
- *  id           : معرف فريد بالإنجليزية
- *  appId        : id التطبيق كما هو في apps-data.js (لربط العرض بالتطبيق)
- *  type         : "coupon" (كود خصم) أو "promotion" (عرض/إعلان عام بدون كود)
- *  title        : عنوان قصير وجذاب للعرض
- *  title_en     : عنوان العرض بالإنجليزية (اختياري)
- *  description  : تفاصيل العرض (سطر أو سطرين)
- *  description_en: تفاصيل العرض بالإنجليزية (اختياري)
- *  code         : كود الكوبون (اتركه "" إذا type = "promotion")
- *  discountLabel: نص مختصر يظهر كشارة، مثال: "خصم 20%" أو "توصيل مجاني"
- *  link         : رابط لصفحة العرض أو التطبيق
- *  expiryDate   : تاريخ الانتهاء بصيغة "YYYY-MM-DD" — اترك "" إن لم يكن للعرض تاريخ انتهاء محدد
- *  verified     : true إذا تم التحقق من صحة العرض والكود
+ *  id / appId / type (coupon|promotion) / title / title_en / description /
+ *  description_en / code / discountLabel / link / expiryDate (YYYY-MM-DD)
  */
 
 const PROMOTIONS = [
-  // ⚠️ مثال توضيحي فقط - احذفه واستبدله بعروض حقيقية موثّقة
   {
-    id: "example-promo",
-    appId: "example-delivery-app",
+    id: "promo-sufra-1",
+    appId: "sufra-food",
     type: "coupon",
-    title: "خصم على أول طلب",
-    title_en: "Discount on your first order",
-    description: "استخدم الكود التالي للحصول على خصم عند أول عملية شراء عبر التطبيق.",
-    description_en: "Use the code below to get a discount on your first purchase in the app.",
-    code: "WELCOME20",
+    title: "توصيل مجاني لأول 3 طلبات",
+    title_en: "Free delivery on your first 3 orders",
+    description: "استخدم الكود أثناء إتمام الطلب للحصول على توصيل مجاني دون حد أدنى.",
+    description_en: "Use the code at checkout to get free delivery with no minimum order.",
+    code: "SUF3FREE",
+    discountLabel: "توصيل مجاني",
+    link: "https://example.com/sufra-food",
+    expiryDate: "2026-12-31",
+    verified: false,
+  },
+  {
+    id: "promo-sufra-2",
+    appId: "sufra-food",
+    type: "promotion",
+    title: "خصومات آخر الأسبوع",
+    title_en: "Weekend deals",
+    description: "عروض خاصة أيام الجمعة والسبت على وجبات مختارة من مطاعم الشركاء.",
+    description_en: "Special offers on Fridays and Saturdays for selected meals from partner restaurants.",
+    code: "",
+    discountLabel: "خصومات نهاية الأسبوع",
+    link: "https://example.com/sufra-food",
+    expiryDate: "2026-10-01",
+    verified: false,
+  },
+  {
+    id: "promo-raghela-1",
+    appId: "raghela-trans",
+    type: "coupon",
+    title: "خصم على الرحلة الأولى",
+    title_en: "Discount on your first ride",
+    description: "كود ترحيبي يمنحك خصماً عند حجز أول رحلة للمرة الأولى.",
+    description_en: "A welcome code that gives you a discount on your very first booked ride.",
+    code: "RIDE10",
+    discountLabel: "خصم 10%",
+    link: "https://example.com/raghela-trans",
+    expiryDate: "2026-12-31",
+    verified: false,
+  },
+  {
+    id: "promo-mihfaza-1",
+    appId: "mihfaza-pay",
+    type: "coupon",
+    title: "استرداد نقدي على الإحالات",
+    title_en: "Cashback on referrals",
+    description: "ادعُ أصدقاءك واحصل على رصيد إضافي في محفظتك عند أول تحويل لكل صديق.",
+    description_en: "Invite friends and get extra wallet credit on each friend's first transfer.",
+    code: "GIFT500",
+    discountLabel: "رصيد 500",
+    link: "https://example.com/mihfaza-pay",
+    expiryDate: "2026-11-30",
+    verified: false,
+  },
+  {
+    id: "promo-souqoli-1",
+    appId: "souqoli-shop",
+    type: "coupon",
+    title: "خصم على الطلب الأول",
+    title_en: "First-order discount",
+    description: "خصم على طلبك الأول من المتاجر المتاحة عبر منصة سوقي.",
+    description_en: "Get a discount on your first order from any store available on Souqli.",
+    code: "SALE15",
+    discountLabel: "خصم 15%",
+    link: "https://example.com/souqoli-shop",
+    expiryDate: "2026-12-31",
+    verified: false,
+  },
+  {
+    id: "promo-darsona-1",
+    appId: "darsona-edu",
+    type: "coupon",
+    title: "اشتراك شهري مخفَّض",
+    title_en: "Discounted monthly plan",
+    description: "خصم على باقة التعلم الشهرية لطلاب الثانوية خلال فترة التسجيل.",
+    description_en: "A discount on the monthly learning plan for high-school students during enrolment.",
+    code: "EDU20",
     discountLabel: "خصم 20%",
-    link: "https://example.com",
+    link: "https://example.com/darsona-edu",
+    expiryDate: "2026-09-15",
+    verified: false,
+  },
+  {
+    id: "promo-tebibi-1",
+    appId: "tebibi-health",
+    type: "promotion",
+    title: "فحص أولي مجاني",
+    title_en: "Free initial check-up",
+    description: "مسح صحي سريع وملف إلكتروني مجاني عند حجز أول موعد عبر التطبيق.",
+    description_en: "A quick health screening and free e-record when booking your first appointment.",
+    code: "",
+    discountLabel: "فحص مجاني",
+    link: "https://example.com/tebibi-health",
+    expiryDate: "2026-12-01",
+    verified: false,
+  },
+  {
+    id: "promo-shighl-1",
+    appId: "shighl-jobs",
+    type: "coupon",
+    title: "ترقية الملف الوظيفي",
+    title_en: "Profile boost",
+    description: "كود يميّز سيرتك الذاتية في نتائج البحث لدى الشركات لمدة أسبوع.",
+    description_en: "A code that highlights your CV in company search results for one week.",
+    code: "HIRE25",
+    discountLabel: "تمييز الملف",
+    link: "https://example.com/shighl-jobs",
     expiryDate: "2026-12-31",
     verified: false,
   },

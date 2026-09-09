@@ -7,8 +7,8 @@
 <meta name="description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
 <meta name="theme-color" content="#1B2A4A">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='5' fill='%231B2A4A'/><path fill='%23C9A24B' d='M12 3l2.7 5.4 6 .9-4.35 4.2 1.05 5.95L12 17.7 6.6 19.45l1.05-5.95L3.3 9.3l6-.9z'/></svg>">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" href="SyrDevHub-Icon.png">
+<link rel="apple-touch-icon" href="SyrDevHub-Icon.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -19,9 +19,15 @@
 <meta property="og:site_name" content="SyrDevHub">
 <meta property="og:title" content="دليل التطبيقات السورية">
 <meta property="og:description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
+<meta property="og:image" content="https://ali-mhd-ibrahim.github.io/SyrDevHub/SyrDevHub-Icon.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
 <meta property="og:locale" content="ar_SY">
 <meta property="og:locale:alternate" content="en_US">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ali-mhd-ibrahim.github.io/SyrDevHub/SyrDevHub-Icon.png">
+<meta name="twitter:title" content="دليل التطبيقات السورية">
+<meta name="twitter:description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
 
 <!-- Google Analytics -->
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
@@ -161,7 +167,7 @@
     color:var(--text);
     flex-shrink:0;
   }
-  .brand svg{ width:30px; height:30px; display:block; }
+  .brand img{ width:30px; height:30px; display:block; border-radius:8px; }
   .brand-name{ font-size:1.05rem; letter-spacing:0.2px; }
   .nav-links{
     display:flex;
@@ -181,6 +187,30 @@
   }
   .nav-links a:hover{ color:var(--primary); background:var(--primary-soft); }
   .nav-actions{ display:flex; gap:8px; flex-shrink:0; }
+  .app-dl-btn{
+    cursor:pointer;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text);
+    border-radius:999px;
+    height:38px;
+    padding:0 14px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-size:0.82rem;
+    font-weight:700;
+    text-decoration:none;
+    font-family:inherit;
+    transition: transform .15s ease, border-color .15s ease, background-color .2s ease;
+  }
+  .app-dl-btn:hover{ border-color:var(--primary); color:var(--primary); transform:translateY(-1px); }
+  .app-dl-btn:active{ transform:scale(0.95); }
+  .app-dl-btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  @media (max-width:480px){
+    .app-dl-btn .dl-label{ display:none; }
+  }
   .icon-btn{
     cursor:pointer;
     border:1px solid var(--border);
@@ -610,6 +640,121 @@
     background:color-mix(in srgb, var(--gold) 14%, transparent);
   }
   .fav-btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  .cmp-btn{
+    cursor:pointer;
+    background:var(--surface-2);
+    color:var(--text-soft);
+    border:1px solid var(--border);
+    border-radius:9px;
+    font-size:0.8rem;
+    font-weight:700;
+    font-family:inherit;
+    padding:7px 12px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+  }
+  .cmp-btn:hover{ border-color:var(--primary); color:var(--primary); }
+  .cmp-btn.active{
+    border-color:var(--primary);
+    color:var(--primary);
+    background:var(--primary-soft);
+  }
+  .cmp-btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  mark{
+    background:color-mix(in srgb, var(--gold) 38%, transparent);
+    color:var(--text);
+    border-radius:3px;
+    padding:0 2px;
+  }
+
+  /* -------- شريط المقارنة السفلي -------- */
+  .cmp-bar{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:14px;
+    z-index:78;
+    width:min(940px, calc(100vw - 24px));
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow-lg);
+    padding:10px 14px;
+    transition: background-color .25s ease, border-color .25s ease, transform .3s ease, opacity .3s ease;
+  }
+  .cmp-bar[hidden]{ display:none; }
+  .cmp-title{
+    font-weight:800;
+    font-size:0.9rem;
+    white-space:nowrap;
+  }
+  .cmp-chips{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    flex:1;
+    min-width:0;
+  }
+  .cmp-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--primary-soft);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:5px 8px 5px 12px;
+    font-size:0.8rem;
+    font-weight:700;
+    max-width:100%;
+  }
+  .cmp-chip .cc-name{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .cmp-chip .cc-x{
+    border:none;
+    background:none;
+    color:var(--text-soft);
+    cursor:pointer;
+    font-size:0.95rem;
+    line-height:1;
+    padding:0 2px;
+  }
+  .cmp-chip .cc-x:hover{ color:var(--primary); }
+  .cmp-actions{ display:flex; gap:8px; }
+  .btn-sm{ font-size:0.78rem; padding:7px 12px; }
+  .cmp-msg{
+    flex-basis:100%;
+    color:var(--primary);
+    font-size:0.8rem;
+    font-weight:700;
+    text-align:center;
+  }
+  @media (max-width:820px){
+    .cmp-bar{ bottom:78px; }
+  }
+
+  /* -------- جدول المقارنة -------- */
+  .compare-panel{ max-width:900px; }
+  .cmp-table-wrap{ overflow-x:auto; }
+  .cmp-table{ width:100%; border-collapse:collapse; font-size:0.86rem; }
+  .cmp-table th, .cmp-table td{
+    border:1px solid var(--border);
+    padding:10px 12px;
+    vertical-align:top;
+    text-align:start;
+  }
+  .cmp-table thead th{ background:var(--primary-soft); text-align:center; }
+  .cmp-table th.cmp-rowhead{ background:var(--surface-2); font-weight:800; white-space:nowrap; width:110px; }
+  .cmp-table tbody td{ color:var(--text-soft); line-height:1.6; }
+  .cmp-table .cmp-icon{ font-size:1.6rem; }
+  .cmp-table .cmp-appname{ font-weight:800; color:var(--text); font-size:0.95rem; }
+  .cmp-table .cmp-actions-cell{ display:flex; flex-direction:column; gap:8px; align-items:stretch; }
+  .cmp-table .cmp-actions-cell a{ text-align:center; }
 
   .card.flash{
     outline:3px solid var(--gold);
@@ -844,7 +989,13 @@
     font-size:0.92rem;
     text-align:center;
     color:var(--text);
+    cursor:pointer;
+    user-select:all;
+    transition: background-color .2s ease, border-color .2s ease, transform .15s ease;
   }
+  .promo-code:hover{ background:var(--primary-soft); border-color:var(--gold); }
+  .promo-code:active{ transform:scale(0.98); }
+  .promo-code:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
   .copy-btn{
     border:none;
     background:var(--btn-primary-color);
@@ -1071,6 +1222,14 @@
   }
   .detail-section .promos-scroller{ flex-direction:column; }
   .detail-section .promo-card{ flex:0 0 auto; width:100%; }
+  .rec-scroller{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding-bottom:8px;
+    scroll-snap-type:x proximity;
+    scroll-padding-inline-start:2px;
+  }
   .detail-footer{
     display:flex;
     align-items:center;
@@ -1085,6 +1244,98 @@
   @media (max-width:520px){
     .detail-toolbar{ flex-direction:column; }
     .detail-toolbar .btn{ width:100%; text-align:center; }
+  }
+
+  /* -------- شريط التنقل السفلي للموبايل -------- */
+  .bottom-nav{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    z-index:80;
+    display:none;
+    align-items:stretch;
+    background:var(--surface);
+    border-top:1px solid var(--border);
+    box-shadow:0 -6px 20px rgba(27,42,74,0.08);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    transition: background-color .25s ease, border-color .25s ease;
+  }
+  .bn-item{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    padding:10px 4px 12px;
+    border:none;
+    background:none;
+    color:var(--text-soft);
+    font-size:0.68rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:color .15s ease;
+    min-width:0;
+  }
+  .bn-item:hover, .bn-item:active{ color:var(--primary); }
+  .bn-item:focus-visible{ outline:2px solid var(--primary); outline-offset:-2px; border-radius:10px; }
+  .bn-ico{ font-size:1.15rem; line-height:1; }
+  .bn-label{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+  .sheet-overlay{ align-items:flex-end; }
+  .sheet-overlay .sheet{
+    max-width:640px;
+    width:100%;
+    border-radius:20px 20px 0 0;
+    margin-bottom:0;
+    transform:translateY(100%);
+    transition:transform .3s ease, background-color .25s ease, border-color .25s ease;
+  }
+  .sheet-overlay.open .sheet{ transform:none; }
+  .sheet-close{
+    position:absolute;
+    inset-inline-end:14px;
+    top:12px;
+    width:34px; height:34px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text-soft);
+    font-size:1.05rem;
+    line-height:1;
+    cursor:pointer;
+  }
+  .sheet-close:hover{ border-color:var(--primary); color:var(--primary); }
+  .sheet-options{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  .sheet-opt{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--surface-2);
+    color:var(--text);
+    font-size:0.95rem;
+    font-weight:700;
+    text-align:start;
+    cursor:pointer;
+    transition:border-color .15s ease, background-color .2s ease, transform .15s ease;
+  }
+  .sheet-opt:hover{ border-color:var(--primary); transform:translateY(-1px); }
+  a.sheet-opt{ text-decoration:none; font-family:inherit; }
+  .sheet-opt:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  .sheet-opt .so-ico{ font-size:1.15rem; }
+  .sheet-note{
+    margin:12px 0 2px;
+    color:var(--text-soft);
+    font-size:0.85rem;
+    line-height:1.7;
+  }
+  @media (max-width:820px){
+    .bottom-nav{ display:flex; }
+    body{ padding-bottom:70px; }
+    .back-to-top{ bottom:76px; }
+    .detail-panel{ margin-bottom:78px; }
+    .modal{ margin-bottom:78px; }
   }
 
   .apps-section{
@@ -1111,10 +1362,7 @@
 <nav class="topbar" aria-label="الشريط العلوي">
   <div class="nav-inner">
     <a class="brand" href="#top" aria-label="SyrDevHub">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect width="24" height="24" rx="5" fill="#1B2A4A"/>
-        <path fill="#C9A24B" d="M12 3l2.7 5.4 6 .9-4.35 4.2 1.05 5.95L12 17.7 6.6 19.45l1.05-5.95L3.3 9.3l6-.9z"/>
-      </svg>
+      <img src="SyrDevHub-Icon.png" alt="" width="30" height="30">
       <span class="brand-name">SyrDevHub</span>
     </a>
 
@@ -1125,6 +1373,10 @@
     </ul>
 
     <div class="nav-actions">
+      <a class="app-dl-btn" id="apkDownload" href="#" target="_blank" rel="noopener" hidden>
+        <span aria-hidden="true">📥</span>
+        <span class="dl-label" data-i18n="apkDownload">تحميل التطبيق</span>
+      </a>
       <button id="langToggle" class="icon-btn" type="button" data-action="lang">EN</button>
       <button id="themeToggle" class="icon-btn" type="button" data-action="theme">
         <span class="icon-sun" aria-hidden="true">☀️</span>
@@ -1227,6 +1479,77 @@
 
 <button class="back-to-top" id="backToTop" type="button">↑</button>
 
+<nav class="bottom-nav" id="bottomNav" aria-label="bottom navigation">
+  <button type="button" class="bn-item" data-nav="home">
+    <span class="bn-ico" aria-hidden="true">🏠</span>
+    <span class="bn-label" data-i18n="navHome">الرئيسية</span>
+  </button>
+  <button type="button" class="bn-item" data-nav="search">
+    <span class="bn-ico" aria-hidden="true">🔍</span>
+    <span class="bn-label" data-i18n="navSearch">بحث</span>
+  </button>
+  <button type="button" class="bn-item" data-nav="offers">
+    <span class="bn-ico" aria-hidden="true">🔥</span>
+    <span class="bn-label" data-i18n="navOffers">العروض</span>
+  </button>
+  <button type="button" class="bn-item" data-nav="compare">
+    <span class="bn-ico" aria-hidden="true">⇄</span>
+    <span class="bn-label" data-i18n="navCompare">مقارنة</span>
+  </button>
+  <button type="button" class="bn-item" data-nav="more">
+    <span class="bn-ico" aria-hidden="true">⋯</span>
+    <span class="bn-label" data-i18n="navMore">المزيد</span>
+  </button>
+</nav>
+
+<div class="modal-overlay sheet-overlay" id="moreSheet">
+  <div class="modal sheet" role="dialog" aria-modal="true" aria-label="more">
+    <button class="sheet-close" id="sheetClose" type="button" data-i18n-aria="sheetCloseAria">×</button>
+    <h2 data-i18n="moreSheetTitle">المزيد</h2>
+    <div class="sheet-options">
+      <button class="sheet-opt" type="button" data-sheet="favorites"><span class="so-ico" aria-hidden="true">★</span><span data-i18n="moreFavorites">المفضلة</span></button>
+      <button class="sheet-opt" type="button" id="sheetTheme"><span class="so-ico" aria-hidden="true">🌙</span><span id="sheetThemeLabel" data-i18n="moreTheme">الوضع الليلي</span></button>
+      <button class="sheet-opt" type="button" id="sheetLang"><span class="so-ico" aria-hidden="true">🌐</span><span data-i18n="moreLanguage">English</span></button>
+      <button class="sheet-opt" type="button" id="sheetContribute"><span class="so-ico" aria-hidden="true">💬</span><span data-i18n="moreContribute">ساهم معنا</span></button>
+      <a class="sheet-opt" id="sheetApk" href="#" target="_blank" rel="noopener" hidden><span class="so-ico" aria-hidden="true">📥</span><span data-i18n="apkDownload">تحميل التطبيق</span></a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay sheet-overlay" id="compareSheet">
+  <div class="modal sheet" role="dialog" aria-modal="true" aria-label="compare">
+    <button class="sheet-close" id="compareSheetClose" type="button" data-i18n-aria="sheetCloseAria">×</button>
+    <h2 data-i18n="compareSheetTitle">المقارنة</h2>
+    <div class="cmp-chips" id="compareSheetList" style="margin-top:6px"></div>
+    <p class="sheet-note" id="compareSheetEmpty" data-i18n="compareEmpty">لم تختر أي تطبيق بعد — اضغط ⇄ على بطاقة أي تطبيق لإضافته إلى المقارنة.</p>
+    <div class="sheet-actions" style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap">
+      <button class="btn btn-primary" id="compareSheetGo" type="button" data-i18n="compareNow">قارن الآن</button>
+      <button class="btn btn-ghost" id="compareSheetClear" type="button" data-i18n="compareClear">مسح</button>
+    </div>
+  </div>
+</div>
+
+<div class="cmp-bar" id="cmpBar" role="region" aria-label="compare bar" hidden>
+  <span class="cmp-title" id="cmpTitle" data-i18n="compareBarTitle">مقارنة</span>
+  <div class="cmp-chips" id="cmpChips"></div>
+  <div class="cmp-actions">
+    <button class="btn btn-primary btn-sm" id="cmpGo" type="button" data-i18n="compareNow">قارن الآن</button>
+    <button class="btn btn-ghost btn-sm" id="cmpClear" type="button" data-i18n="compareClear">مسح</button>
+  </div>
+  <span class="cmp-msg" id="cmpMsg" role="status"></span>
+</div>
+
+<div class="detail-overlay" id="compareView" hidden>
+  <div class="detail-panel compare-panel" role="dialog" aria-modal="true" aria-label="compare table">
+    <div class="detail-toolbar">
+      <button class="icon-btn" id="compareBack" type="button" data-i18n-aria="compareBack">→</button>
+      <h2 class="detail-title" data-i18n="compareSheetTitle">المقارنة</h2>
+      <span style="flex:1"></span>
+    </div>
+    <div class="cmp-table-wrap" id="compareViewBody"></div>
+  </div>
+</div>
+
 <div class="detail-overlay" id="detailView" hidden>
   <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailName">
     <div class="detail-toolbar">
@@ -1256,8 +1579,13 @@
       <h3 id="detailReviewsHeading"></h3>
       <div id="detailReviewsList"></div>
     </div>
+    <div class="detail-section" id="detailRelated">
+      <h3 id="detailRelatedHeading" data-i18n="recHeading">تطبيقات مشابهة</h3>
+      <div class="rec-scroller" id="detailRelatedList"></div>
+    </div>
     <div class="detail-footer">
       <button class="fav-btn" id="detailFav" type="button"></button>
+      <button class="cmp-btn" id="detailCompare" type="button"></button>
       <a class="btn-review" id="detailReviewCta" href="#" target="_blank" rel="noopener"></a>
     </div>
   </div>
@@ -1370,6 +1698,37 @@
         optReviewTitle:"أكتب تقييمًا أو رأيًا",
         optReviewDesc:"شارك تجربتك مع تطبيق استخدمته",
         reviewCta:"⭐ أكتب رأيًا",
+        navHome:"الرئيسية",
+        navSearch:"بحث",
+        navCompare:"مقارنة",
+        navMore:"المزيد",
+        moreSheetTitle:"المزيد",
+        sheetCloseAria:"إغلاق",
+        moreFavorites:"المفضلة",
+        moreTheme:"الوضع الليلي",
+        moreThemeLight:"الوضع النهاري",
+        moreLanguage:"English",
+        moreContribute:"ساهم معنا",
+        apkDownload:"تحميل التطبيق",
+        compareSheetTitle:"المقارنة",
+        compareEmpty:"لم تختر أي تطبيق بعد — اضغط ⇄ على بطاقة أي تطبيق لإضافته إلى المقارنة.",
+        compareAdd:"⇄ قارن",
+        compareAdded:"⇄ في المقارنة",
+        compareBarTitle:"مقارنة",
+        compareNow:"قارن الآن",
+        compareClear:"مسح",
+        compareLimit:"الحد الأقصى 4 تطبيقات",
+        compareMin:"أضف تطبيقين على الأقل للمقارنة",
+        compareRemoved:"أُزيل من المقارنة",
+        compareRowCat:"الفئة",
+        compareRowRating:"التقييم",
+        compareRowPlatforms:"المنصات",
+        compareRowVerified:"التوثيق",
+        compareRowDesc:"الوصف",
+        compareRowLinks:"الروابط",
+        compareBack:"عودة للدليل",
+        compareNotVerified:"غير موثّق",
+        recHeading:"تطبيقات مشابهة",
         githubBtn:"💻 ساهم عبر GitHub",
         footerNote:"مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق",
         footerSource:"شاهد المصدر على GitHub",
@@ -1450,6 +1809,37 @@
         optReviewTitle:"Write a review or rating",
         optReviewDesc:"Share your experience with an app you've used",
         reviewCta:"⭐ Write a review",
+        navHome:"Home",
+        navSearch:"Search",
+        navCompare:"Compare",
+        navMore:"More",
+        moreSheetTitle:"More",
+        sheetCloseAria:"Close",
+        moreFavorites:"Favorites",
+        moreTheme:"Dark mode",
+        moreThemeLight:"Light mode",
+        moreLanguage:"العربية",
+        moreContribute:"Contribute",
+        apkDownload:"Download app",
+        compareSheetTitle:"Compare",
+        compareEmpty:"No apps selected yet — tap ⇄ on any app card to add it to your comparison.",
+        compareAdd:"⇄ Compare",
+        compareAdded:"⇄ In comparison",
+        compareBarTitle:"Compare",
+        compareNow:"Compare now",
+        compareClear:"Clear",
+        compareLimit:"Maximum 4 apps",
+        compareMin:"Add at least two apps to compare",
+        compareRemoved:"Removed from comparison",
+        compareRowCat:"Category",
+        compareRowRating:"Rating",
+        compareRowPlatforms:"Platforms",
+        compareRowVerified:"Verification",
+        compareRowDesc:"Description",
+        compareRowLinks:"Links",
+        compareBack:"Back to directory",
+        compareNotVerified:"Unverified",
+        recHeading:"Similar apps",
         githubBtn:"💻 Contribute on GitHub",
         footerNote:"An independent, community-driven project · all links lead to each app's official source",
         footerSource:"View the source on GitHub",
@@ -1488,7 +1878,11 @@
     var sortBy = 'rating';
     var currentDetail = null;
     var prevHash = '';
+    var compareOpen = false;
     var T;
+    /* ⚡ رابط تحميل تطبيق الأندرويد (APK) — ضع رابط التحميل هنا.
+       عند ترك القيمة فارغة يختفي زر التحميل تلقائيًا حتى تضعه. */
+    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrDevHub/refs/heads/main/SyrDevHub-v1.0.apk';
     var FORMS = {
       app:    'https://docs.google.com/forms/d/e/1FAIpQLSc2EqvL7lU0jqXP4K1MkWH5dw3OwEW_VAHkV-25sS4ZKEZ8Hg/viewform?usp=dialog',
       promo:  'https://docs.google.com/forms/d/e/1FAIpQLSfbhwr2pEJ6MoOIhSiiGndtRHQQTIWFPkCQMgwhk1M-xnfEPA/viewform?usp=dialog',
@@ -1508,6 +1902,8 @@
         btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
         btn.setAttribute('aria-label', theme === 'dark' ? T.themeAriaDark : T.themeAriaLight);
       }
+      var sheetThemeLabel = document.getElementById('sheetThemeLabel');
+      if(sheetThemeLabel){ sheetThemeLabel.textContent = theme === 'dark' ? T.moreThemeLight : T.moreTheme; }
     }
 
     function applyLang(next){
@@ -1521,6 +1917,9 @@
       updateMeta('description', T.metaDesc);
       updateMeta('og:title', T.metaTitle);
       updateMeta('og:description', T.metaDesc);
+      if(currentDetail){
+        updateSeo(findByAppId(currentDetail));
+      }
 
       document.querySelectorAll('[data-i18n]').forEach(function(el){
         var key = el.getAttribute('data-i18n');
@@ -1548,14 +1947,38 @@
       renderStats();
       renderPromotions();
       renderRecent();
+      renderCompareBar();
       if(currentDetail){ renderDetails(currentDetail); }
     }
 
     function updateMeta(prop, content){
-      var sel = 'meta[property="' + prop + '"]';
-      if(prop === 'description'){ sel = 'meta[name="description"]'; }
-      var el = document.querySelector(sel);
+      var el = document.querySelector('meta[property="' + prop + '"]')
+            || document.querySelector('meta[name="' + prop + '"]');
       if(el){ el.setAttribute('content', content); }
+    }
+    /* ============ SEO ديناميكي لكل تطبيق ============ */
+    function seoParts(app){
+      if(!app){
+        return { title: T.detailNotFoundTitle, desc: T.detailNotFoundText };
+      }
+      return { title: appName(app) + ' — ' + T.metaTitle, desc: appDesc(app) };
+    }
+    function updateSeo(app){
+      var p = seoParts(app);
+      document.title = p.title;
+      updateMeta('description', p.desc);
+      updateMeta('og:title', p.title);
+      updateMeta('og:description', p.desc);
+      updateMeta('twitter:title', p.title);
+      updateMeta('twitter:description', p.desc);
+    }
+    function resetSeo(){
+      document.title = T.metaTitle;
+      updateMeta('description', T.metaDesc);
+      updateMeta('og:title', T.metaTitle);
+      updateMeta('og:description', T.metaDesc);
+      updateMeta('twitter:title', T.metaTitle);
+      updateMeta('twitter:description', T.metaDesc);
     }
 
     /* ============ بيانات موضعية (ثنائية اللغة) ============ */
@@ -1644,6 +2067,190 @@
       if(activeCategory === 'favorites'){ render(); }
     }
 
+    /* ============ المقارنة ============ */
+    function isComparedById(id){
+      try{ return SyhStorage.getCompareList().indexOf(id) !== -1; }catch(e){ return false; }
+    }
+    function compareBtnHTML(app){
+      var on = isComparedById(app.id);
+      return '<button type="button" class="cmp-btn' + (on ? ' active' : '') + '" data-app="' + app.id + '" aria-pressed="' + (on ? 'true' : 'false') + '">' +
+        (on ? T.compareAdded : T.compareAdd) +
+      '</button>';
+    }
+    function compareAppById(id){
+      return findByAppId(id);
+    }
+    function compareListApps(){
+      try{
+        var ids = SyhStorage.getCompareList();
+        var apps = [];
+        (ids || []).forEach(function(id){
+          var a = compareAppById(id);
+          if(a){ apps.push(a); }
+        });
+        return apps;
+      }catch(e){ return []; }
+    }
+    function compareParams(appId){
+      var app = compareAppById(appId);
+      return {
+        app_id: appId,
+        app_name: app ? appName(app) : '',
+        app_category: app ? catLabel(catInfo(app.category)) : ''
+      };
+    }
+    function compareFlash(msg){
+      var el = document.getElementById('cmpMsg');
+      if(!el){ return; }
+      el.textContent = msg || '';
+      clearTimeout(el._t);
+      el._t = setTimeout(function(){ el.textContent = ''; }, 2400);
+    }
+    function updateCompareButtons(){
+      document.querySelectorAll('.cmp-btn[data-app]').forEach(function(btn){
+        var on = isComparedById(btn.getAttribute('data-app'));
+        btn.classList.toggle('active', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.textContent = on ? T.compareAdded : T.compareAdd;
+      });
+    }
+    function renderCompareSheet(){
+      var listEl = document.getElementById('compareSheetList');
+      if(!listEl){ return; }
+      var apps = compareListApps();
+      listEl.innerHTML = apps.map(function(app){
+        return '<span class="cmp-chip">' +
+          '<span class="cc-name">' + appName(app) + '</span>' +
+          '<button type="button" class="cc-x" data-x="' + app.id + '" aria-label="' + T.compareRemoved + '">×</button>' +
+        '</span>';
+      }).join('');
+      var empty = document.getElementById('compareSheetEmpty');
+      if(empty){ empty.style.display = apps.length ? 'none' : 'block'; }
+      var go = document.getElementById('compareSheetGo');
+      if(go){ go.disabled = apps.length < 2; }
+      var clr = document.getElementById('compareSheetClear');
+      if(clr){ clr.style.display = apps.length ? 'inline-flex' : 'none'; }
+    }
+    function renderCompareBar(){
+      var bar = document.getElementById('cmpBar');
+      if(!bar){ return; }
+      var apps = compareListApps();
+      bar.hidden = apps.length === 0;
+      document.getElementById('cmpChips').innerHTML = apps.map(function(app){
+        return '<span class="cmp-chip">' +
+          '<span class="cc-name">' + appName(app) + '</span>' +
+          '<button type="button" class="cc-x" data-x="' + app.id + '" aria-label="' + T.compareRemoved + '">×</button>' +
+        '</span>';
+      }).join('');
+      document.getElementById('cmpTitle').textContent = T.compareBarTitle + (apps.length ? ' (' + apps.length + ')' : '');
+      var go = document.getElementById('cmpGo');
+      if(go){ go.disabled = apps.length < 2; }
+      renderCompareSheet();
+    }
+    function addToCompare(appId){
+      var list = [];
+      try{ list = SyhStorage.getCompareList(); }catch(e){}
+      if(list.indexOf(appId) !== -1){ return; }
+      if(list.length >= 4){
+        compareFlash(T.compareLimit);
+        renderCompareBar();
+        return;
+      }
+      try{ SyhStorage.addCompareItem(appId); }catch(e){}
+      trackAnalytics('compare_add', compareParams(appId));
+      renderCompareBar();
+      updateCompareButtons();
+    }
+    function removeFromCompare(appId){
+      try{ SyhStorage.removeCompareItem(appId); }catch(e){}
+      trackAnalytics('compare_remove', compareParams(appId));
+      renderCompareBar();
+      updateCompareButtons();
+    }
+    function toggleCompare(appId){
+      if(isComparedById(appId)){ removeFromCompare(appId); }
+      else{ addToCompare(appId); }
+    }
+    function clearCompare(){
+      try{ SyhStorage.clearCompareList(); }catch(e){}
+      trackAnalytics('compare_clear', {});
+      renderCompareBar();
+      updateCompareButtons();
+    }
+    function buildCompareTable(){
+      var wrap = document.getElementById('compareViewBody');
+      if(!wrap){ return; }
+      var apps = compareListApps();
+      if(apps.length < 2){
+        wrap.innerHTML = '<p class="sheet-note">' + T.compareMin + '</p>';
+        return;
+      }
+      var cells = function(fn){
+        return apps.map(function(a){ return '<td>' + (fn ? fn(a) : '&mdash;') + '</td>'; }).join('');
+      };
+      var row = function(label, cellHTML){
+        return '<tr><th class="cmp-rowhead" scope="row">' + label + '</th>' + cellHTML + '</tr>';
+      };
+      var icons = apps.map(function(a){ return catInfo(a.category).icon; });
+      var thead = '<thead><tr><th></th>' + apps.map(function(a){
+        return '<th><span class="cmp-icon" aria-hidden="true">' + catInfo(a.category).icon + '</span>' +
+          '<div class="cmp-appname">' + appName(a) + '</div></th>';
+      }).join('') + '</tr></thead>';
+      var tbody =
+        '<tbody>' +
+          row(T.compareRowCat, cells(function(a){
+            return catInfo(a.category).icon + ' ' + catLabel(catInfo(a.category));
+          })) +
+          row(T.compareRowRating, cells(function(a){
+            var r = computeRating(a.id);
+            return r.count > 0
+              ? '<span class="stars">' + starsHTML(r.avg) + '</span> ' + r.avg.toFixed(1) + ' (' + r.count + ')'
+              : T.ratingCountNone;
+          })) +
+          row(T.compareRowPlatforms, cells(function(a){
+            return (a.platforms || []).map(function(p){ return platformLabel(p); }).join(' · ');
+          })) +
+          row(T.compareRowVerified, cells(function(a){
+            return a.verified ? '✅ ' + T.verified : T.compareNotVerified;
+          })) +
+          row(T.compareRowDesc, cells(function(a){ return appDesc(a); })) +
+          row(T.compareRowLinks, cells(function(a){
+            var links = a.storeLinks || {};
+            var primary = links.android || links.ios || links.web || a.officialLink;
+            var stores = detailStoreButtons(a);
+            return '<div class="cmp-actions-cell">' +
+              '<a class="btn btn-primary btn-sm" href="' + primary + '" target="_blank" rel="noopener">' + T.install + '</a>' +
+              '<a class="btn btn-ghost btn-sm" href="' + a.officialLink + '" target="_blank" rel="noopener">' + T.officialSite + '</a>' +
+              (stores ? '<div class="platforms">' + stores + '</div>' : '') +
+            '</div>';
+          })) +
+        '</tbody>';
+      wrap.innerHTML = '<table class="cmp-table" aria-label="' + T.compareSheetTitle + '">' + thead + tbody + '</table>';
+    }
+    function showCompareView(){
+      buildCompareTable();
+      var v = document.getElementById('compareView');
+      if(v){ v.hidden = false; }
+      try{ document.body.classList.add('no-scroll'); }catch(e){}
+      compareOpen = true;
+      try{ history.replaceState(null, '', '#compare'); }catch(e){}
+      trackAnalytics('compare_open', { count: compareListApps().length, language: lang });
+      var first = document.getElementById('compareBack');
+      if(first && first.focus){ first.focus(); }
+    }
+    function closeCompareView(){
+      compareOpen = false;
+      var v = document.getElementById('compareView');
+      if(v){ v.hidden = true; }
+      try{ document.body.classList.remove('no-scroll'); }catch(e){}
+      try{
+        if(window.location.hash === '#compare'){
+          history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+      }catch(e){}
+      trackAnalytics('compare_close', {});
+    }
+
     function recentMiniHTML(app){
       var cat = catInfo(app.category);
       var rating = computeRating(app.id);
@@ -1702,6 +2309,40 @@
       });
       return out;
     }
+    function relatedApps(appId){
+      var apps = (typeof APPS !== 'undefined' ? APPS : []);
+      var current = null;
+      apps.forEach(function(a){ if(a.id === appId){ current = a; } });
+      if(!current){ return []; }
+      var curPlat = current.platforms || [];
+      var scored = [];
+      apps.forEach(function(a){
+        if(a.id === appId){ return; }
+        var score = 0;
+        if(a.category === current.category){ score += 2; }
+        var share = (a.platforms || []).filter(function(p){ return curPlat.indexOf(p) !== -1; }).length;
+        if(share > 0){ score += 1; }
+        if(score > 0){ scored.push({ _app: a, _s: score, _r: computeRating(a.id).avg }); }
+      });
+      scored.sort(function(x, y){
+        if(y._s !== x._s){ return y._s - x._s; }
+        return y._r - x._r;
+      });
+      return scored.slice(0, 4).map(function(x){ return x._app; });
+    }
+    function renderRelated(currentId){
+      var section = document.getElementById('detailRelated');
+      var list = document.getElementById('detailRelatedList');
+      if(!section || !list){ return; }
+      var rel = relatedApps(currentId);
+      if(rel.length === 0){
+        section.style.display = 'none';
+        list.innerHTML = '';
+        return;
+      }
+      section.style.display = 'block';
+      list.innerHTML = rel.map(function(app){ return recentMiniHTML(app); }).join('');
+    }
     function renderDetails(appId){
       try{
         var panel = document.getElementById('detailView');
@@ -1718,8 +2359,13 @@
           document.getElementById('detailStores').style.display = 'none';
           document.getElementById('detailOffers').style.display = 'none';
           document.getElementById('detailReviews').style.display = 'none';
+          var relHide = document.getElementById('detailRelated');
+          if(relHide){ relHide.style.display = 'none'; }
           document.getElementById('detailFav').style.display = 'none';
+          var cmpHide = document.getElementById('detailCompare');
+          if(cmpHide){ cmpHide.style.display = 'none'; }
           currentDetail = appId;
+          updateSeo(null);
           return;
         }
         var cat = catInfo(app.category);
@@ -1758,6 +2404,7 @@
         document.getElementById('detailReviewsList').innerHTML = reviewsListHTML(app.id);
         document.getElementById('detailReviewsHeading').textContent = T.reviewsHeading + ' (' + revs.length + ')';
         document.getElementById('detailReviews').style.display = 'block';
+        renderRelated(app.id);
         var favBtn = document.getElementById('detailFav');
         var fav = isFavoriteById(app.id);
         favBtn.style.display = 'inline-block';
@@ -1765,9 +2412,17 @@
         favBtn.classList.toggle('active', fav);
         favBtn.setAttribute('aria-pressed', fav ? 'true' : 'false');
         favBtn.textContent = fav ? T.favAdded : T.favAdd;
+        var cmpBtn = document.getElementById('detailCompare');
+        var cmp = isComparedById(app.id);
+        cmpBtn.style.display = 'inline-block';
+        cmpBtn.setAttribute('data-app', app.id);
+        cmpBtn.classList.toggle('active', cmp);
+        cmpBtn.setAttribute('aria-pressed', cmp ? 'true' : 'false');
+        cmpBtn.textContent = cmp ? T.compareAdded : T.compareAdd;
         var revCta = document.getElementById('detailReviewCta');
         revCta.href = FORMS.review;
         revCta.textContent = T.reviewCta;
+        updateSeo(app);
         currentDetail = app.id;
       }catch(e){ /* لا تكسر التصفح عند أي خطأ في التفاصيل */ }
     }
@@ -1784,10 +2439,22 @@
       var panel = document.getElementById('detailView');
       if(panel){ panel.hidden = true; }
       currentDetail = null;
+      resetSeo();
+    }
+    function hashIsCompare(){
+      return (typeof window !== 'undefined' && window.location && window.location.hash) === '#compare';
     }
     function handleRoute(){
       var id = hashAppId();
       if(id){ openApp(id); return; }
+      if(hashIsCompare()){
+        showCompareView();
+        return;
+      }
+      if(compareOpen){
+        closeCompareView();
+        return;
+      }
       if(currentDetail){
         var closedId = currentDetail;
         closeDetails();
@@ -1808,6 +2475,52 @@
         done('legacy');
       }
     }
+    function isMobileShare(){
+      if(typeof navigator === 'undefined' || !navigator.share){ return false; }
+      if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '')){ return true; }
+      try{
+        if(window.matchMedia && window.matchMedia('(pointer: coarse)').matches && 'ontouchstart' in window){ return true; }
+      }catch(e){}
+      return false;
+    }
+    function copyOrFallback(url, done){
+      writeClipboard(url, done);
+    }
+    function writeClipboard(text, done){
+      if(typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text)
+          .then(function(){ done('copy'); })
+          .catch(function(){ fallbackCopy(text, done); });
+        return;
+      }
+      fallbackCopy(text, done);
+    }
+    /* ============ نسخ كوبون العرض ============ */
+    function announceCopy(){
+      var el = document.getElementById('copyStatus');
+      if(el){ el.textContent = T.copied; }
+    }
+    function copyPromoCode(code, btn, source){
+      var finish = function(method){
+        trackAnalytics('promo_code_copy', {
+          promo_code: code,
+          value: code,
+          interaction: source || 'button',
+          method: method
+        });
+        if(btn){
+          var original = btn.textContent;
+          btn.textContent = T.copied;
+          btn.classList.add('copied');
+          announceCopy();
+          setTimeout(function(){
+            btn.textContent = original;
+            btn.classList.remove('copied');
+          }, 1600);
+        }
+      };
+      writeClipboard(code, finish);
+    }
     function shareApp(appId){
       var app = findByAppId(appId);
       if(!app){ return; }
@@ -1821,19 +2534,17 @@
           setTimeout(function(){ btn.textContent = original; }, 2000);
         }
       };
-      if(typeof navigator !== 'undefined' && navigator.share){
-        navigator.share({ title: appName(app), text: appDesc(app), url: url })
-          .then(function(){ finish('native'); })
-          .catch(function(){});
+      if(isMobileShare()){
+        try{
+          navigator.share({ title: appName(app), text: appDesc(app), url: url })
+            .then(function(){ finish('native'); })
+            .catch(function(){});
+        }catch(e){
+          copyOrFallback(url, finish);
+        }
         return;
       }
-      if(typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(url)
-          .then(function(){ finish('copy'); })
-          .catch(function(){ fallbackCopy(url, finish); });
-        return;
-      }
-      fallbackCopy(url, finish);
+      copyOrFallback(url, finish);
     }
 
     function openApp(appId){
@@ -1897,25 +2608,6 @@
             promo_badge: card.querySelector('.promo-badge').textContent.trim(),
             coupon_code: coupon ? coupon.textContent.trim() : ''
           };
-        });
-
-        scroller.querySelectorAll('.copy-btn').forEach(function(btn){
-          btn.addEventListener('click', function(){
-            if(!navigator.clipboard || !navigator.clipboard.writeText) return;
-            navigator.clipboard.writeText(btn.dataset.code).then(function(){
-              trackAnalytics('promo_code_copy', {
-                promo_code: btn.dataset.code,
-                value: btn.dataset.code
-              });
-              var original = btn.textContent;
-              btn.textContent = T.copied;
-              btn.classList.add('copied');
-              setTimeout(function(){
-                btn.textContent = original;
-                btn.classList.remove('copied');
-              }, 1500);
-            });
-          });
         });
       }catch(err){ /* لا يسمح لخطأ العروض بمنع شبكة التطبيقات */ }
     }
@@ -1983,7 +2675,10 @@
             (app.verified ? '<span class="verified-tag">' + T.verified + '</span>' : '') +
           '</div>' +
           '<div>' +
-            '<h3>' + appName(app) + '</h3>' +
+            '<h3>' + (function(){
+            var sq = (document.getElementById('search').value || '').trim();
+            return highlightName(app, sq);
+          })() + '</h3>' +
             '<span class="cat-tag">' + catLabel(cat) + '</span>' +
           '</div>' +
           '<div class="rating-row">' +
@@ -2000,6 +2695,7 @@
           '</div>' +
           '<div class="card-extra">' +
             favoriteBtnHTML(app) +
+            compareBtnHTML(app) +
           '</div>' +
           '<div class="card-meta">' +
             '<button class="toggle-reviews-btn" type="button" data-target="' + reviewsId + '">' + T.showReviews(rating.count) + '</button>' +
@@ -2009,6 +2705,63 @@
             reviewsListHTML(app.id) +
           '</div>' +
         '</article>';
+    }
+
+    var lastSearchCount = 0;
+
+    /* ============ ترتيب البحث (Search Ranking) ============ */
+    function escHtml(s){
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function hlWrap(text, ql){
+      var idx = text.toLowerCase().indexOf(ql);
+      if(idx === -1){ return escHtml(text); }
+      return escHtml(text.slice(0, idx)) +
+        '<mark>' + escHtml(text.slice(idx, idx + ql.length)) + '</mark>' +
+        escHtml(text.slice(idx + ql.length));
+    }
+    function highlightName(app, q){
+      var ql = q.toString().toLowerCase();
+      var disp = appName(app);
+      if(!ql){ return escHtml(disp); }
+      var cands = [disp, app.name || '', app.name_en || ''];
+      var best = null, bestIdx = -1, i;
+      for(i = 0; i < cands.length; i++){
+        if(!cands[i]){ continue; }
+        var ix = (cands[i] + '').toLowerCase().indexOf(ql);
+        if(ix !== -1 && (best === null || ix < bestIdx)){
+          best = cands[i];
+          bestIdx = ix;
+        }
+      }
+      if(best === null){ return escHtml(disp); }
+      var dIdx = (disp + '').toLowerCase().indexOf(ql);
+      return dIdx !== -1 ? hlWrap(disp, ql) : escHtml(disp);
+    }
+    function searchScore(app, q){
+      var ql = q.toLowerCase();
+      var m = function(v){ return (v || '').toLowerCase(); };
+      var names = [appName(app), app.name || '', app.name_en || ''];
+      var score = 0, i;
+      for(i = 0; i < names.length; i++){
+        if(!names[i]){ continue; }
+        var n = m(names[i]);
+        if(n === ql){ score = Math.max(score, 100); }
+        else if(n.indexOf(ql) === 0){ score = Math.max(score, 85); }
+        else if(n.indexOf(ql) !== -1){ score = Math.max(score, 65); }
+      }
+      var cat = catInfo(app.category);
+      if(m(cat.label).indexOf(ql) !== -1 || m(cat.label_en).indexOf(ql) !== -1){ score = Math.max(score, 45); }
+      if(m(appDesc(app)).indexOf(ql) !== -1 || m(app.description || '').indexOf(ql) !== -1){ score = Math.max(score, 30); }
+      if((app.platforms || []).indexOf(q) !== -1){ score = Math.max(score, 20); }
+      return score;
+    }
+    function searchCompare(a, b){
+      if(b._s !== a._s){ return b._s - a._s; }
+      if(sortBy === 'name'){
+        return appName(a._app).localeCompare(appName(b._app), lang === 'ar' ? 'ar' : 'en');
+      }
+      return computeRating(b._app.id).avg - computeRating(a._app.id).avg;
     }
 
     function sortApps(list){
@@ -2034,15 +2787,7 @@
 
       var filtered = (typeof APPS !== 'undefined' ? APPS : []).filter(function(app){
         var matchesCategory = activeCategory === 'all' || activeCategory === 'favorites' || app.category === activeCategory;
-        if(!matchesCategory) return false;
-        if(!q) return true;
-        var cat = catInfo(app.category);
-        var haystack = [
-          appName(app), appDesc(app), app.name, app.description,
-          cat.label, cat.label_en,
-          (app.platforms || []).join(' ')
-        ].join(' ').toLowerCase();
-        return haystack.indexOf(q) !== -1;
+        return matchesCategory;
       });
 
       if(activeCategory === 'favorites'){
@@ -2051,7 +2796,20 @@
         });
       }
 
-      var sorted = sortApps(filtered);
+      var sorted;
+      if(q){
+        var scored = [];
+        filtered.forEach(function(app){
+          var s = searchScore(app, q);
+          if(s > 0){ scored.push({ _app: app, _s: s }); }
+        });
+        lastSearchCount = scored.length;
+        scored.sort(searchCompare);
+        sorted = scored.map(function(x){ return x._app; });
+      } else {
+        lastSearchCount = filtered.length;
+        sorted = sortApps(filtered);
+      }
       grid.innerHTML = sorted.map(function(app, i){ return cardHTML(app, i); }).join('');
       resultCount.textContent = T.resultCount(sorted.length);
       var emptyTitle = emptyState.querySelector('.empty-title');
@@ -2079,6 +2837,22 @@
     function init(){
       T = I18N[lang];
 
+      /* زر تحميل التطبيق (APK) — يظهر فقط عند وضع رابط في APK_LINK */
+      var apkTop = document.getElementById('apkDownload');
+      var apkSheet = document.getElementById('sheetApk');
+      if(APK_LINK){
+        [apkTop, apkSheet].forEach(function(el){
+          if(!el){ return; }
+          el.hidden = false;
+          el.href = APK_LINK;
+        });
+        var apkClick = function(method){
+          trackAnalytics('apk_download', { method: method, language: lang });
+        };
+        apkTop.addEventListener('click', function(){ apkClick('topbar'); });
+        apkSheet.addEventListener('click', function(){ apkClick('more_sheet'); });
+      }
+
       var themeBtn = document.getElementById('themeToggle');
       themeBtn.addEventListener('click', function(){
         applyTheme(theme === 'dark' ? 'light' : 'dark');
@@ -2094,11 +2868,17 @@
       var searchInput = document.getElementById('search');
       searchInput.addEventListener('input', function(){
         var v = searchInput.value.trim();
+        render();
         if(v !== searchInput._lastSearch){
           searchInput._lastSearch = v;
-          if(v){ trackAnalytics('search', { search_term: v }); }
+          if(v){
+            trackAnalytics('search', {
+              search_term: v,
+              result_count: lastSearchCount,
+              has_results: lastSearchCount > 0
+            });
+          }
         }
-        render();
       });
 
       var sortSel = document.getElementById('sortSel');
@@ -2160,6 +2940,11 @@
             toggleFavorite(favBtn.dataset.app, favBtn);
             return;
           }
+          var cmpBtn = e.target.closest('.cmp-btn');
+          if(cmpBtn){
+            toggleCompare(cmpBtn.getAttribute('data-app'));
+            return;
+          }
           if(e.target.closest('.card-icon, h3, .cat-tag')){
             openApp(card.dataset.app);
             return;
@@ -2188,6 +2973,18 @@
           openApp(id);
         }
       });
+      var detailRelatedList = document.getElementById('detailRelatedList');
+      detailRelatedList.addEventListener('click', function(e){
+        var rc = e.target.closest('.recent-card');
+        if(rc){
+          var id = rc.getAttribute('data-app') || '';
+          trackAnalytics('recommendation_click', {
+            app_id: id,
+            source_app_id: currentDetail || ''
+          });
+          openApp(id);
+        }
+      });
 
       /* ============ تفاصيل التطبيق + المشاركة ============ */
       var detailView = document.getElementById('detailView');
@@ -2199,6 +2996,11 @@
       document.getElementById('detailBack').addEventListener('click', navToPrev);
       detailFav.addEventListener('click', function(){
         toggleFavorite(detailFav.getAttribute('data-app'), detailFav);
+      });
+      var detailCompare = document.getElementById('detailCompare');
+      detailCompare.addEventListener('click', function(){
+        var id = detailCompare.getAttribute('data-app');
+        if(id){ toggleCompare(id); }
       });
       document.getElementById('detailShare').addEventListener('click', function(){
         if(currentDetail){ shareApp(currentDetail); }
@@ -2230,18 +3032,147 @@
           coupon_code: coupon ? coupon.textContent.trim() : ''
         };
       });
-      detailView.addEventListener('click', function(e){
-        var copyBtn = e.target.closest('#detailOffersList .copy-btn');
-        if(!copyBtn){ return; }
-        if(!navigator.clipboard || !navigator.clipboard.writeText){ return; }
-        navigator.clipboard.writeText(copyBtn.dataset.code).then(function(){
-          trackAnalytics('promo_code_copy', { promo_code: copyBtn.dataset.code, value: copyBtn.dataset.code });
-          var original = copyBtn.textContent;
-          copyBtn.textContent = T.copied;
-          copyBtn.classList.add('copied');
-          setTimeout(function(){ copyBtn.textContent = original; copyBtn.classList.remove('copied'); }, 1500);
+      document.addEventListener('click', function(e){
+        var codeEl = e.target.closest('.promo-code');
+        if(codeEl){
+          var row = codeEl.closest('.promo-code-row');
+          var bt = row ? row.querySelector('.copy-btn') : null;
+          copyPromoCode(codeEl.textContent.trim(), bt, 'code');
+          return;
+        }
+        var btn = e.target.closest('.copy-btn');
+        if(btn){
+          copyPromoCode(btn.getAttribute('data-code') || btn.textContent.trim(), btn, 'button');
+        }
+      });
+
+      var lastSheetOpen = null;
+      function closeSheet(){
+        if(lastSheetOpen){ lastSheetOpen.classList.remove('open'); lastSheetOpen = null; }
+      }
+      function openSheet(id){
+        var s = document.getElementById(id);
+        if(s && !s.classList.contains('open')){ s.classList.add('open'); lastSheetOpen = s; }
+      }
+      function navHome(){
+        if(currentDetail){
+          var t = (prevHash && prevHash.indexOf('#app/') !== 0) ? prevHash : '';
+          try{ window.location.hash = t; }catch(e){ closeDetails(); }
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      function promoScroll(){
+        var section = document.getElementById('promosSection');
+        if(section && section.style.display !== 'none'){
+          try{ section.scrollIntoView({ behavior:'smooth', block:'start' }); }catch(e){ section.scrollIntoView(); }
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+      var bottomNav = document.getElementById('bottomNav');
+      bottomNav.addEventListener('click', function(e){
+        var it = e.target.closest('.bn-item');
+        if(!it) return;
+        var act = it.getAttribute('data-nav');
+        trackAnalytics('bottom_nav', { item: act, language: lang });
+        if(act === 'home'){ navHome(); }
+        else if(act === 'search'){ searchInput.focus(); try{ searchInput.scrollIntoView({ behavior:'smooth', block:'center' }); }catch(e){} }
+        else if(act === 'offers'){ promoScroll(); }
+        else if(act === 'compare'){ renderCompareSheet(); openSheet('compareSheet'); }
+        else if(act === 'more'){ openSheet('moreSheet'); }
+      });
+      var moreSheet = document.getElementById('moreSheet');
+      var compareSheet = document.getElementById('compareSheet');
+      [moreSheet, compareSheet].forEach(function(s){
+        s.addEventListener('click', function(e){
+          if(e.target === s){ closeSheet(); }
         });
       });
+      document.getElementById('sheetClose').addEventListener('click', closeSheet);
+      document.getElementById('compareSheetClose').addEventListener('click', closeSheet);
+      moreSheet.querySelectorAll('.sheet-opt[data-sheet]').forEach(function(opt){
+        opt.addEventListener('click', function(){
+          var kind = opt.getAttribute('data-sheet');
+          closeSheet();
+          if(kind === 'favorites'){
+            activeCategory = 'favorites';
+            document.querySelectorAll('#chips .chip').forEach(function(c){
+              c.classList.toggle('active', c.getAttribute('data-key') === 'favorites');
+            });
+            render();
+            trackAnalytics('filter_category', { category: 'favorites', category_label: T.favLabel });
+            try{ document.getElementById('apps').scrollIntoView({ behavior:'smooth', block:'start' }); }catch(e){}
+          }
+        });
+      });
+      document.getElementById('sheetTheme').addEventListener('click', function(){
+        closeSheet();
+        applyTheme(theme === 'dark' ? 'light' : 'dark');
+        trackAnalytics('toggle_theme', { theme: theme });
+      });
+      document.getElementById('sheetLang').addEventListener('click', function(){
+        closeSheet();
+        applyLang(lang === 'en' ? 'ar' : 'en');
+        trackAnalytics('change_language', { language: lang });
+      });
+      document.getElementById('sheetContribute').addEventListener('click', function(){
+        closeSheet();
+        openContributeModal();
+      });
+
+      /* ============ نظام المقارنة ============ */
+      var cmpBar = document.getElementById('cmpBar');
+      cmpBar.addEventListener('click', function(e){
+        var x = e.target.closest('.cc-x');
+        if(x){ removeFromCompare(x.getAttribute('data-x')); return; }
+        if(e.target.closest('#cmpGo')){
+          if(compareListApps().length >= 2){ showCompareView(); }
+          else{ compareFlash(T.compareMin); }
+          return;
+        }
+        if(e.target.closest('#cmpClear')){ clearCompare(); return; }
+      });
+      document.getElementById('compareSheetGo').addEventListener('click', function(){
+        if(compareListApps().length >= 2){
+          closeSheet();
+          showCompareView();
+        } else {
+          compareFlash(T.compareMin);
+          renderCompareSheet();
+        }
+      });
+      document.getElementById('compareSheetClear').addEventListener('click', function(){
+        clearCompare();
+        closeSheet();
+      });
+      document.getElementById('compareSheetList').addEventListener('click', function(e){
+        var x = e.target.closest('.cc-x');
+        if(x){ removeFromCompare(x.getAttribute('data-x')); }
+      });
+      var compareView = document.getElementById('compareView');
+      document.getElementById('compareBack').addEventListener('click', closeCompareView);
+      compareView.addEventListener('click', function(e){
+        if(e.target === compareView){ closeCompareView(); }
+      });
+      var compareCellApp = function(el){
+        var td = el.closest('td');
+        var tr = td ? td.closest('tr') : null;
+        var cells = tr ? tr.cells : [];
+        var idx = td ? Array.prototype.indexOf.call(cells, td) - 1 : -1;
+        var apps = compareListApps();
+        var app = (idx >= 0 && apps[idx]) ? apps[idx] : null;
+        return app;
+      };
+      trackViaDelegate(compareView, '.cmp-table .btn-primary', 'select_content', function(el){
+        var app = compareCellApp(el);
+        return { content_type: 'install', app_id: app ? app.id : '', app_name: app ? appName(app) : '' };
+      });
+      trackViaDelegate(compareView, '.cmp-table .btn-ghost', 'select_content', function(el){
+        var app = compareCellApp(el);
+        return { content_type: 'official_site', app_id: app ? app.id : '', app_name: app ? appName(app) : '' };
+      });
+
+      renderCompareBar();
 
       var backBtn = document.getElementById('backToTop');
       window.addEventListener('scroll', function(){
@@ -2292,7 +3223,9 @@
       });
       document.addEventListener('keydown', function(e){
         if(e.key === 'Escape'){
+          if(lastSheetOpen){ closeSheet(); return; }
           if(modal.classList.contains('open')){ closeContributeModal(); return; }
+          if(compareOpen){ closeCompareView(); return; }
           if(detailView && !detailView.hidden){ navToPrev(); }
         }
       });
@@ -2316,6 +3249,8 @@
     });
   }
 </script>
+
+<span class="sr-only" id="copyStatus" aria-live="polite"></span>
 
 </body>
 </html>

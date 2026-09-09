@@ -1,9 +1,10 @@
-/* SyrDevHub Service Worker — v1.0.0 */
-var CACHE_NAME = 'syh-cache-v3';
+/* SyrDevHub Service Worker — v1.5.0 */
+var CACHE_NAME = 'syh-cache-v10';
 var CORE_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './SyrDevHub-Icon.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-512-maskable.png',
