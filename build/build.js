@@ -13,7 +13,7 @@ var path = require('path');
 
 var ROOT = path.resolve(__dirname, '..');
 var DATA_DIR = path.join(ROOT, 'data');
-var SITE_URL = 'https://ali-mhd-ibrahim.github.io/SyrDevHub/';
+var SITE_URL = 'https://ali-mhd-ibrahim.github.io/SyrHub/';
 
 var PLATFORMS = ['android', 'ios', 'web'];
 

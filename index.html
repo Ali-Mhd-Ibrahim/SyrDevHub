@@ -8,8 +8,8 @@
 <meta name="theme-color" content="#1B2A4A">
 <meta name="color-scheme" content="light dark">
 
-<link rel="icon" type="image/png" href="SyrHub-Icon.png">
-<link rel="apple-touch-icon" href="SyrHub-Icon.png">
+<link rel="icon" type="image/png" href="SyrHub-Icon.png?v=2">
+<link rel="apple-touch-icon" href="SyrHub-Icon.png?v=2">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -20,13 +20,13 @@
 <meta property="og:site_name" content="SyrHub">
 <meta property="og:title" content="SyrHub — دليل التطبيقات السورية">
 <meta property="og:description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
-<meta property="og:image" content="https://ali-mhd-ibrahim.github.io/SyrDevHub/SyrHub-Icon.png">
+<meta property="og:image" content="https://ali-mhd-ibrahim.github.io/SyrHub/SyrHub-Icon.png?v=2">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
 <meta property="og:locale" content="ar_SY">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://ali-mhd-ibrahim.github.io/SyrDevHub/SyrHub-Icon.png">
+<meta name="twitter:image" content="https://ali-mhd-ibrahim.github.io/SyrHub/SyrHub-Icon.png?v=2">
 <meta name="twitter:title" content="SyrHub — دليل التطبيقات السورية">
 <meta name="twitter:description" content="دليل موحّد لأبرز التطبيقات المحلية السورية، مصنّفة وموثّقة بروابطها الرسمية.">
 
@@ -1502,7 +1502,7 @@
 <nav class="topbar" aria-label="الشريط العلوي">
   <div class="nav-inner">
     <a class="brand" href="#top" aria-label="SyrHub">
-      <img src="SyrHub-Icon.png" alt="" width="30" height="30">
+      <img src="SyrHub-Icon.png?v=2" alt="" width="30" height="30">
       <span class="brand-name">SyrHub</span>
     </a>
 
@@ -1616,7 +1616,7 @@
     <p data-i18n="suggestText">اقترحه عبر النموذج التالي وسنقوم بمراجعته وإضافته بعد التحقق من الرابط الرسمي.</p>
     <div class="suggest-actions">
       <button id="contributeOpen" class="btn btn-gold" type="button" data-i18n="contributeBtn">شارك معنا</button>
-      <a class="btn btn-outline-light" href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener" data-i18n="githubBtn">💻 ساهم عبر GitHub</a>
+      <a class="btn btn-outline-light" href="https://github.com/Ali-Mhd-Ibrahim/SyrHub" target="_blank" rel="noopener" data-i18n="githubBtn">💻 ساهم عبر GitHub</a>
     </div>
   </div>
 </section>
@@ -1642,7 +1642,7 @@
   </div>
   <p class="footer-brand">SyrHub</p>
   <p data-i18n="footerNote">مشروع مجتمعي مستقل وغير رسمي · جميع الروابط تؤدي إلى المصادر الرسمية لكل تطبيق</p>
-  <p><a href="https://github.com/Ali-Mhd-Ibrahim/SyrDevHub" target="_blank" rel="noopener" data-i18n="footerSource">شاهد المصدر على GitHub</a></p>
+  <p><a href="https://github.com/Ali-Mhd-Ibrahim/SyrHub" target="_blank" rel="noopener" data-i18n="footerSource">شاهد المصدر على GitHub</a></p>
   <p id="footerRights"></p>
   <p class="footer-credit">👨‍💻 <span data-i18n="footerDeveloper">تم التطوير من قبل المهندس علي إبراهيم</span></p>
 </footer>
@@ -2101,14 +2101,14 @@
     var sortBy = 'rating';
     var activePlatform = 'all';
     var verifiedOnly = false;
-    var SITE_URL = 'https://ali-mhd-ibrahim.github.io/SyrDevHub/';
+    var SITE_URL = 'https://ali-mhd-ibrahim.github.io/SyrHub/';
     var currentDetail = null;
     var prevHash = '';
     var compareOpen = false;
     var T;
     /* ⚡ رابط تحميل تطبيق الأندرويد (APK) — ضع رابط التحميل هنا.
        عند ترك القيمة فارغة يختفي زر التحميل تلقائيًا حتى تضعه. */
-    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrDevHub/refs/heads/main/SyrDevHub-v1.05.apk';
+    var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrHub/refs/heads/main/SyrHub-v1.06.apk';
     var FORMS = {
       app:    'https://docs.google.com/forms/d/e/1FAIpQLSc2EqvL7lU0jqXP4K1MkWH5dw3OwEW_VAHkV-25sS4ZKEZ8Hg/viewform?usp=dialog',
       promo:  'https://docs.google.com/forms/d/e/1FAIpQLSfbhwr2pEJ6MoOIhSiiGndtRHQQTIWFPkCQMgwhk1M-xnfEPA/viewform?usp=dialog',
@@ -2782,7 +2782,7 @@
       for(var i = 0; i < keys.length; i++){
         if(urls[keys[i]]){ body += keys[i] + ': ' + urls[keys[i]] + '\n'; }
       }
-      var url = 'https://github.com/Ali-Mhd-Ibrahim/SyrDevHub/issues/new?title=' +
+      var url = 'https://github.com/Ali-Mhd-Ibrahim/SyrHub/issues/new?title=' +
         encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
       try{ window.open(url, '_blank', 'noopener'); }catch(e2){ window.location.href = url; }
       trackAnalytics('report_broken_link', { app_id: app.id, app_name: appName(app) });
