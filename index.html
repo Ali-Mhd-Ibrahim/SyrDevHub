@@ -190,18 +190,21 @@
   }
   .nav-links a:hover{ color:var(--primary); background:var(--primary-soft); }
   .nav-actions{ display:flex; gap:8px; flex-shrink:0; }
-  /* ------ شارات النسخ (APK / PWA) — مثبتتان أسفل يمين الصفحة ------ */
+  /* ------ شارات النسخ (APK / PWA) — مثبتتان أسفل يمين الشاشة ------ */
   .app-badges{
-    display:block;
-    text-align:right;
-    padding:6px 18px 12px;
+    position:fixed;
+    right:14px; bottom:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+    z-index:60;
     pointer-events:none;
-    animation:none;
   }
+  .app-badges[hidden]{ display:none !important; }
   .app-badges > *{
     pointer-events:auto;
   }
-  .app-badges[hidden]{ display:none; }
   .app-badge{
     display:inline-flex;
     align-items:center;
@@ -220,10 +223,10 @@
     animation:fadeUp .4s ease both;
     transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
   }
+  .app-badge[hidden]{ display:none !important; }
   .app-badge:hover{ transform:translateY(-2px); border-color:var(--primary); box-shadow:var(--shadow-lg); }
   .app-badge:active{ transform:scale(0.97); }
   .app-badge:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
-  .app-badge[hidden]{ display:none; }
   .app-badge .ab-ico{
     width:34px; height:34px; flex-shrink:0;
     border-radius:9px;
@@ -238,6 +241,7 @@
   .install-steps{ margin:14px 0 18px; padding-inline-start:22px; display:flex; flex-direction:column; gap:10px; }
   .install-steps li{ font-size:0.9rem; color:var(--text); line-height:1.5; }
   @media (max-width:600px){
+    .app-badges{ right:8px; bottom:76px; z-index:82; }
     .app-badge{ padding:8px 11px; }
     .app-badge .ab-sub{ font-size:.66rem; }
   }
@@ -1980,9 +1984,9 @@
     var DEVICE_IS_IOS = /iP(hone|od|ad)/i.test((typeof navigator !== 'undefined') ? (navigator.userAgent || '') : '');
     function isAppInstalled(){
       try{
+        /* مثبّتة فعلياً الآن: نافذة مستقلة (PWA) — لا حاجة لشارات التثبيت */
         if(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches){ return true; }
         if(window.navigator && window.navigator.standalone === true){ return true; }
-        if(localStorage.getItem('syh-installed') === '1'){ return true; }
         /* داخل النسخة المثبّتة (APK): يُفتح الموقع في WebView أو ملف محلي */
         var winLoc = (typeof window !== 'undefined' && window.location) ? window.location : null;
         var proto = winLoc ? (winLoc.protocol || '') : '';
@@ -1991,6 +1995,11 @@
         if(/Android/i.test(ua) && /WebView|wv|Version\/4\.0/i.test(ua)){ return true; }
       }catch(e){}
       return false;
+    }
+    function showBadge(el, visible){
+      if(!el){ return; }
+      el.hidden = !visible;
+      el.style.display = visible ? '' : 'none';
     }
     function syncAppBadges(){
       try{
@@ -2003,9 +2012,9 @@
           var showApk = !!APK_LINK && DEVICE_IS_ANDROID && !isAppInstalled();
           if(showApk){
             badgeApk.href = APK_LINK;
-            badgeApk.hidden = false;
+            showBadge(badgeApk, true);
             any = true;
-          } else { badgeApk.hidden = true; }
+          } else { showBadge(badgeApk, false); }
         }
         if(badgePwa){
           var showPwa = !isAppInstalled();
@@ -2013,11 +2022,11 @@
             var sub = document.getElementById('badgePwaSub');
             var curT = (typeof I18N !== 'undefined' && I18N[lang]) ? I18N[lang] : T;
             if(sub){ sub.textContent = DEVICE_IS_IOS ? curT.pwaBadgeSub : curT.pwaBadgeSubAndroid; }
-            badgePwa.hidden = false;
+            showBadge(badgePwa, true);
             any = true;
-          } else { badgePwa.hidden = true; }
+          } else { showBadge(badgePwa, false); }
         }
-        badges.hidden = !any;
+        showBadge(badges, any);
       }catch(e){ /* لا تُوقف الشارات الصفحة عند أي خطأ */ }
     }
 
@@ -2984,7 +2993,6 @@
         if(badgesBox){ badgesBox.classList.add('installable'); }
       });
       window.addEventListener('appinstalled', function(){
-        try{ localStorage.setItem('syh-installed', '1'); }catch(e){}
         trackAnalytics('install_complete', { language: lang });
         syncAppBadges();
       });
@@ -3017,8 +3025,10 @@
           else { openInstallModal(); }
         });
       }
-      document.getElementById('installGotIt').addEventListener('click', closeInstallModal);
-      document.getElementById('installModalClose').addEventListener('click', closeInstallModal);
+      var gotItBtn = document.getElementById('installGotIt');
+      if(gotItBtn){ gotItBtn.addEventListener('click', closeInstallModal); }
+      var installModalCloseBtn = document.getElementById('installModalClose');
+      if(installModalCloseBtn){ installModalCloseBtn.addEventListener('click', closeInstallModal); }
       var installModalBox = document.getElementById('installModal');
       if(installModalBox){
         installModalBox.addEventListener('click', function(e){
