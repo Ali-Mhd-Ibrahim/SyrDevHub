@@ -1,13 +1,11 @@
-/* SyrDevHub Service Worker — v1.8.5 */
-var CACHE_NAME = 'syh-cache-v18';
+/* SyrHub Service Worker — v1.9.0 */
+var CACHE_NAME = 'syh-cache-v19';
 var CORE_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './SyrDevHub-Icon.png',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/icon-512-maskable.png',
+  './SyrHub-Icon.png',
+  './icons/App-SyrHub-Icon.png',
   './apps-data.js',
   './promotions-data.js',
   './reviews-data.js',

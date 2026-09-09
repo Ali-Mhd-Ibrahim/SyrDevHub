@@ -1,5 +1,5 @@
 /**
- * SyrDevHub Storage — إدارة مركزية للتخزين المحلي (localStorage)
+ * SyrHub Storage — إدارة مركزية للتخزين المحلي (localStorage)
  * ==========================================
  * كل التعامل مع localStorage يتم هنا عبر هذه الواجهة.
  * ES5 فقط — بدون let/const/arrow/class/modules.
