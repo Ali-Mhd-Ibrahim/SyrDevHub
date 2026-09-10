@@ -1,5 +1,5 @@
-/* SyrHub Service Worker — v1.13.0 */
-var CACHE_NAME = 'syh-cache-v23';
+/* SyrHub Service Worker — v1.14.0 */
+var CACHE_NAME = 'syh-cache-v24';
 var CORE_ASSETS = [
   './',
   './index.html',
