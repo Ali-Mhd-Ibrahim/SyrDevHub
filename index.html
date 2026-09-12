@@ -1215,6 +1215,28 @@
     font-size:0.85rem;
     font-weight:500;
   }
+  .notify-toast{
+    position:fixed;
+    inset-inline-start:22px;
+    bottom:78px;
+    z-index:90;
+    max-width:340px;
+    max-width:min(340px, 86vw);
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-inline-start:4px solid var(--primary);
+    border-radius:12px;
+    padding:12px 16px;
+    box-shadow:var(--shadow-lg);
+    cursor:pointer;
+    animation:toastIn .25s ease both;
+  }
+  .notify-toast strong{ font-size:.9rem; color:var(--text); font-weight:800; }
+  .notify-toast span{ font-size:.8rem; color:var(--text-soft); }
+  @keyframes toastIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
 
   /* -------- زر العودة للأعلى -------- */
   .back-to-top{
@@ -1685,6 +1707,8 @@
       <button class="sheet-opt" type="button" id="sheetLang"><span class="so-ico" aria-hidden="true">🌐</span><span data-i18n="moreLanguage">English</span></button>
       <button class="sheet-opt" type="button" id="sheetContribute"><span class="so-ico" aria-hidden="true">💬</span><span data-i18n="moreContribute">ساهم معنا</span></button>
       <button class="sheet-opt" type="button" id="sheetClearRecent"><span class="so-ico" aria-hidden="true">🧹</span><span data-i18n="moreClearRecent">مسح سجل التصفح</span></button>
+      <button class="sheet-opt" type="button" id="sheetNotify"><span class="so-ico" aria-hidden="true">🔔</span><span id="sheetNotifyLabel">تفعيل الإشعارات</span></button>
+      <button class="sheet-opt" type="button" id="sheetNotifyCopy" style="display:none"><span class="so-ico" aria-hidden="true">📋</span><span data-i18n="notifyTokenBtn">نسخ رمز الجهاز (للاختبار)</span></button>
     </div>
   </div>
 </div>
@@ -1906,6 +1930,12 @@
         moreLanguage:"English",
         moreContribute:"ساهم معنا",
         moreClearRecent:"مسح سجل التصفح",
+        moreNotify:"تفعيل الإشعارات",
+        moreNotifyOn:"إيقاف الإشعارات",
+        notifyTokenBtn:"نسخ رمز الجهاز (للاختبار)",
+        notifySetupNeeded:"ضبط الإشعارات (يُنشئ Firebase)",
+        notifyUnsupported:"إشعارات غير مدعومة في هذا المتصفح",
+        notifyDenied:"الإشعارات محظورة — فعّلها من إعدادات المتصفح",
         apkBadgeTitle:"تطبيق أندرويد",
         apkBadgeSub:"نسخة APK — اضغط للتحميل",
         pwaBadgeTitle:"نسخة PWA",
@@ -2034,6 +2064,12 @@
         moreLanguage:"العربية",
         moreContribute:"Contribute",
         moreClearRecent:"Clear history",
+        moreNotify:"Enable notifications",
+        moreNotifyOn:"Turn off notifications",
+        notifyTokenBtn:"Copy device token (test)",
+        notifySetupNeeded:"Set up notifications (Firebase)",
+        notifyUnsupported:"Notifications unsupported in this browser",
+        notifyDenied:"Blocked — enable notifications in browser settings",
         apkDownload:"Download app",
         apkBadgeTitle:"Android app",
         apkBadgeSub:"APK build — tap to download",
@@ -2111,6 +2147,116 @@
     var scrollLockPos = 0;
     var compareOpen = false;
     var T;
+    /* ════════════ 🔔 إشعارات Firebase (FCM) ════════════
+       لتفعيلها: 1) أنشئ مشروعاً في console.firebase.google.com
+       2) أضف تطبيقاً من نوع Web ثم انسخ قيم firebaseConfig هنا
+       3) من Project settings → Cloud Messaging انسخ VAPID key في vapidKey
+       ملاحظة: املأ القيم نفسها أيضاً في sw.js (FIREBASE_CONFIG).
+       إذا بقيت أي قيمة فارغة تبقى الميزة معطّلة تلقائياً. */
+    var FIREBASE = {
+      apiKey: 'AIzaSyDeQqbytuAjm7qQpHwSfeXIUmYuXobeQgg',
+      projectId: 'test-d371d',
+      messagingSenderId: '549208423494',
+      appId: '1:549208423494:web:3f6c9314da24e9c1ef1e47',
+      vapidKey: 'BGmy8E8ZQstBL0BYE5XL3C79DZQ396CLdbPyCWBCpgj_Qr0x42KfxV_6SDZA2x51HtoefhBZfsgXDUuARwhChMI'
+    };
+    var FCM_ENABLED = !!(FIREBASE.apiKey && FIREBASE.projectId && FIREBASE.messagingSenderId && FIREBASE.appId && FIREBASE.vapidKey);
+    var __fcmMessaging = null;
+    var fcmToken = '';
+
+    function fcmInit(){
+      refreshNotifyUI();
+      if(!FCM_ENABLED || typeof firebase === 'undefined' || __fcmMessaging){ return; }
+      try{
+        firebase.initializeApp({
+          apiKey: FIREBASE.apiKey,
+          projectId: FIREBASE.projectId,
+          messagingSenderId: FIREBASE.messagingSenderId,
+          appId: FIREBASE.appId
+        });
+        __fcmMessaging = firebase.messaging();
+        __fcmMessaging.onMessage(function(payload){
+          var n = payload.notification || {};
+          try{ showNotifyToast(n.title || 'SyrHub', n.body || ''); }catch(e){}
+        });
+        try{ fcmToken = localStorage.getItem('syh-fcm-token') || ''; }catch(e){}
+        refreshNotifyUI();
+      }catch(e){}
+    }
+    function getFCMToken(cb){
+      if(!__fcmMessaging){ cb(''); return; }
+      try{
+        navigator.serviceWorker.register('sw.js').then(function(reg){
+          __fcmMessaging.getToken({ vapidKey: FIREBASE.vapidKey, serviceWorkerRegistration: reg })
+            .then(function(t){ cb(t || ''); })
+            .catch(function(){ cb(''); });
+        }).catch(function(){ cb(''); });
+      }catch(e){ cb(''); }
+    }
+    function toggleNotifications(){
+      var label = document.getElementById('sheetNotifyLabel');
+      if(!FCM_ENABLED){
+        if(label){ label.textContent = T.notifySetupNeeded; }
+        return;
+      }
+      if(!('Notification' in window) || !('serviceWorker' in navigator)){
+        if(label){ label.textContent = T.notifyUnsupported; }
+        return;
+      }
+      if(fcmToken){
+        try{
+          __fcmMessaging.deleteToken().then(function(){
+            fcmToken = '';
+            try{ localStorage.removeItem('syh-fcm-token'); }catch(e){}
+            refreshNotifyUI();
+          }).catch(function(){ refreshNotifyUI(); });
+        }catch(e){ refreshNotifyUI(); }
+        return;
+      }
+      Notification.requestPermission().then(function(p){
+        if(p === 'granted'){
+          getFCMToken(function(t){
+            if(t){ fcmToken = t; try{ localStorage.setItem('syh-fcm-token', t); }catch(e){} }
+            trackAnalytics('push_enabled', { granted: p === 'granted', has_token: !!t });
+            refreshNotifyUI();
+          });
+        } else {
+          trackAnalytics('push_denied', { granted: false });
+          if(label){ label.textContent = T.notifyDenied; }
+        }
+      }).catch(function(){
+        trackAnalytics('push_denied', { granted: false });
+      });
+    }
+    function refreshNotifyUI(){
+      var label = document.getElementById('sheetNotifyLabel');
+      var cpy = document.getElementById('sheetNotifyCopy');
+      if(!label){ return; }
+      if(!FCM_ENABLED){ label.textContent = T.notifySetupNeeded; return; }
+      label.textContent = fcmToken ? T.moreNotifyOn : T.moreNotify;
+      if(cpy){ cpy.style.display = fcmToken ? 'block' : 'none'; }
+    }
+    function copyFcmToken(){
+      if(!fcmToken){ return; }
+      writeClipboard(fcmToken, function(){});
+      var cpy = document.getElementById('sheetNotifyCopy');
+      if(cpy){
+        var original = cpy.textContent;
+        cpy.textContent = T.copied;
+        setTimeout(function(){ cpy.textContent = original; }, 1600);
+      }
+    }
+    function showNotifyToast(title, body){
+      var t = document.createElement('div');
+      t.className = 'notify-toast';
+      t.setAttribute('role', 'status');
+      t.innerHTML = '<strong></strong><span></span>';
+      t.querySelector('strong').textContent = title;
+      t.querySelector('span').textContent = body || '';
+      t.addEventListener('click', function(){ try{ t.parentNode.removeChild(t); }catch(e){} });
+      document.body.appendChild(t);
+      setTimeout(function(){ try{ if(t.parentNode){ t.parentNode.removeChild(t); } }catch(e){} }, 6000);
+    }
     /* ⚡ رابط تحميل تطبيق الأندرويد (APK) — ضع رابط التحميل هنا.
        عند ترك القيمة فارغة يختفي زر التحميل تلقائيًا حتى تضعه. */
     var APK_LINK = 'https://raw.githubusercontent.com/Ali-Mhd-Ibrahim/SyrHub/refs/heads/main/SyrHub-v1.07.apk';
@@ -2239,6 +2385,7 @@
       renderRecent();
       renderCompareBar();
       if(currentDetail){ renderDetails(currentDetail); }
+      if(typeof refreshNotifyUI === 'function'){ refreshNotifyUI(); }
     }
 
     function updateMeta(prop, content){
@@ -3599,6 +3746,20 @@
         try{ document.getElementById('apps').scrollIntoView({ behavior:'smooth', block:'start' }); }catch(e){}
       });
 
+      /* ============ إشعارات Firebase ============ */
+      var sheetNotify = document.getElementById('sheetNotify');
+      if(sheetNotify){ sheetNotify.addEventListener('click', toggleNotifications); }
+      var sheetNotifyCopy = document.getElementById('sheetNotifyCopy');
+      if(sheetNotifyCopy && sheetNotifyCopy.addEventListener){ sheetNotifyCopy.addEventListener('click', copyFcmToken); }
+      refreshNotifyUI();
+      if(window.addEventListener){
+        window.addEventListener('load', function(){
+          setTimeout(fcmInit, 400);
+        });
+      } else {
+        setTimeout(fcmInit, 1200);
+      }
+
       /* ============ نظام المقارنة ============ */
       var cmpBar = document.getElementById('cmpBar');
       cmpBar.addEventListener('click', function(e){
@@ -3740,5 +3901,8 @@
 
 <span class="sr-only" id="copyStatus" aria-live="polite"></span>
 
+<!-- Firebase Cloud Messaging (إشعارات فورية) → يحمَّل بتأخير بعد الصفحة -->
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 </body>
 </html>

@@ -41,6 +41,8 @@
 - 🎟️ عروض وكوبونات تُعرض بسكّ الطابع الرسومي، مع زر نسخ الكود.
 - 📱 شريط تنقل سفلي للهاتف + زر APK/PWA (صندوقان بجانب بعضهما) في التذييل.
 - 📲 تثبيت كتطبيق PWA + نسخة أندرويد (حزمة APK تلفّ الموقع عبر WebView).
+- 🔔 إشعارات فورية عبر Firebase Cloud Messaging: Toast عند فتح الموقع + إشعار نظام عند الإغلاق،
+  مع زر تفعيل وزر "نسخ رمز الجهاز" (لاختبار الإرسال من الكونسول). تعمل بملء مفاتيح `FIREBASE`.
 - 🌐 SEO ديناميكي: JSON-LD + وسوم og/twitter تتحدث لكل تطبيق + خريطة موقع.
 - 📊 عدّادات GA4 لأحداث محددة (فهرستها بالأسفل).
 
@@ -112,16 +114,22 @@ SyrHub/  (مجلد المشروع — اسم الريبو على GitHub: SyrHub)
 - `jsonLdFor(app)`: توليد مخطط `SoftwareApplication` / `WebSite`.
 - `reportBrokenLink(app)`: فتح GitHub Issue جاهز للإبلاغ عن رابط معطّل.
 - `applyLang()` / `applyTheme()`: تطبيق اللغة والثيم عبر `data-i18n` و`dataset.theme`.
+- `fcmInit()` / `toggleNotifications()` / `getFCMToken()` / `refreshNotifyUI()` / `showNotifyToast()`:
+  تشغيل إشعارات Firebase مع حماية ذاتية عند غياب المفاتيح (كائن `FIREBASE` فارغ افتراضياً + سكربتا
+  CDN من gstatic بـ`defer` في نهاية `</body>`).
 
-### 4.2 `sw.js` — Service Worker (خادم الكاش + دون اتصال)
-حجم صغير (94 سطراً) لكنه مهم جداً:
+### 4.2 `sw.js` — Service Worker (خادم الكاش + دون اتصال + إشعارات الخلفية)
 
 - `CORE_ASSETS = [...]`: قائمة الموارد المعبأة مسبقاً عند أول تثبيت (الصفحة، offline.html، manifest، الأيقونات، ملفات البيانات، storage.js).
 - **استراتيجيتان:**
   1. طلبات **التنقل** (صفحة): شبكة أولاً، تُخزَّن النسخة المحدثة في الكاش، وعند الفشل → `offline.html`.
   2. **الموارد الثابتة**: كاش أولاً (سريع)، ثم الشبكة، وعند الفشل → `offline.html`.
-- **استثناءات**: طلبات Google Analytics / Google fonts لا تُعترض أبداً.
-- **دورة الكاش**: أي تغيير يجب أن يرفع اسم الكاش من `syh-cache-vNN` إلى `vN+1` (الآخر: `v21`)، فيحذف `activate` تلقائياً كل الكاش القديم. إصدار السكربت موثق في السطر الأول `v1.11.0`.
+- **استثناءات**: طلبات Google Analytics / Google fonts / Firebase SDK لا تُعترض أبداً.
+- **إشعارات الخلفية (FCM)**: عند تعبئة `FIREBASE_CONFIG` يُستورد سكربتا Firebase عبر `importScripts`
+  من gstatic ويُعالَج `onBackgroundMessage` (إشعار نظام بصورة `SyrHub-Icon.png`) و`notificationclick`
+  (فتح/تركيز الموقع). عند بقاء المفاتيح فارغة لا يُستورد أي شيء ولا يتغيّر سلوك الكاش.
+- **دورة الكاش**: أي تغيير يجب أن يرفع اسم الكاش من `syh-cache-vNN` إلى `vN+1` (الآخر: `v25`)،
+  فيحذف `activate` تلقائياً كل الكاش القديم. إصدار السكربت موثق في السطر الأول `v1.15.0`.
 
 ### 4.3 `storage.js` — واجهة التخزين الموحدة (نمط Module)
 كل التعامل مع localStorage يُمر من هنا تحت مفتاح واحد `SyhStorage`:
@@ -342,7 +350,7 @@ fetch ─────────┬─ navigate (صفحة) ──► تحاول
                                 offline.html
 ```
 
-**ماذا تحسّن عند النشر؟** عدّل `index.html` ⇒ ارفع `CACHE_NAME` إلى `v22`+ في `sw.js`.
+**ماذا تحسّن عند النشر؟** عدّل `index.html` ⇒ ارفع `CACHE_NAME` إلى `v26`+ في `sw.js` (الآخر: `v25`).
 الواجهة تسمع `controllerchange` وتعيد تحميل الصفحة تلقائياً. لا حاجة لإجبار الزائر.
 
 ### 6.5 أداة البناء — دورة البيانات
@@ -374,7 +382,8 @@ localStorage
  ├── syh-verified  = "1" | "0" | absent
  ├── syh-favorites = ["1","4",...]
  ├── syh-recent    = ["4","1",...]   ← أقصى 10
- └── syh-compare   = ["1","2",...]   ← أقصى 4
+ ├── syh-compare   = ["1","2",...]   ← أقصى 4
+ └── syh-fcm-token = "device_token..." ← رمز إشعارات Firebase (عند تفعيلها)
 ```
 
 ### 6.7 قائمة أحداث GA4 (المخصصة)
@@ -385,7 +394,33 @@ localStorage
 `compare_open`, `compare_close`, `promo_code_copy`, `promo_open`,
 `app_back`, `recently_viewed_click`, `recommendation_click`, `bottom_nav`,
 `apk_download`, `install_prompt`, `install_complete`, `install_guide_open`,
-`clear_recent`, `contribute_open`, `contribute_pick`, `report_broken_link`.
+`clear_recent`, `contribute_open`, `contribute_pick`, `report_broken_link`,
+`push_enabled`, `push_denied`.
+
+---
+
+### 6.8 تدفق إشعارات Firebase (FCM)
+
+```
+firebaseConfig (index.html → كائن FIREBASE) + VAPID key
+        │
+        ▼
+زر "تفعيل الإشعارات" (#sheetNotify)
+  └─ Notification.requestPermission()  ─── رفض → push_denied + رسالة توضيحية
+        │ granted
+        ▼
+fcmInit() → getFCMToken() → تخزين syh-fcm-token + إظهار "نسخ رمز الجهاز" → push_enabled
+        │
+        ▼
+الكونسول: Messaging → Send test message ← رمز الجهاز
+        │
+        ├─ التبويب مفتوح  → onMessage → Toast داخل الصفحة (.notify-toast)
+        └─ التبويب مغلق   → sw.js onBackgroundMessage → إشعار النظام
+                             → notificationclick → فتح/تركيز الموقع
+```
+> **الحماية الذاتية:** غياب أي قيمة في `FIREBASE` / `FIREBASE_CONFIG` يعطّل كل شيء تلقائياً
+> (`FCM_ENABLED`)، ويظهر للزر نص "ضبط الإشعارات (يُنشئ Firebase)" دون أي خطأ.
+> أحداث GA4 المرتبطة: `push_enabled` / `push_denied`.
 
 ---
 
@@ -398,6 +433,8 @@ localStorage
 5. **Dark/Light**: كل الألوان من متغيرات `:root`/`[data-theme="dark"]` — لا تثبّت ألواناً صلبة جديدة إلا بإذن.
 6. **أحداث GA4**: أي تفاعل جديد مهم أرسل حدثاً باسم واضح عبر الدالة الموجودة `gtag('event', ...)`.
 7. **التوافق**: الاختبار النهائي عبر فحص صيغة (يقبله معالج JSON) + بيئة jsdom متاحة خارج المشروع.
+8. **FCM جرّ وفعّل**: مفاتيح Firebase مدخلات فارغة افتراضياً — لا تعطِّل الموقع أبداً؛ كل تهيئة
+   مشروطة بـ`FCM_ENABLED` (index.html) و`FIREBASE_CONFIG.apiKey` (sw.js)، واملأ القيم عندهما معاً.
 
 ---
 
@@ -467,6 +504,10 @@ python3 -m http.server 8000     # ثم افتح http://localhost:8000
 - تفاصيل التطبيق: `detailView(app)` + قسم `#detailView`/`.detail-*`.
 - ترويسة dict التحليلات: `dataLayer` و`gtag` في الكود.
 - سطر المطوّر: `<p class="footer-credit">` + مفتاح `footerDeveloper` في `I18N.*`.
+- إشعارات Firebase: كائن `FIREBASE` (index.html ~سطر 2156) + `FIREBASE_CONFIG` (sw.js) + زر
+  `#sheetNotify` و`#sheetNotifyCopy` في ورقة "المزيد" + دالة `toggleNotifications()` + توست
+  `.notify-toast` + سكربتا CDN بـ`defer` في نهاية `</body>`. الحالة الخاملة تعرض
+  "ضبط الإشعارات (يُنشئ Firebase)" تلقائياً.
 
 ---
 
